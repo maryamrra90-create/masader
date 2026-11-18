@@ -14,7 +14,7 @@ people who will use the system are users, not contributors.
 
 | Tool | Used by | What it was used for | How the output was checked |
 |------|---------|----------------------|----------------------------|
-| Claude (Anthropic), through Claude Code | MRA, for the implementation | Generated most of the source code, tests, evaluation scripts, deployment files and documentation from the Proposal and Architecture, under MRA's direction. It also ran the tests and evaluations and reported the measured results. | Every result in the report comes from a script in this repository that was actually run; raw outputs are in `eval/results/` with the commit id. 136 automated tests (unit, integration, AI-regression, end-to-end over real processes). Deviations are listed in `docs/deviations.md`. MRA reviews the deliverables. |
+| Claude (Anthropic), through Claude Code | MRA, for the implementation | Generated most of the source code, tests, evaluation scripts, deployment files and documentation from the Proposal and Architecture, under MRA's direction. It also ran the tests and evaluations and reported the measured results. | Every result in the report comes from a script in this repository that was actually run; raw outputs are in `eval/results/` with the commit id. 138 automated tests (unit, integration, AI-regression, end-to-end over real processes). Deviations are listed in `docs/deviations.md`. MRA reviews the deliverables. |
 | _To be completed by MRA_ | MRA | _Any other AI tools used for the proposal, architecture or this deliverable (for example ChatGPT, Copilot, Gemini, Manus) and their purpose_ | |
 
 ## Statement on AI-generated content
