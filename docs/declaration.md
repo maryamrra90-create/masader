@@ -8,7 +8,7 @@ people who will use the system are users, not contributors.
 
 | Member | Role | Contribution |
 |--------|------|--------------|
-| Mariam Alshamsi (MRA) | Project owner, manager and sole member | Wrote the Proposal (19 Oct 2026) and the Technical Architecture v1.2 (28 Oct 2026) that this implementation follows; set the requirements, targets and scope; directed the implementation; reviewed and accepted the deliverables; records the demo video. |
+| Mariam Alshamsi (MRA) | Project owner, manager and sole member | Wrote the Proposal (19 Oct 2026) and the Technical Architecture v1.2 (28 Oct 2026) that this implementation follows; set the requirements, targets and scope; directed the implementation; reviews and accepts the deliverables; records the demo video. |
 
 ## AI tools used
 
