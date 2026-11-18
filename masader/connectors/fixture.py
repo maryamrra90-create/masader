@@ -6,13 +6,16 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import os
 from pathlib import Path
 
 from ..processing.ingest import RawItem
 from ..settings import ROOT
 
-CORPUS = ROOT / "data" / "sample" / "corpus.jsonl"
-WORLDBANK = ROOT / "data" / "sample" / "worldbank_fixture.json"
+# SAMPLE_DIR lets an installed package (the Docker image) find the data outside site-packages
+SAMPLE = Path(os.environ.get("SAMPLE_DIR", str(ROOT / "data" / "sample")))
+CORPUS = SAMPLE / "corpus.jsonl"
+WORLDBANK = SAMPLE / "worldbank_fixture.json"
 
 
 def load(path: Path = CORPUS) -> list[dict]:

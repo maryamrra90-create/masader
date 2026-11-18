@@ -33,9 +33,9 @@ of scope). Evidence points to code, tests (`tests/...::name`) and measured resul
 | NFR4 | Every /v1 route needs a key; roles checked | Completed | `test_api.py::test_auth`, `::test_eval_purpose_needs_admin`; `test_openapi_contract.py::test_every_v1_route_needs_an_api_key_except_public_pages` |
 | NFR5 | Redaction before any external AI call; no secrets in Git | Completed (Modified: D-05) | `test_text_and_redact.py::test_redaction_of_personal_data`, `::test_input_policy`; `test_api.py::test_input_policy_and_redaction`; `.env` ignored, `.env.example` has no values; gitleaks not run (D-16) |
 | NFR6 | AI ≤ US$200/semester; caps never exceeded | Completed (spend estimated) | `test_gateway.py::test_budget_cap_refuses_the_call_before_it_is_made`, `::test_concurrent_reservations_never_overspend`; drill D3; cost per report is an estimate (D-12) |
-| NFR8 | Clean checkout to running stack < 30 min | Partial | `README.md`, `Makefile`, `compose.yaml`; image build measured (see report); not timed with a classmate |
+| NFR8 | Clean checkout to running stack < 30 min | Partial | `README.md`, `Makefile`, `compose.yaml`; image build 38 s and stack ready 11 s after `up` (`eval/results/compose_stack.json`); not timed with a classmate |
 | NFR9 | Raw text ≤ 30 days, traces 90 days, deletion within 24 h | Completed | `pipeline/retention.py`, `test_ingest_cli.py::test_retention_purges_old_full_text_and_traces_but_keeps_excerpts`; `masader delete-user` and `test_api.py::test_delete_user_data` |
-| NFR10 | Container memory ≤ 6.2 GiB | Not measured | Compose limits not set in this build |
+| NFR10 | Container memory ≤ 6.2 GiB | Partial | Idle total ≈ 770 MiB measured on the Compose stack (`eval/results/compose_stack.json`); not measured under load; Compose limits not set |
 | NFR11 | 255,500 items, search p95 < 500 ms without ANN | Not re-measured | Exact pgvector scan as designed; measured in the architecture's E1, not repeated here |
 | NFR12 | RPO 24 h, RTO 4 h | Partial | `ops/backup.sh`, `ops/restore.sh`; restore drill result in `eval/results/drills.json` (local) |
 
@@ -57,7 +57,7 @@ of scope). Evidence points to code, tests (`tests/...::name`) and measured resul
 | Scheduler (beat): reaper, retention, live ingestion | Completed (live ingestion off by default) | `pipeline/celery_app.py` |
 | Monitoring: Prometheus, Grafana, alerts | Partial (D-17) | `ops/prometheus/`, `ops/grafana/`; API metrics tested in `test_api.py::test_ops_endpoints` |
 | Edge: Caddy TLS | Partial | `ops/caddy/Caddyfile`, compose `edge` profile; not run with a public domain |
-| Docker image and Compose | Completed (local) | `Dockerfile`, `compose.yaml`; build and stack run recorded in the report |
+| Docker image and Compose | Completed (local) | `Dockerfile`, `compose.yaml`; stack run with one delivered and published report in `eval/results/compose_stack.json` |
 | CI/CD | Partial (D-16) | `.github/workflows/ci.yml`, written, not run |
 | Experiment tracking (MLflow, DVC) | Modified (D-18) | `eval/`, `eval/results/` |
 | React app, Arabic output, topic area B, watched topics | Not built (stage 2, D-19) | — |

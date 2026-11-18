@@ -41,6 +41,7 @@ services:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }
     restart: "no"
+    healthcheck: { disable: true }
 
   api:
     <<: *app
@@ -59,6 +60,7 @@ services:
   scheduler:        # Celery beat: reaper every 60 s; live ingestion only when LIVE_SOURCES=1
     <<: *app
     command: ["celery", "-A", "masader.pipeline.celery_app", "beat", "-s", "/data/objects/beat-schedule", "--loglevel", "INFO"]
+    healthcheck: { disable: true }   # beat has no HTTP port; the image's /healthz check does not apply
 
   prometheus:
     image: prom/prometheus:v3.5.0

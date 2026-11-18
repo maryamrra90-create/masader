@@ -33,3 +33,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker build -t masader:ci .
+      - name: smoke-test the image (imports every worker dependency, runs the CLI)
+        run: docker run --rm masader:ci sh -c "python -c 'import kombu.transport.redis, masader.pipeline.tasks' && masader --help"
