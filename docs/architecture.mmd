@@ -1,0 +1,50 @@
+%% Masader as implemented (updated from Architecture v1.2). Dashed = simulated / substituted / not deployed.
+flowchart LR
+  subgraph Clients
+    U["Requester / reviewer<br/>HTML form at / or any HTTP client<br/>(X-API-Key)"]
+    P["Public reader<br/>GET /r/{id}"]
+  end
+  subgraph Edge["edge profile"]
+    C["Caddy 2.10<br/>TLS, security headers"]
+  end
+  subgraph Host["Docker Compose host (built and run locally; not deployed to cloud)"]
+    API["api: FastAPI + Uvicorn ×2<br/>auth, input policy + redaction, rate limit,<br/>planner rules, 6 h cache, admission ≤ 6,<br/>publish / withdraw / corrections / review,<br/>/metrics /healthz /readyz"]
+    R[("Redis 7.4<br/>Celery broker, rate limits,<br/>fault keys for drills")]
+    WC["worker-cpu: Celery prefork ×3<br/>collect · dedup · label · render<br/>ingest · reaper · retention"]
+    WL["worker-llm: Celery prefork ×8<br/>extract · verify · write · validate"]
+    S["scheduler: Celery beat<br/>reaper 60 s · retention daily<br/>live ingest only if LIVE_SOURCES=1"]
+    PG[("PostgreSQL 16 + pgvector<br/>items · origin_groups · claims · labels<br/>reports · report_stages (leases)<br/>ai_calls · budgets (CHECK cap)")]
+    OBJ[("Object store<br/>local dir (S3 class optional)<br/>raw items, JSON/HTML briefs")]
+    subgraph Lib["shared modules"]
+      GW["gateway: budget reservation,<br/>retry / repair / fallback,<br/>circuit breaker, cancel switch,<br/>validator independence"]
+      RU["rules-1.1.1: label_claim,<br/>check_assertion"]
+      EMB["HashingEmbedder 384-d<br/>(substitute for MiniLM)"]
+    end
+  end
+  subgraph Ext["external, not reached"]
+    AN["Anthropic API<br/>Sonnet / Haiku<br/>MODEL_MODE=live"]
+    SRC["GDELT · RSS · World Bank"]
+  end
+  SIM["Heuristic simulator<br/>MODEL_MODE=simulated (default)<br/>labelled sim: in every output"]
+  FX["Synthetic corpus<br/>37 items + WB fixture"]
+  MON["monitoring profile:<br/>Prometheus 3.5 + Grafana 12.1"]
+
+  U --> C --> API
+  P --> C
+  API -->|enqueue chain| R
+  R --> WC & WL
+  S --> R
+  API & WC & WL --> PG
+  WC & API --> OBJ
+  WL --> GW
+  API -->|planner| GW
+  GW -.->|live| AN
+  GW -->|simulated| SIM
+  WC --> RU & EMB
+  WL --> RU
+  WC -.->|live connectors| SRC
+  FX -->|masader seed --fixtures| PG
+  MON -.->|scrape /metrics| API
+
+  classDef sim stroke-dasharray: 5 5,fill:#fff7e6,stroke:#b26a00;
+  class SIM,FX,EMB,AN,SRC,MON sim;

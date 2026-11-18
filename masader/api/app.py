@@ -26,8 +26,7 @@ from ..render.build import render_html
 from ..settings import settings
 from ..store.db import pool
 from . import planner
-from .models import (Accepted, CorrectionIn, KeyIn, NeedsClarification, Question, ReportOut, RequestIn, ResolveIn,
-                     ReviewDecision)
+from .models import Accepted, CorrectionIn, KeyIn, NeedsClarification, Question, ReportOut, RequestIn, ResolveIn, ReviewDecision
 
 app = FastAPI(title="Masader API", version="1.0.0",
               description="Evidence-labelled research briefs (course implementation of architecture v1.2).")

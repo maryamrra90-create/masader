@@ -1,0 +1,126 @@
+{
+ "environment": {
+  "at": "2026-11-18T08:10:54+00:00",
+  "git_commit": "70f1eb5",
+  "python": "3.13.18",
+  "platform": "Linux-6.18.44-fc-v595-x86_64-with-glibc2.39",
+  "cpus": 4,
+  "model_mode": "simulated",
+  "embedder": "hashing"
+ },
+ "what": "failure drills on real processes and containers; models SIMULATED with injected faults; timers scaled down",
+ "part1_real_stack": [
+  {
+   "drill": "D1 provider down",
+   "expected": "waiting_provider, then delivered after recovery",
+   "statuses": [
+    "queued",
+    "running",
+    "waiting_provider",
+    "waiting_provider",
+    "running",
+    "delivered"
+   ],
+   "resume_to_done_s": 12.2,
+   "passed": true
+  },
+  {
+   "drill": "D2 invalid JSON (call + repair)",
+   "expected": "in_review after one repair attempt, never a brief built on bad output",
+   "statuses": [
+    "running",
+    "in_review"
+   ],
+   "call_outcomes": [
+    "invalid_json",
+    "invalid_json",
+    "invalid_json",
+    "invalid_json",
+    "invalid_json",
+    "invalid_json"
+   ],
+   "passed": true
+  },
+  {
+   "drill": "D3 budget cap",
+   "expected": "429 budget_exhausted, nothing stored",
+   "http": 429,
+   "code": "budget_exhausted",
+   "reports_created": 0,
+   "passed": true
+  },
+  {
+   "drill": "D4 Redis down",
+   "expected": "readyz 503, request 503 queue_unavailable, nothing stored; after restart a new report is delivered",
+   "readyz_503": true,
+   "http": 503,
+   "code": "queue_unavailable",
+   "reports_created_while_down": 0,
+   "ready_after_restart_s": 0.7,
+   "next_report": "delivered",
+   "passed": true
+  },
+  {
+   "drill": "D5 PostgreSQL down for ~8 s during a report",
+   "expected": "readyz 503; after restart the report is delivered, no duplicate rows",
+   "readyz_503": true,
+   "ready_after_restart_s": 0.7,
+   "statuses": [
+    "running",
+    "delivered"
+   ],
+   "final": "delivered",
+   "duplicate_assertion_rows": 0,
+   "passed": true
+  },
+  {
+   "drill": "D6 worker-llm SIGKILL during extract",
+   "expected": "delivered; extract attempted twice; no call left 'started'",
+   "kill_to_done_s": 26.5,
+   "extract_attempts": 2,
+   "calls_left_started": 0,
+   "final": "delivered",
+   "passed": true
+  }
+ ],
+ "part2_tests": [
+  {
+   "drill": "validator independence (no model other than the writer's) -> review",
+   "test": "tests/integration/test_pipeline.py::test_validator_independence_sends_report_to_review",
+   "time_s": 1.1,
+   "passed": true
+  },
+  {
+   "drill": "stage deadline: retry once, then review",
+   "test": "tests/integration/test_pipeline.py::test_stage_deadline_retries_then_reviews",
+   "time_s": 0.1,
+   "passed": true
+  },
+  {
+   "drill": "budget never overspent under 20 concurrent reservations",
+   "test": "tests/integration/test_gateway.py::test_concurrent_reservations_never_overspend",
+   "time_s": 0.0,
+   "passed": true
+  },
+  {
+   "drill": "lost message: reaper restarts the report",
+   "test": "tests/integration/test_pipeline.py::test_reaper_restarts_a_report_whose_message_was_lost",
+   "time_s": 0.1,
+   "passed": true
+  },
+  {
+   "drill": "uncancellable call thread: child recycled",
+   "test": "tests/e2e/test_http_worker_flow.py::test_uncancellable_call_thread_recycles_the_child",
+   "time_s": 24.9,
+   "passed": true
+  },
+  {
+   "drill": "stage swallows soft limit: hard limit + reaper",
+   "test": "tests/e2e/test_http_worker_flow.py::test_stage_that_swallows_the_soft_limit_is_killed_and_reaped",
+   "time_s": 30.4,
+   "passed": true
+  }
+ ],
+ "passed": 12,
+ "total": 12
+}

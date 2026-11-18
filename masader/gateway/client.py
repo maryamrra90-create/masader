@@ -27,8 +27,7 @@ from psycopg import errors as pg_errors
 from .. import config
 from ..settings import settings
 from . import budget, circuit, prompts
-from .errors import (CallCancelled, CallFailed, InvalidOutput, NoIndependentModel, ProviderUnavailable, Refused,
-                     StageDeadline)
+from .errors import CallCancelled, CallFailed, InvalidOutput, NoIndependentModel, ProviderUnavailable, Refused, StageDeadline
 from .providers import Provider, get_provider, provider_schema, render_user
 from .schemas import SCHEMAS
 
@@ -147,9 +146,9 @@ def complete(role: str, payload: dict, *, calls: StageCalls, report_id: str | No
                                                   r["max_tokens"], r.get("effort"), timeout_cap)
             except CallFailed as e:
                 circuit.record_failure(model)
-                if e.kind == "timeout":
-                    break                                  # a second wait on the same model rarely fits
-                if calls.cancel.wait(settings.llm_backoff_s * (2 ** attempt)):
+                if e.kind == "timeout" or attempt == 1:
+                    break                                  # timeout: a second wait rarely fits; 2nd error: go to fallback now
+                if calls.cancel.wait(settings.llm_backoff_s):
                     raise CallCancelled() from e
                 continue
             except Refused:

@@ -1,0 +1,35 @@
+# Continuous integration. Written for GitHub Actions; NOT yet run (the project had no GitHub repository
+# while it was built). The same commands were run locally; see eval/results and the report.
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env: { POSTGRES_USER: masader, POSTGRES_PASSWORD: masader, POSTGRES_DB: masader }
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U masader" --health-interval 5s --health-retries 20
+      redis:
+        image: redis:7.4-alpine
+        ports: ["6379:6379"]
+        options: --health-cmd "redis-cli ping" --health-interval 5s --health-retries 20
+    env:
+      DATABASE_URL: postgresql://masader:masader@localhost:5432/masader
+      REDIS_URL: redis://localhost:6379/0
+      MODEL_MODE: simulated
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -r requirements.txt -r requirements-dev.txt
+      - run: ruff check masader tests eval perf
+      - run: pytest -q --cov=masader --cov-report=term --cov-fail-under=80
+      - run: python -m masader.cli openapi | diff - docs/openapi.v1.json
+  image:
+    runs-on: ubuntu-24.04
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t masader:ci .

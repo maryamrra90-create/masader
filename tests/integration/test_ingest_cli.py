@@ -60,3 +60,27 @@ def test_cli_commands(db, capsys):
     assert cli.main(["seed"]) == 0
     assert cli.main(["delete-user", "nobody@example.org"]) == 0
     assert json.loads(capsys.readouterr().out.splitlines()[-1]) == {"keys": 0}
+
+
+def test_retention_purges_old_full_text_and_traces_but_keeps_excerpts(db):
+    from masader.pipeline.retention import run_retention
+    from masader.store.objectstore import get_store
+    with db.connection() as c:
+        it = c.execute("SELECT id, raw_object_key, full_text FROM items WHERE raw_object_key IS NOT NULL ORDER BY id LIMIT 1").fetchone()
+    raw = get_store().get(it["raw_object_key"])
+    with db.connection() as c:
+        c.execute("UPDATE items SET fetched_at = now() - interval '31 days' WHERE id=%s", (it["id"],))
+        c.execute("INSERT INTO ai_calls (purpose, role, model, prompt_version, outcome, created_at) VALUES "
+                  "('dev','writer','sim:x','v','ok', now() - interval '91 days'), ('dev','writer','sim:x','v','ok', now())")
+    out = run_retention()
+    assert out["items_text_purged"] == 1 and out["raw_objects_deleted"] == 1 and out["ai_call_traces_deleted"] == 1
+    with db.connection() as c:
+        r = c.execute("SELECT full_text, excerpt, raw_object_key, text_purged_at FROM items WHERE id=%s", (it["id"],)).fetchone()
+        assert r["full_text"] is None and r["excerpt"] and r["raw_object_key"] is None and r["text_purged_at"]
+    with pytest.raises(Exception):
+        get_store().get(it["raw_object_key"])
+    assert run_retention()["items_text_purged"] == 0          # idempotent
+    get_store().put(it["raw_object_key"], raw, "application/json")       # restore for the other tests
+    with db.connection() as c:
+        c.execute("UPDATE items SET fetched_at = now(), full_text=%s, raw_object_key=%s, text_purged_at=NULL WHERE id=%s",
+                  (it["full_text"], it["raw_object_key"], it["id"]))

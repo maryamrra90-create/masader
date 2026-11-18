@@ -10,8 +10,8 @@ import datetime as dt
 import re
 
 from .. import config
-from ..store.db import pool
 from ..simulated.heuristics import STOP
+from ..store.db import pool
 from .embed import get_embedder, to_pgvector
 
 MIN_COSINE = 0.30     # measured on the corpus with the hashing embedder: unrelated items reach about 0.2
@@ -28,8 +28,8 @@ def _tsquery(terms: list[str]) -> str:
 
 
 def window(date_from: dt.date, date_to: dt.date) -> tuple[dt.datetime, dt.datetime]:
-    lo = dt.datetime.combine(date_from, dt.time.min, tzinfo=dt.timezone.utc) - dt.timedelta(hours=4)
-    hi = dt.datetime.combine(date_to, dt.time.max, tzinfo=dt.timezone.utc)
+    lo = dt.datetime.combine(date_from, dt.time.min, tzinfo=dt.UTC) - dt.timedelta(hours=4)
+    hi = dt.datetime.combine(date_to, dt.time.max, tzinfo=dt.UTC)
     return lo, hi
 
 

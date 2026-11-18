@@ -37,7 +37,7 @@ class HashingEmbedder:
     def _features(text: str) -> list[tuple[str, float]]:
         w = words(text)
         feats = [(f"w:{t}", 1.0) for t in w]
-        feats += [(f"b:{a}_{b}", 1.0) for a, b in zip(w, w[1:])]
+        feats += [(f"b:{a}_{b}", 1.0) for a, b in zip(w, w[1:], strict=False)]
         for t in w:
             padded = f"#{t}#"
             feats += [(f"c:{padded[i:i + 3]}", 0.3) for i in range(max(1, len(padded) - 2))]

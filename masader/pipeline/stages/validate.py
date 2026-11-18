@@ -75,7 +75,7 @@ def run(ctx: Ctx) -> StageResult:
         candidates = []
         for section in CHECKED:                        # match rewritten sentences to the failing ones, in order
             olds = [a for a in failing if a["section"] == section]
-            for old, new in zip(olds, rewritten.get(section, [])):
+            for old, new in zip(olds, rewritten.get(section, []), strict=False):
                 candidates.append({"n": old["n"], "section": section, "text": new["text"], "cites": new["cites"],
                                    "speaker": old.get("speaker"), "old": old})
         refails = _check(ctx, candidates, by_id, cmap, lmap, exclude) if candidates else {}

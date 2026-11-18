@@ -111,6 +111,8 @@ def main(argv: list[str] | None = None) -> int:
     d = sub.add_parser("delete-user")
     d.add_argument("email")
     sub.add_parser("reap")
+    sub.add_parser("openapi")
+    sub.add_parser("retention")
     a = p.parse_args(argv)
     if a.cmd == "migrate":
         print(json.dumps({"applied": migrate()}))
@@ -126,6 +128,12 @@ def main(argv: list[str] | None = None) -> int:
     elif a.cmd == "reap":
         from .pipeline.tasks import reaper
         print(json.dumps(reaper()))
+    elif a.cmd == "retention":
+        from .pipeline.retention import run_retention
+        print(json.dumps(run_retention()))
+    elif a.cmd == "openapi":
+        from .api.app import app
+        print(json.dumps(app.openapi(), indent=1, sort_keys=True, ensure_ascii=False))
     return 0
 
 

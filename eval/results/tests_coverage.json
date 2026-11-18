@@ -1,0 +1,39 @@
+{
+ "environment": {
+  "at": "2026-11-18T08:17:29+00:00",
+  "git_commit": "70f1eb5",
+  "python": "3.13.18",
+  "platform": "Linux-6.18.44-fc-v595-x86_64-with-glibc2.39",
+  "cpus": 4,
+  "model_mode": "simulated",
+  "embedder": "hashing"
+ },
+ "command": "pytest -q --cov=masader",
+ "tests": 138,
+ "failures": 0,
+ "errors": 0,
+ "skipped": 0,
+ "duration_s": 106.6,
+ "by_suite": {
+  "ai": {
+   "tests": 3,
+   "passed": 3
+  },
+  "e2e": {
+   "tests": 4,
+   "passed": 4
+  },
+  "integration": {
+   "tests": 54,
+   "passed": 54
+  },
+  "unit": {
+   "tests": 77,
+   "passed": 77
+  }
+ },
+ "line_coverage_percent": 93.7,
+ "statements": 2948,
+ "missed": 185,
+ "note": "coverage counts code run in the pytest process; code that runs only inside the worker subprocesses of the e2e tests is not counted"
+}

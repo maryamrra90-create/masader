@@ -49,6 +49,12 @@ def reaper():
     return {k: v for k, v in r.items() if k != "restart"} | {"restarted": len(r["restart"])}
 
 
+@app.task(name="masader.ops.retention")
+def retention():
+    from .retention import run_retention
+    return run_retention()
+
+
 @app.task(name="masader.ingest.fixture")
 def ingest_fixture():
     from ..connectors import fixture, worldbank

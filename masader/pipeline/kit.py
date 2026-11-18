@@ -15,14 +15,14 @@ import os
 import threading
 import time
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Callable
+from typing import Any
 
 from celery.exceptions import SoftTimeLimitExceeded
 
 from ..gateway import client as gw
-from ..gateway.errors import (BudgetExhausted, CallCancelled, InvalidOutput, NoIndependentModel, ProviderUnavailable,
-                              StageDeadline)
+from ..gateway.errors import BudgetExhausted, CallCancelled, InvalidOutput, NoIndependentModel, ProviderUnavailable, StageDeadline
 from ..redisclient import rds
 from ..settings import settings
 from ..store.db import pool
@@ -150,12 +150,12 @@ def run_calls(ctx: Ctx, role: str, payloads: list[dict], exclude: tuple[str, ...
         for f in cf.as_completed(futs):
             f.result()
         out = [f.result() for f in futs]
-    except BaseException:
+    except BaseException as e:
         calls.cancel.set()
         _, alive = cf.wait(futs, timeout=settings.cancel_wait_s)
         if alive:
             ids = gw.abandon(calls)
-            raise Recycle(f"{len(alive)} call thread(s) did not stop after cancellation; calls {ids} closed as cancelled")
+            raise Recycle(f"{len(alive)} call thread(s) did not stop after cancellation; calls {ids} closed as cancelled") from e
         raise
     finally:
         ex.shutdown(wait=False, cancel_futures=True)
@@ -296,7 +296,7 @@ def finish(c, report_id: str, status: str, body: dict, json_key: str, html_key: 
     """Deliver (or send to review) inside the render stage's fenced commit."""
     cost = c.execute("SELECT coalesce(sum(cost_usd),0) AS s FROM ai_calls WHERE report_id=%s", (report_id,)).fetchone()["s"]
     r = c.execute("SELECT created_at FROM reports WHERE id=%s", (report_id,)).fetchone()
-    dur = int((dt.datetime.now(dt.timezone.utc) - r["created_at"]).total_seconds())
+    dur = int((dt.datetime.now(dt.UTC) - r["created_at"]).total_seconds())
     body["cost_usd"], body["duration_s"] = float(cost), dur
     c.execute("UPDATE reports SET status=%s, body=%s, cost_usd=%s, duration_s=%s, json_object_key=%s, html_object_key=%s, "
               "notes=%s WHERE id=%s", (status, json.dumps(body, ensure_ascii=False, default=str), cost, dur, json_key,

@@ -1,0 +1,1751 @@
+{
+ "components": {
+  "schemas": {
+   "Accepted": {
+    "properties": {
+     "cached": {
+      "default": false,
+      "title": "Cached",
+      "type": "boolean"
+     },
+     "report_id": {
+      "title": "Report Id",
+      "type": "string"
+     },
+     "request_id": {
+      "title": "Request Id",
+      "type": "string"
+     },
+     "status": {
+      "enum": [
+       "queued",
+       "delivered"
+      ],
+      "title": "Status",
+      "type": "string"
+     },
+     "status_url": {
+      "title": "Status Url",
+      "type": "string"
+     }
+    },
+    "required": [
+     "request_id",
+     "report_id",
+     "status",
+     "status_url"
+    ],
+    "title": "Accepted",
+    "type": "object"
+   },
+   "CorrectionIn": {
+    "additionalProperties": false,
+    "properties": {
+     "claim_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Claim Id"
+     },
+     "reason": {
+      "maxLength": 1000,
+      "minLength": 5,
+      "title": "Reason",
+      "type": "string"
+     }
+    },
+    "required": [
+     "reason"
+    ],
+    "title": "CorrectionIn",
+    "type": "object"
+   },
+   "Finding": {
+    "properties": {
+     "claim_id": {
+      "title": "Claim Id",
+      "type": "integer"
+     },
+     "id": {
+      "title": "Id",
+      "type": "string"
+     },
+     "label": {
+      "enum": [
+       "corroborated",
+       "single_source",
+       "disputed",
+       "insufficient"
+      ],
+      "title": "Label",
+      "type": "string"
+     },
+     "origin_groups": {
+      "title": "Origin Groups",
+      "type": "integer"
+     },
+     "reliability": {
+      "$ref": "#/components/schemas/Reliability"
+     },
+     "sources": {
+      "items": {
+       "$ref": "#/components/schemas/SourceRef"
+      },
+      "title": "Sources",
+      "type": "array"
+     },
+     "text": {
+      "title": "Text",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "claim_id",
+     "text",
+     "label",
+     "origin_groups",
+     "reliability",
+     "sources"
+    ],
+    "title": "Finding",
+    "type": "object"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "title": "Detail",
+      "type": "array"
+     }
+    },
+    "title": "HTTPValidationError",
+    "type": "object"
+   },
+   "KeyIn": {
+    "additionalProperties": false,
+    "properties": {
+     "holder_email": {
+      "maxLength": 200,
+      "minLength": 5,
+      "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+      "title": "Holder Email",
+      "type": "string"
+     },
+     "holder_name": {
+      "maxLength": 100,
+      "minLength": 2,
+      "title": "Holder Name",
+      "type": "string"
+     },
+     "rate_per_hour": {
+      "default": 10,
+      "maximum": 1000.0,
+      "minimum": 1.0,
+      "title": "Rate Per Hour",
+      "type": "integer"
+     },
+     "role": {
+      "default": "requester",
+      "enum": [
+       "requester",
+       "reviewer",
+       "admin"
+      ],
+      "title": "Role",
+      "type": "string"
+     }
+    },
+    "required": [
+     "holder_name",
+     "holder_email"
+    ],
+    "title": "KeyIn",
+    "type": "object"
+   },
+   "NeedsClarification": {
+    "properties": {
+     "answers_url": {
+      "title": "Answers Url",
+      "type": "string"
+     },
+     "questions": {
+      "items": {
+       "$ref": "#/components/schemas/Question"
+      },
+      "title": "Questions",
+      "type": "array"
+     },
+     "request_id": {
+      "title": "Request Id",
+      "type": "string"
+     },
+     "status": {
+      "const": "needs_clarification",
+      "title": "Status",
+      "type": "string"
+     }
+    },
+    "required": [
+     "request_id",
+     "status",
+     "questions",
+     "answers_url"
+    ],
+    "title": "NeedsClarification",
+    "type": "object"
+   },
+   "Question": {
+    "properties": {
+     "default": {
+      "title": "Default",
+      "type": "string"
+     },
+     "id": {
+      "title": "Id",
+      "type": "string"
+     },
+     "options": {
+      "items": {
+       "type": "string"
+      },
+      "title": "Options",
+      "type": "array"
+     },
+     "text": {
+      "title": "Text",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "text",
+     "default",
+     "options"
+    ],
+    "title": "Question",
+    "type": "object"
+   },
+   "Reliability": {
+    "properties": {
+     "best_tier": {
+      "enum": [
+       "A",
+       "B",
+       "C"
+      ],
+      "title": "Best Tier",
+      "type": "string"
+     },
+     "low_reliability": {
+      "title": "Low Reliability",
+      "type": "boolean"
+     },
+     "primary_source": {
+      "title": "Primary Source",
+      "type": "boolean"
+     },
+     "reason": {
+      "title": "Reason",
+      "type": "string"
+     }
+    },
+    "required": [
+     "best_tier",
+     "primary_source",
+     "low_reliability",
+     "reason"
+    ],
+    "title": "Reliability",
+    "type": "object"
+   },
+   "ReportOut": {
+    "properties": {
+     "ai_generated": {
+      "default": true,
+      "title": "Ai Generated",
+      "type": "boolean"
+     },
+     "cost_usd": {
+      "default": 0.0,
+      "title": "Cost Usd",
+      "type": "number"
+     },
+     "duration_s": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Duration S"
+     },
+     "exports": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "default": {},
+      "title": "Exports",
+      "type": "object"
+     },
+     "findings": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/Finding"
+      },
+      "title": "Findings",
+      "type": "array"
+     },
+     "method": {
+      "additionalProperties": true,
+      "default": {},
+      "title": "Method",
+      "type": "object"
+     },
+     "notes": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+     },
+     "publication": {
+      "title": "Publication",
+      "type": "string"
+     },
+     "report_id": {
+      "title": "Report Id",
+      "type": "string"
+     },
+     "request_id": {
+      "title": "Request Id",
+      "type": "string"
+     },
+     "review_status": {
+      "enum": [
+       "not_reviewed",
+       "reviewed"
+      ],
+      "title": "Review Status",
+      "type": "string"
+     },
+     "sections": {
+      "additionalProperties": {
+       "anyOf": [
+        {
+         "items": {
+          "$ref": "#/components/schemas/Sentence"
+         },
+         "type": "array"
+        },
+        {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        }
+       ]
+      },
+      "default": {},
+      "title": "Sections",
+      "type": "object"
+     },
+     "stages": {
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/StageState"
+      },
+      "title": "Stages",
+      "type": "array"
+     },
+     "statistics": {
+      "default": [],
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "title": "Statistics",
+      "type": "array"
+     },
+     "status": {
+      "title": "Status",
+      "type": "string"
+     },
+     "superseded_by": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Superseded By"
+     },
+     "supersedes": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Supersedes"
+     },
+     "title": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Title"
+     },
+     "version": {
+      "title": "Version",
+      "type": "integer"
+     },
+     "versions": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "default": {},
+      "title": "Versions",
+      "type": "object"
+     }
+    },
+    "required": [
+     "report_id",
+     "request_id",
+     "status",
+     "publication",
+     "version",
+     "review_status"
+    ],
+    "title": "ReportOut",
+    "type": "object"
+   },
+   "RequestIn": {
+    "additionalProperties": false,
+    "properties": {
+     "entities": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Entities",
+      "type": "array"
+     },
+     "format": {
+      "const": "brief",
+      "default": "brief",
+      "title": "Format",
+      "type": "string"
+     },
+     "from": {
+      "format": "date",
+      "title": "From",
+      "type": "string"
+     },
+     "geography": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Geography",
+      "type": "array"
+     },
+     "language": {
+      "const": "en",
+      "default": "en",
+      "title": "Language",
+      "type": "string"
+     },
+     "purpose": {
+      "default": "live",
+      "enum": [
+       "live",
+       "eval",
+       "dev"
+      ],
+      "title": "Purpose",
+      "type": "string"
+     },
+     "questions": {
+      "items": {
+       "type": "string"
+      },
+      "maxItems": 5,
+      "minItems": 1,
+      "title": "Questions",
+      "type": "array"
+     },
+     "sources": {
+      "$ref": "#/components/schemas/SourcePrefs",
+      "default": {
+       "exclude": [],
+       "prefer": []
+      }
+     },
+     "to": {
+      "format": "date",
+      "title": "To",
+      "type": "string"
+     },
+     "topic": {
+      "maxLength": 200,
+      "minLength": 3,
+      "title": "Topic",
+      "type": "string"
+     }
+    },
+    "required": [
+     "topic",
+     "questions",
+     "from",
+     "to"
+    ],
+    "title": "RequestIn",
+    "type": "object"
+   },
+   "ResolveIn": {
+    "additionalProperties": false,
+    "properties": {
+     "accept": {
+      "title": "Accept",
+      "type": "boolean"
+     },
+     "corrected_text": {
+      "anyOf": [
+       {
+        "maxLength": 600,
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Corrected Text"
+     },
+     "note": {
+      "maxLength": 1000,
+      "minLength": 3,
+      "title": "Note",
+      "type": "string"
+     }
+    },
+    "required": [
+     "accept",
+     "note"
+    ],
+    "title": "ResolveIn",
+    "type": "object"
+   },
+   "ReviewDecision": {
+    "additionalProperties": false,
+    "properties": {
+     "approve": {
+      "title": "Approve",
+      "type": "boolean"
+     },
+     "note": {
+      "maxLength": 1000,
+      "minLength": 3,
+      "title": "Note",
+      "type": "string"
+     }
+    },
+    "required": [
+     "approve",
+     "note"
+    ],
+    "title": "ReviewDecision",
+    "type": "object"
+   },
+   "Sentence": {
+    "properties": {
+     "findings": {
+      "items": {
+       "type": "string"
+      },
+      "title": "Findings",
+      "type": "array"
+     },
+     "text": {
+      "title": "Text",
+      "type": "string"
+     }
+    },
+    "required": [
+     "text",
+     "findings"
+    ],
+    "title": "Sentence",
+    "type": "object"
+   },
+   "SourcePrefs": {
+    "additionalProperties": false,
+    "properties": {
+     "exclude": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "maxItems": 20,
+      "title": "Exclude",
+      "type": "array"
+     },
+     "prefer": {
+      "default": [],
+      "items": {
+       "enum": [
+        "official",
+        "wire",
+        "regional"
+       ],
+       "type": "string"
+      },
+      "title": "Prefer",
+      "type": "array"
+     }
+    },
+    "title": "SourcePrefs",
+    "type": "object"
+   },
+   "SourceRef": {
+    "properties": {
+     "first_hand": {
+      "title": "First Hand",
+      "type": "boolean"
+     },
+     "origin_group": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Origin Group"
+     },
+     "outlet": {
+      "title": "Outlet",
+      "type": "string"
+     },
+     "passage": {
+      "title": "Passage",
+      "type": "string"
+     },
+     "published": {
+      "format": "date-time",
+      "title": "Published",
+      "type": "string"
+     },
+     "tier": {
+      "enum": [
+       "A",
+       "B",
+       "C"
+      ],
+      "title": "Tier",
+      "type": "string"
+     },
+     "url": {
+      "title": "Url",
+      "type": "string"
+     },
+     "verdict": {
+      "enum": [
+       "supports",
+       "contradicts"
+      ],
+      "title": "Verdict",
+      "type": "string"
+     }
+    },
+    "required": [
+     "outlet",
+     "tier",
+     "url",
+     "published",
+     "passage",
+     "first_hand",
+     "origin_group",
+     "verdict"
+    ],
+    "title": "SourceRef",
+    "type": "object"
+   },
+   "StageState": {
+    "properties": {
+     "attempts": {
+      "title": "Attempts",
+      "type": "integer"
+     },
+     "stage": {
+      "title": "Stage",
+      "type": "string"
+     },
+     "status": {
+      "title": "Status",
+      "type": "string"
+     }
+    },
+    "required": [
+     "stage",
+     "status",
+     "attempts"
+    ],
+    "title": "StageState",
+    "type": "object"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "title": "Location",
+      "type": "array"
+     },
+     "msg": {
+      "title": "Message",
+      "type": "string"
+     },
+     "type": {
+      "title": "Error Type",
+      "type": "string"
+     }
+    },
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError",
+    "type": "object"
+   }
+  }
+ },
+ "info": {
+  "description": "Evidence-labelled research briefs (course implementation of architecture v1.2).",
+  "title": "Masader API",
+  "version": "1.0.0"
+ },
+ "openapi": "3.1.0",
+ "paths": {
+  "/healthz": {
+   "get": {
+    "operationId": "healthz_healthz_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Healthz"
+   }
+  },
+  "/metrics": {
+   "get": {
+    "operationId": "metrics_metrics_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Metrics"
+   }
+  },
+  "/r/{report_id}": {
+   "get": {
+    "description": "Published reports are readable without a key (Tier 4).",
+    "operationId": "public_report_r__report_id__get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "report_id",
+      "required": true,
+      "schema": {
+       "title": "Report Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "text/html": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Public Report"
+   }
+  },
+  "/readyz": {
+   "get": {
+    "operationId": "readyz_readyz_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Readyz"
+   }
+  },
+  "/v1/corrections/{correction_id}/resolve": {
+   "post": {
+    "description": "Accepting a correction creates version n+1 of the report (the published version is immutable):\nthe corrected finding gets the reviewer's text and is marked human-reviewed, or is removed with the\nsentences that cite it; the old version becomes superseded.",
+    "operationId": "resolve_correction_v1_corrections__correction_id__resolve_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "correction_id",
+      "required": true,
+      "schema": {
+       "title": "Correction Id",
+       "type": "integer"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ResolveIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Resolve Correction"
+   }
+  },
+  "/v1/keys": {
+   "post": {
+    "operationId": "create_key_v1_keys_post",
+    "parameters": [
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/KeyIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Create Key"
+   }
+  },
+  "/v1/keys/{key_id}": {
+   "delete": {
+    "operationId": "revoke_key_v1_keys__key_id__delete",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "key_id",
+      "required": true,
+      "schema": {
+       "title": "Key Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Revoke Key"
+   }
+  },
+  "/v1/me": {
+   "get": {
+    "operationId": "me_v1_me_get",
+    "parameters": [
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Me"
+   }
+  },
+  "/v1/reports/{report_id}": {
+   "get": {
+    "operationId": "get_report_v1_reports__report_id__get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "report_id",
+      "required": true,
+      "schema": {
+       "title": "Report Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "if-none-match",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "If-None-Match"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ReportOut"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Get Report"
+   }
+  },
+  "/v1/reports/{report_id}.html": {
+   "get": {
+    "operationId": "export_html_v1_reports__report_id__html_get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "report_id",
+      "required": true,
+      "schema": {
+       "title": "Report Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "text/html": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Export Html"
+   }
+  },
+  "/v1/reports/{report_id}.json": {
+   "get": {
+    "operationId": "export_json_v1_reports__report_id__json_get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "report_id",
+      "required": true,
+      "schema": {
+       "title": "Report Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Export Json"
+   }
+  },
+  "/v1/reports/{report_id}/corrections": {
+   "post": {
+    "operationId": "correction_v1_reports__report_id__corrections_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "report_id",
+      "required": true,
+      "schema": {
+       "title": "Report Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CorrectionIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Correction"
+   }
+  },
+  "/v1/reports/{report_id}/publish": {
+   "post": {
+    "operationId": "publish_v1_reports__report_id__publish_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "report_id",
+      "required": true,
+      "schema": {
+       "title": "Report Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Publish"
+   }
+  },
+  "/v1/reports/{report_id}/withdraw": {
+   "post": {
+    "operationId": "withdraw_v1_reports__report_id__withdraw_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "report_id",
+      "required": true,
+      "schema": {
+       "title": "Report Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "anyOf": [
+         {
+          "$ref": "#/components/schemas/ReviewDecision"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Decision"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Withdraw"
+   }
+  },
+  "/v1/requests": {
+   "post": {
+    "operationId": "create_request_v1_requests_post",
+    "parameters": [
+     {
+      "in": "header",
+      "name": "idempotency-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Idempotency-Key"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/RequestIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/NeedsClarification"
+        }
+       }
+      },
+      "description": "OK"
+     },
+     "202": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "anyOf": [
+          {
+           "$ref": "#/components/schemas/Accepted"
+          },
+          {
+           "$ref": "#/components/schemas/NeedsClarification"
+          }
+         ],
+         "title": "Response Create Request V1 Requests Post"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "409": {
+      "description": "Conflict"
+     },
+     "422": {
+      "description": "Unprocessable Content"
+     },
+     "429": {
+      "description": "Too Many Requests"
+     },
+     "503": {
+      "description": "Service Unavailable"
+     }
+    },
+    "summary": "Create Request"
+   }
+  },
+  "/v1/requests/{request_id}": {
+   "get": {
+    "operationId": "get_request_v1_requests__request_id__get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "request_id",
+      "required": true,
+      "schema": {
+       "title": "Request Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Get Request"
+   }
+  },
+  "/v1/requests/{request_id}/answers": {
+   "post": {
+    "operationId": "answer_v1_requests__request_id__answers_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "request_id",
+      "required": true,
+      "schema": {
+       "title": "Request Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "additionalProperties": {
+         "type": "string"
+        },
+        "title": "Answers",
+        "type": "object"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "202": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Accepted"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Answer"
+   }
+  },
+  "/v1/review/queue": {
+   "get": {
+    "operationId": "review_queue_v1_review_queue_get",
+    "parameters": [
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Review Queue"
+   }
+  },
+  "/v1/review/{report_id}": {
+   "post": {
+    "description": "A reviewer clears a report the pipeline sent to review: approve -> delivered (marked reviewed), or\nreject -> failed. Only reports whose pipeline finished (render produced a body) can be approved.",
+    "operationId": "review_decision_v1_review__report_id__post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "report_id",
+      "required": true,
+      "schema": {
+       "title": "Report Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "x-api-key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ReviewDecision"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Review Decision"
+   }
+  }
+ }
+}

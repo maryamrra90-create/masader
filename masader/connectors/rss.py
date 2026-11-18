@@ -32,7 +32,7 @@ def _date(s: str | None) -> dt.datetime | None:
             d = dt.datetime.fromisoformat(s.replace("Z", "+00:00"))
         except ValueError:
             return None
-    return d if d.tzinfo else d.replace(tzinfo=dt.timezone.utc)
+    return d if d.tzinfo else d.replace(tzinfo=dt.UTC)
 
 
 def parse_feed(code: str, body: bytes) -> tuple[list[RawItem], int]:

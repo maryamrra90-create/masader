@@ -21,7 +21,9 @@ from ..processing.text import detect_language, normalise, numbers, sentences, wo
 STOP = set("""a an and are as at be been by for from has have in into is it its of on or that the their this to was
 were will with which who after before over under than then there these those while also more less about
 against between during per out up down off new last week weeks day days year years said says told stated
-reported announced according statement what how have has had did does how why when where who whom whose not but all any can its our your they them happened happen been being what's across through within since until into onto upon very much many some such""".split())
+reported announced according statement what how have has had did does how why when where who whom whose not
+but all any can its our your they them happened happen been being what's across through within since until
+into onto upon very much many some such""".split())
 
 ATTRIB_VERB = r"(?:said|says|told|stated|announced|reported)"
 SPEAKER_START = re.compile(rf"^(?:The\s+|A\s+)?([A-Z][\w'’\-()]*(?:\s+[\w'’\-()]+){{0,5}}?)\s+{ATTRIB_VERB}\b")

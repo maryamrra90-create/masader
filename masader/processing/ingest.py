@@ -70,7 +70,7 @@ def ingest(items: list[RawItem], store_raw: bool = True) -> list[int]:
     store = get_store() if store_raw else None
     new_ids = []
     with pool().connection() as c, c.transaction():
-        for it, vec in zip(items, vecs):
+        for it, vec in zip(items, vecs, strict=True):
             if it.source_code not in ids or it.source_code not in src:
                 log.warning("item from unregistered source %s skipped", it.source_code)
                 continue

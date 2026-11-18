@@ -1,0 +1,87 @@
+# Masader on one host (architecture B.4, deployment view). `docker compose up -d` starts the core;
+# `--profile monitoring` adds Prometheus and Grafana; `--profile edge` adds Caddy (TLS reverse proxy).
+# Secrets come from .env (copy .env.example); nothing secret is written in this file.
+x-app: &app
+  image: masader:1.0.0
+  build: .
+  env_file: .env
+  environment:
+    DATABASE_URL: postgresql://masader:${POSTGRES_PASSWORD}@postgres:5432/masader
+    REDIS_URL: redis://redis:6379/0
+  volumes:
+    - objects:/data/objects
+  depends_on:
+    postgres: { condition: service_healthy }
+    redis: { condition: service_healthy }
+    migrate: { condition: service_completed_successfully }
+  restart: unless-stopped
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: masader
+      POSTGRES_DB: masader
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U masader"], interval: 5s, timeout: 3s, retries: 20 }
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: [redisdata:/data]
+    healthcheck: { test: ["CMD", "redis-cli", "ping"], interval: 5s, timeout: 3s, retries: 20 }
+    restart: unless-stopped
+
+  migrate:          # one-shot: schema migrations, sources, budgets; --fixtures loads the synthetic corpus
+    <<: *app
+    command: ["sh", "-c", "masader migrate && masader seed ${SEED_FLAGS:---fixtures}"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    restart: "no"
+
+  api:
+    <<: *app
+    ports: ["127.0.0.1:8000:8000"]
+
+  worker-llm:       # stages extract, verify, write, validate; prefork so the time limits are enforced
+    <<: *app
+    command: ["celery", "-A", "masader.pipeline.celery_app", "worker", "-Q", "llm", "-P", "prefork", "-c", "8", "--loglevel", "INFO"]
+    healthcheck: { test: ["CMD-SHELL", "celery -A masader.pipeline.celery_app inspect ping -d celery@$$HOSTNAME"], interval: 30s, timeout: 10s, retries: 3 }
+
+  worker-cpu:       # stages collect, dedup, label, render; ingestion; reaper
+    <<: *app
+    command: ["celery", "-A", "masader.pipeline.celery_app", "worker", "-Q", "cpu,ingest", "-P", "prefork", "-c", "3", "--loglevel", "INFO"]
+    healthcheck: { test: ["CMD-SHELL", "celery -A masader.pipeline.celery_app inspect ping -d celery@$$HOSTNAME"], interval: 30s, timeout: 10s, retries: 3 }
+
+  scheduler:        # Celery beat: reaper every 60 s; live ingestion only when LIVE_SOURCES=1
+    <<: *app
+    command: ["celery", "-A", "masader.pipeline.celery_app", "beat", "-s", "/data/objects/beat-schedule", "--loglevel", "INFO"]
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    profiles: [monitoring]
+    volumes: ["./ops/prometheus:/etc/prometheus:ro", "promdata:/prometheus"]
+    ports: ["127.0.0.1:9090:9090"]
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:12.1.0
+    profiles: [monitoring]
+    environment: { GF_SECURITY_ADMIN_PASSWORD: "${GRAFANA_ADMIN_PASSWORD:?set GRAFANA_ADMIN_PASSWORD in .env}" }
+    volumes: ["./ops/grafana/provisioning:/etc/grafana/provisioning:ro", "./ops/grafana/dashboards:/var/lib/grafana/dashboards:ro"]
+    ports: ["127.0.0.1:3000:3000"]
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2.10
+    profiles: [edge]
+    environment: { MASADER_DOMAIN: "${MASADER_DOMAIN:-localhost}" }
+    volumes: ["./ops/caddy/Caddyfile:/etc/caddy/Caddyfile:ro", "caddydata:/data"]
+    ports: ["80:80", "443:443"]
+    depends_on: [api]
+    restart: unless-stopped
+
+volumes: { pgdata: {}, redisdata: {}, objects: {}, promdata: {}, caddydata: {} }

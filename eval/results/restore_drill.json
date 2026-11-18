@@ -1,0 +1,35 @@
+{
+ "environment": {
+  "at": "2026-11-18T08:11:35+00:00",
+  "git_commit": "70f1eb5",
+  "python": "3.13.18",
+  "platform": "Linux-6.18.44-fc-v595-x86_64-with-glibc2.39",
+  "cpus": 4,
+  "model_mode": "simulated",
+  "embedder": "hashing"
+ },
+ "what": "NFR12 restore drill on the local dev database: ops/backup.sh then ops/restore.sh into a new empty database",
+ "commands": [
+  "ops/backup.sh <dir>",
+  "createdb masader_restore",
+  "ops/restore.sh <backup> <masader_restore url> <object dir>"
+ ],
+ "backup_s": 0.45,
+ "restore_s": 0.41,
+ "backup_size": "560 KB (database dump + object store)",
+ "row_counts_source": {
+  "items": 37,
+  "reports": 55,
+  "claims": 1439,
+  "ai_calls": 890
+ },
+ "row_counts_restored": {
+  "items": 37,
+  "reports": 55,
+  "claims": 1439,
+  "ai_calls": 890
+ },
+ "objects_identical_sha256": true,
+ "checksums_verified": true,
+ "limits": "a small development database on the same host; not a restore onto a new host, so RTO for production size is not measured"
+}

@@ -7,8 +7,14 @@ import pytest
 
 from masader.gateway import budget, circuit
 from masader.gateway import client as gw
-from masader.gateway.errors import (BudgetExhausted, CallCancelled, InvalidOutput, NoIndependentModel, ProviderUnavailable,
-                                    StageDeadline)
+from masader.gateway.errors import (
+    BudgetExhausted,
+    CallCancelled,
+    InvalidOutput,
+    NoIndependentModel,
+    ProviderUnavailable,
+    StageDeadline,
+)
 from masader.redisclient import rds
 
 pytestmark = pytest.mark.db
@@ -81,6 +87,21 @@ def test_both_models_down_is_provider_unavailable_and_opens_the_circuit(db):
     with pytest.raises(ProviderUnavailable):     # open circuit: no call is made at all
         gw.complete("support", PAYLOAD, calls=calls())
     assert len(outcomes(db)) == n
+
+
+def test_second_error_moves_to_the_fallback_without_a_further_wait(db, monkeypatch):
+    """Found by drill D1: the client used to wait a second, doubled backoff after the last attempt on a
+    model, so with parallel calls the stage could hit its soft limit before trying the fallback."""
+    import dataclasses
+    import time
+
+    import masader.gateway.client as client_mod
+    monkeypatch.setattr(client_mod, "settings", dataclasses.replace(client_mod.settings, llm_backoff_s=0.5))
+    rds().rpush("fault:r:rep_t:support", "error", "error")
+    t = time.monotonic()
+    res = gw.complete("support", PAYLOAD, calls=calls(), report_id="rep_t")
+    assert res.fallback and time.monotonic() - t < 0.9          # one backoff (0.5 s), not 0.5 + 1.0
+    assert [o for _, o in outcomes(db)] == ["error", "error", "fallback"]
 
 
 def test_validator_independence(db):

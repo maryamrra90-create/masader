@@ -31,7 +31,7 @@ def run(ctx: Ctx) -> StageResult:
     results = run_calls(ctx, "extractor", payloads)
     raw, invented, foreign, company = [], 0, 0, 0
     official_only = ctx.answers.get("q1") == "official_and_news_only"
-    for payload, res in zip(payloads, results):
+    for payload, res in zip(payloads, results, strict=True):
         allowed = {b["id"] for b in payload["items"]}
         for cl in res.output["claims"][: cfg["extraction"]["claims_per_call_max"]]:
             if cl["item_id"] not in allowed:
@@ -78,7 +78,7 @@ def merge(claims: list[dict], threshold: float) -> list[dict]:
     vecs = get_embedder().embed([c["text"] for c in claims])
     kept: list[dict] = []
     kept_vecs: list[np.ndarray] = []
-    for cl, v in zip(claims, vecs):
+    for cl, v in zip(claims, vecs, strict=True):
         if kept_vecs:
             sims = np.array(kept_vecs) @ v
             j = int(np.argmax(sims))

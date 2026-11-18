@@ -1,5 +1,6 @@
 """End to end over real processes: the API under Uvicorn, a Celery worker (prefork) and beat (reaper), on
 PostgreSQL and Redis. Timers are scaled down (same order as production) so recovery happens in seconds."""
+import json
 import os
 import signal
 import socket
@@ -122,5 +123,46 @@ def test_killed_worker_is_recovered_by_the_reaper(db, keys):
         with db.connection() as c:
             n = c.execute("SELECT count(*) AS n FROM ai_calls WHERE report_id=%s AND outcome='started'", (rid,)).fetchone()["n"]
         assert n == 0
+    finally:
+        s.down()
+
+
+def _start_slow_report(s, keys):
+    body = dict(HORMUZ, sources={"prefer": ["official"]})
+    a = s.http.post("/v1/requests", json=body, headers={"X-API-Key": keys["requester"], "Idempotency-Key": uuid.uuid4().hex})
+    return a.json()["report_id"]
+
+
+def test_uncancellable_call_thread_recycles_the_child(db, keys):
+    """A writer call that ignores its cancel switch: after the call timeout and CANCEL_WAIT_S the child
+    closes the reservation, frees the stage and exits (code 70); a new child takes the stage again."""
+    from masader.redisclient import rds
+    s = Stack({"SIM_LATENCY_SCALE": "2"}).up()
+    try:
+        rid = _start_slow_report(s, keys)
+        rds().rpush(f"fault:r:{rid}:writer", "hang_uncancellable")
+        rep = wait_status(s.http, keys["requester"], rid, {"delivered", "in_review", "failed"}, timeout=120)
+        assert rep["status"] == "delivered"
+        recycled = [json.loads(x) for x in rds().lrange("recycled", 0, -1)]
+        assert any(r["report_id"] == rid and r["stage"] == "write" for r in recycled)
+        with db.connection() as c:
+            outcomes = [r["outcome"] for r in c.execute(
+                "SELECT outcome FROM ai_calls WHERE report_id=%s AND role='writer' ORDER BY created_at", (rid,))]
+        assert outcomes[0] == "cancelled" and outcomes[-1] == "ok"
+    finally:
+        s.down()
+
+
+def test_stage_that_swallows_the_soft_limit_is_killed_and_reaped(db, keys):
+    """Stage code that catches SoftTimeLimitExceeded and keeps going: the hard limit kills the child, the
+    lease expires, and the reaper hands the stage to a new execution; the report is delivered."""
+    from masader.redisclient import rds
+    s = Stack({"SIM_LATENCY_SCALE": "2"}).up()
+    try:
+        rid = _start_slow_report(s, keys)
+        rds().set(f"fault:r:{rid}:stage:write", "hang_hard")
+        rep = wait_status(s.http, keys["requester"], rid, {"delivered", "in_review", "failed"}, timeout=150)
+        assert rep["status"] == "delivered"
+        assert {x["stage"]: x["attempts"] for x in rep["stages"]}["write"] >= 2
     finally:
         s.down()

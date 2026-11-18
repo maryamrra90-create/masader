@@ -51,7 +51,7 @@ def run(ctx: Ctx) -> StageResult:
         payloads.append({"claims": [dict(cl) for cl in batch], "items": blocks, "pairs": pairs})
     results = run_calls(ctx, "verifier", payloads)
     rows, unexpected = {}, 0
-    for payload, res in zip(payloads, results):
+    for payload, res in zip(payloads, results, strict=True):
         asked = {tuple(p) for p in payload["pairs"]}
         for r in res.output["results"]:
             key = (r["claim_id"], r["item_id"])

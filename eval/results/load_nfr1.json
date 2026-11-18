@@ -1,0 +1,65 @@
+{
+ "environment": {
+  "at": "2026-11-18T08:14:45+00:00",
+  "git_commit": "70f1eb5",
+  "python": "3.13.18",
+  "platform": "Linux-6.18.44-fc-v595-x86_64-with-glibc2.39",
+  "cpus": 4,
+  "model_mode": "simulated",
+  "embedder": "hashing"
+ },
+ "what": "NFR1 read load: 50 users, 3 minutes, API with 2 Uvicorn workers on the same host as Locust",
+ "target": "p95 < 2000 ms",
+ "users": 50,
+ "duration": "3m",
+ "report_ids": [
+  "rep_q2bhpqx64vgf",
+  "rep_uqixcdxj6htp",
+  "rep_3uxd936gnbpf",
+  "rep_r3sdb9bkvuv4",
+  "rep_a6nvdqesy8a3"
+ ],
+ "by_endpoint": {
+  "/v1/me": {
+   "requests": 420,
+   "failures": 0,
+   "p50_ms": 4.0,
+   "p95_ms": 6.0,
+   "p99_ms": 13.0,
+   "rps": 2.3
+  },
+  "/v1/reports/{id}": {
+   "requests": 1989,
+   "failures": 0,
+   "p50_ms": 7.0,
+   "p95_ms": 11.0,
+   "p99_ms": 20.0,
+   "rps": 11.1
+  },
+  "/v1/reports/{id} (status poll)": {
+   "requests": 1193,
+   "failures": 0,
+   "p50_ms": 8.0,
+   "p95_ms": 12.0,
+   "p99_ms": 28.0,
+   "rps": 6.7
+  },
+  "/v1/reports/{id}.html": {
+   "requests": 821,
+   "failures": 0,
+   "p50_ms": 8.0,
+   "p95_ms": 11.0,
+   "p99_ms": 25.0,
+   "rps": 4.6
+  },
+  "Aggregated": {
+   "requests": 4423,
+   "failures": 0,
+   "p50_ms": 7.0,
+   "p95_ms": 11.0,
+   "p99_ms": 23.0,
+   "rps": 24.7
+  }
+ },
+ "met": true
+}

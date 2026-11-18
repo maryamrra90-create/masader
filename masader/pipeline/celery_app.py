@@ -26,7 +26,8 @@ app.conf.update(
     task_ignore_result=True,
     worker_send_task_events=False,
     timezone="Asia/Dubai",
-    beat_schedule={"reaper": {"task": "masader.ops.reaper", "schedule": settings.reaper_s}},
+    beat_schedule={"reaper": {"task": "masader.ops.reaper", "schedule": settings.reaper_s},
+                   "retention": {"task": "masader.ops.retention", "schedule": 86400.0}},
 )
 if settings.live_sources:                 # live connectors only when outbound access to the sources exists
     app.conf.beat_schedule.update({

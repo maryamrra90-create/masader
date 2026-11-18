@@ -1,0 +1,28 @@
+groups:
+  - name: masader
+    rules:
+      - alert: MasaderApiDown
+        expr: up{job="masader-api"} == 0
+        for: 2m
+        labels: { severity: page }
+        annotations: { summary: "Masader API is not answering /metrics" }
+      - alert: MasaderLiveBudgetLow
+        expr: masader_budget_remaining_usd{purpose="live"} < 5
+        for: 5m
+        labels: { severity: warn }
+        annotations: { summary: "Less than US$5 of the live model budget is left this period" }
+      - alert: MasaderApiSlow
+        expr: histogram_quantile(0.95, sum by (le) (rate(masader_http_request_seconds_bucket{route=~"/v1/reports.*"}[5m]))) > 2
+        for: 10m
+        labels: { severity: warn }
+        annotations: { summary: "p95 of report and status calls above 2 s (NFR1)" }
+      - alert: MasaderLlmQueueBacklog
+        expr: masader_queue_length{queue="llm"} > 20
+        for: 10m
+        labels: { severity: warn }
+        annotations: { summary: "More than 20 LLM stages waiting" }
+      - alert: MasaderReportsStuckInReview
+        expr: masader_reports{status="in_review"} > 5
+        for: 1h
+        labels: { severity: warn }
+        annotations: { summary: "More than 5 reports wait for a reviewer" }

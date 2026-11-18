@@ -36,7 +36,7 @@ def build_body(ctx: Ctx, status: str) -> dict:
     findings = []
     for cid in cited:
         cl = by_id[cid]
-        own = dict(zip([i for i in cl["cite_items"]], [None] * len(cl["cite_items"])))
+        own = dict(zip(cl["cite_items"], [None] * len(cl["cite_items"]), strict=True))
         srcs = []
         rows = [e for e in ev if e["claim_id"] == cid and e["verdict"] in ("supports", "contradicts") and e["item_id"] in items]
         rows.sort(key=lambda e: (e["verdict"] != "supports", e["item_id"] not in own, items[e["item_id"]]["tier"]))
@@ -72,7 +72,7 @@ def build_body(ctx: Ctx, status: str) -> dict:
         "publication": rep["publication"], "ai_generated": True,
         "review_status": "reviewed" if rep["approved_at"] else "not_reviewed",
         "title": req["topic"], "questions": req.get("questions", []), "window": {"from": req["from"], "to": req["to"]},
-        "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "generated_at": dt.datetime.now(dt.UTC).isoformat(),
         "findings": findings, "sections": dict(out_sections, evidence_gaps=gaps),
         "statistics": ctx.output("collect").get("statistics", []),
         "versions": versions | {"template": f"{TEMPLATE}@{TEMPLATE_VERSION}", "config": rep["config_hash"]},

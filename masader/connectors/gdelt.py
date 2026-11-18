@@ -20,7 +20,7 @@ def parse_artlist(code: str, data: dict) -> list[RawItem]:
     out = []
     for a in data.get("articles", []):
         try:
-            published = dt.datetime.strptime(a["seendate"], "%Y%m%dT%H%M%SZ").replace(tzinfo=dt.timezone.utc)
+            published = dt.datetime.strptime(a["seendate"], "%Y%m%dT%H%M%SZ").replace(tzinfo=dt.UTC)
         except (KeyError, ValueError):
             continue
         if not a.get("url") or not a.get("title"):
