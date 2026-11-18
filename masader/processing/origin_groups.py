@@ -20,7 +20,7 @@ import numpy as np
 
 from .text import jaccard, normalise, numbers, quotations, shingles
 
-ATTRIBUTION = re.compile(r"(according to|reported|told|said in a statement|citing|cited|quoted|نقلت|ذكرت|أفادت|وفقا|وفقاً|حسب)",
+ATTRIBUTION = re.compile(r"(according to|reported|told|said|citing|cited|quoted|نقلت|ذكرت|أفادت|وفقا|وفقاً|حسب)",
                          re.I)
 
 

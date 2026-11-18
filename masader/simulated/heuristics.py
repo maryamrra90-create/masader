@@ -284,14 +284,29 @@ def splitter(payload: dict) -> dict:
 
 
 # ------------------------------------------------------------------------------------------- support check
+OPPOSITES = [("rose", "fell"), ("rise", "fall"), ("increased", "decreased"), ("up", "down"), ("raised", "cut"),
+             ("higher", "lower"), ("resumed", "halted"), ("opened", "closed"), ("open", "closed"), ("gained", "lost"),
+             ("more", "fewer"), ("expanded", "shrank"), ("lifted", "imposed"), ("approved", "rejected")]
+
+
+def _direction_flip(text: str, evidence: str) -> bool:
+    """A direction word in the assertion whose opposite, and not itself, is in the evidence."""
+    tw, ew = set(words(text)), set(words(evidence))
+    for a, b in OPPOSITES:
+        for x, y in ((a, b), (b, a)):
+            if x in tw and x not in ew and y in ew:
+                return True
+    return False
+
+
 FRAMING = content_words("according another source gives different account read together two checked findings "
                         "bear request whether materialises one")
 
 
 def support(payload: dict) -> dict:
-    """Lexical support check: an assertion fails when more than 30% of its content words (template framing
-    words excluded) or any of its figures are absent from the cited claims and passages, or when it
-    negates what the evidence says."""
+    """Lexical support check: an assertion fails when any of its figures, or more than 30% of its content
+    words (template framing words excluded), are absent from the cited claims and passages, when it
+    negates what the evidence says, or when it states the opposite direction (rose / fell ...)."""
     out = []
     for a in payload["assertions"]:
         ev = " ".join(a.get("evidence", []))
@@ -304,10 +319,14 @@ def support(payload: dict) -> dict:
             out.append({"n": a["n"], "result": "fail", "reason": f"figures not in the evidence: {sorted(extra_nums)}"})
         elif neg_flip:
             out.append({"n": a["n"], "result": "fail", "reason": "negates the cited evidence"})
+        elif _direction_flip(a["text"], ev):
+            out.append({"n": a["n"], "result": "fail", "reason": "states the opposite direction to the evidence"})
         elif share > 0.30:
             out.append({"n": a["n"], "result": "fail", "reason": f"words not in the evidence: {sorted(missing)[:6]}"})
         else:
-            out.append({"n": a["n"], "result": "pass", "reason": "every content word and figure is in the cited evidence"})
+            out.append({"n": a["n"], "result": "pass",
+                        "reason": f"all figures in the evidence; {len(missing)} of {len(aw)} content words absent "
+                                  f"({share:.0%}, tolerance 30%)"})
     return {"results": out}
 
 

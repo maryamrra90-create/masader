@@ -88,7 +88,7 @@ def jaccard(a: set, b: set) -> float:
 def quotations(text: str, min_words: int = 8) -> set[str]:
     """Direct quotations of at least min_words words, normalised (used to spot copies of one press release)."""
     t = text.translate(_QUOTES)
-    return {normalise(q) for q in _QUOTE_SPAN.findall(t) if len(q.split()) >= min_words}
+    return {normalise(q).strip(" ,.;:!?") for q in _QUOTE_SPAN.findall(t) if len(q.split()) >= min_words}
 
 
 def numbers(text: str) -> list[str]:

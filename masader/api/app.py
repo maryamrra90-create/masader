@@ -358,24 +358,6 @@ def _etag(rep: dict) -> str:
     return f'"{h}"'
 
 
-@app.get("/v1/reports/{report_id}", response_model=ReportOut)
-def get_report(report_id: str, response: Response, key=Depends(caller), if_none_match: str | None = Header(default=None)):
-    rep = _load_report(report_id, key)
-    etag = _etag(rep)
-    if if_none_match == etag:
-        return Response(status_code=304, headers={"ETag": etag})
-    response.headers["ETag"] = etag
-    b = _body(rep)
-    return ReportOut(report_id=rep["id"], request_id=rep["request_id"], status=rep["status"], publication=rep["publication"],
-                     version=rep["version"], review_status=b["review_status"], stages=rep["stages"], title=b.get("title"),
-                     findings=b.get("findings", []), sections=b.get("sections", {}), statistics=b.get("statistics", []),
-                     exports={"json": f"/v1/reports/{report_id}.json", "html": f"/v1/reports/{report_id}.html"},
-                     versions={k: str(v) for k, v in (b.get("versions") or rep["versions"]).items()}
-                     | {"config": rep["config_hash"]},
-                     method=b.get("method", {}), notes=rep["notes"] or [], cost_usd=float(rep["cost_usd"]),
-                     duration_s=rep["duration_s"], supersedes=rep["supersedes"], superseded_by=rep["superseded_by"])
-
-
 def _export_ready(rep: dict) -> None:
     if rep["body"] is None:
         raise ApiError(409, "conflict", f"report is {rep['status']}; exports exist once it is delivered")
@@ -393,6 +375,25 @@ def export_html(report_id: str, key=Depends(caller)):
     rep = _load_report(report_id, key)
     _export_ready(rep)
     return HTMLResponse(render_html(_body(rep)), headers={"Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'"})
+
+
+# declared after the .json / .html routes, which would otherwise match {report_id}
+@app.get("/v1/reports/{report_id}", response_model=ReportOut)
+def get_report(report_id: str, response: Response, key=Depends(caller), if_none_match: str | None = Header(default=None)):
+    rep = _load_report(report_id, key)
+    etag = _etag(rep)
+    if if_none_match == etag:
+        return Response(status_code=304, headers={"ETag": etag})
+    response.headers["ETag"] = etag
+    b = _body(rep)
+    return ReportOut(report_id=rep["id"], request_id=rep["request_id"], status=rep["status"], publication=rep["publication"],
+                     version=rep["version"], review_status=b["review_status"], stages=rep["stages"], title=b.get("title"),
+                     findings=b.get("findings", []), sections=b.get("sections", {}), statistics=b.get("statistics", []),
+                     exports={"json": f"/v1/reports/{report_id}.json", "html": f"/v1/reports/{report_id}.html"},
+                     versions={k: str(v) for k, v in (b.get("versions") or rep["versions"]).items()}
+                     | {"config": rep["config_hash"]},
+                     method=b.get("method", {}), notes=rep["notes"] or [], cost_usd=float(rep["cost_usd"]),
+                     duration_s=rep["duration_s"], supersedes=rep["supersedes"], superseded_by=rep["superseded_by"])
 
 
 @app.get("/r/{report_id}", response_class=HTMLResponse)

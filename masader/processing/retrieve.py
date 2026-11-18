@@ -14,7 +14,7 @@ from ..store.db import pool
 from ..simulated.heuristics import STOP
 from .embed import get_embedder, to_pgvector
 
-MIN_COSINE = 0.20
+MIN_COSINE = 0.30     # measured on the corpus with the hashing embedder: unrelated items reach about 0.2
 
 
 def _tsquery(terms: list[str]) -> str:

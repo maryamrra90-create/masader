@@ -1,0 +1,907 @@
+{
+ "environment": {
+  "at": "2026-11-18T07:30:06+00:00",
+  "git_commit": "dfbca6a",
+  "python": "3.13.18",
+  "platform": "Linux-6.18.44-fc-v595-x86_64-with-glibc2.39",
+  "cpus": 4,
+  "model_mode": "simulated",
+  "embedder": "hashing"
+ },
+ "what": "seeded-error detection: rules + SIMULATED lexical support check (not Claude)",
+ "target": ">= 0.95",
+ "set_a_e3_handwritten": {
+  "seeded_total": 20,
+  "caught": 20,
+  "caught_by_rules": 17,
+  "good_total": 10,
+  "good_blocked": 3,
+  "seeded": [
+   {
+    "type": "wrong number",
+    "n": 101,
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['28']"
+   },
+   {
+    "type": "wrong number",
+    "n": 102,
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['1.7']"
+   },
+   {
+    "type": "wrong number",
+    "n": 103,
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['573']"
+   },
+   {
+    "type": "wrong number",
+    "n": 104,
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['400']"
+   },
+   {
+    "type": "wrong date",
+    "n": 105,
+    "caught": true,
+    "by": "rules: date_not_in_evidence:['September']"
+   },
+   {
+    "type": "wrong date",
+    "n": 106,
+    "caught": true,
+    "by": "rules: date_not_in_evidence:['November']"
+   },
+   {
+    "type": "wrong date",
+    "n": 107,
+    "caught": true,
+    "by": "rules: date_not_in_evidence:['August']"
+   },
+   {
+    "type": "new claim, no citation",
+    "n": 108,
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "new claim, no citation",
+    "n": 109,
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "new claim with real citation",
+    "n": 110,
+    "caught": true,
+    "by": "support: words not in the evidence: ['attack', 'drone']"
+   },
+   {
+    "type": "wrong speaker",
+    "n": 111,
+    "caught": true,
+    "by": "rules: speaker_mismatch"
+   },
+   {
+    "type": "wrong speaker",
+    "n": 112,
+    "caught": true,
+    "by": "rules: speaker_mismatch"
+   },
+   {
+    "type": "false fact inside analysis",
+    "n": 113,
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['35']"
+   },
+   {
+    "type": "false fact inside analysis",
+    "n": 114,
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['600']"
+   },
+   {
+    "type": "false fact inside analysis",
+    "n": 115,
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['12']"
+   },
+   {
+    "type": "overstated certainty",
+    "n": 116,
+    "caught": true,
+    "by": "rules: attribution_missing,forecast_wording_in_findings"
+   },
+   {
+    "type": "overstated certainty",
+    "n": 117,
+    "caught": true,
+    "by": "rules: attribution_missing,disputed_without_other_version"
+   },
+   {
+    "type": "overstated certainty",
+    "n": 118,
+    "caught": true,
+    "by": "rules: forecast_wording_in_findings"
+   },
+   {
+    "type": "meaning changed, same numbers",
+    "n": 119,
+    "caught": true,
+    "by": "support: states the opposite direction to the evidence"
+   },
+   {
+    "type": "meaning changed, same numbers",
+    "n": 120,
+    "caught": true,
+    "by": "support: states the opposite direction to the evidence"
+   }
+  ],
+  "good": [
+   {
+    "n": 1,
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 6 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 2,
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 8 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 3,
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 7 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 4,
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 5 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 5,
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 6 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 6,
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 6 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 7,
+    "blocked": true,
+    "by": "support: words not in the evidence: ['because', 'freight', 'further', 'may', 'rates', 'rise']"
+   },
+   {
+    "n": 8,
+    "blocked": true,
+    "by": "support: words not in the evidence: ['could', 'operators', 'pause', 'sailings', 'smaller']"
+   },
+   {
+    "n": 9,
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 6 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 10,
+    "blocked": true,
+    "by": "support: words not in the evidence: ['could', 'recover', 'traffic']"
+   }
+  ],
+  "detection_rate": 1.0,
+  "detection_ci95_wilson": [
+   0.839,
+   1.0
+  ],
+  "false_block_rate": 0.3
+ },
+ "set_b_generated_from_pipeline_report": {
+  "report_id": "rep_j69zri5sh7by",
+  "assertions": 16,
+  "seeded_total": 82,
+  "caught": 60,
+  "caught_by_rules": 42,
+  "by_type": {
+   "wrong number": "12/12",
+   "wrong date": "4/4",
+   "unsupported clause": "5/16",
+   "forecast wording": "2/10",
+   "citation dropped": "16/16",
+   "direction flipped": "7/8",
+   "attribution removed": "2/4",
+   "wrong speaker": "6/6",
+   "negation": "6/6"
+  },
+  "good_total": 16,
+  "good_blocked": 0,
+  "seeded": [
+   {
+    "type": "wrong number",
+    "n": 1,
+    "text": "Revising its advisory of 21 October, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours.",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['21']"
+   },
+   {
+    "type": "wrong date",
+    "n": 1,
+    "text": "Revising its advisory of 14 December, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours.",
+    "caught": true,
+    "by": "rules: date_not_in_evidence:['December']"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 1,
+    "text": "Revising its advisory of 14 October, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours, after a drone attack on two tankers near Khasab.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 5 of 26 content words absent (19%, tolerance 30%)"
+   },
+   {
+    "type": "forecast wording",
+    "n": 1,
+    "text": "Revising its advisory of 14 October, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours, and it will continue next week.",
+    "caught": true,
+    "by": "rules: forecast_wording_in_findings"
+   },
+   {
+    "type": "citation dropped",
+    "n": 1,
+    "text": "Revising its advisory of 14 October, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong number",
+    "n": 2,
+    "text": "Tanker transits through the Strait of Hormuz fell 25 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service.",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['25']"
+   },
+   {
+    "type": "wrong date",
+    "n": 2,
+    "text": "Tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 December compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service.",
+    "caught": true,
+    "by": "rules: date_not_in_evidence:['December']"
+   },
+   {
+    "type": "direction flipped",
+    "n": 2,
+    "text": "Tanker transits through the Strait of Hormuz rose 18 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service.",
+    "caught": true,
+    "by": "support: states the opposite direction to the evidence"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 2,
+    "text": "Tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service, after a drone attack on two tankers near Khasab.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 5 of 21 content words absent (24%, tolerance 30%)"
+   },
+   {
+    "type": "attribution removed",
+    "n": 2,
+    "text": "Tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 October compared with the previous week.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 0 of 9 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "type": "forecast wording",
+    "n": 2,
+    "text": "Tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service, and it will continue next week.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 2 of 18 content words absent (11%, tolerance 30%)"
+   },
+   {
+    "type": "citation dropped",
+    "n": 2,
+    "text": "Tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong number",
+    "n": 3,
+    "text": "Trade between India and the UAE rose 16 percent in the first half of 2026 to 46 billion dollars, officials said at a business forum in Dubai.",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['16']"
+   },
+   {
+    "type": "direction flipped",
+    "n": 3,
+    "text": "Trade between India and the UAE fell 9 percent in the first half of 2026 to 46 billion dollars, officials said at a business forum in Dubai.",
+    "caught": true,
+    "by": "support: states the opposite direction to the evidence"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 3,
+    "text": "Trade between India and the UAE rose 9 percent in the first half of 2026 to 46 billion dollars, officials said at a business forum in Dubai, after a drone attack on two tankers near Khasab.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 5 of 18 content words absent (28%, tolerance 30%)"
+   },
+   {
+    "type": "forecast wording",
+    "n": 3,
+    "text": "Trade between India and the UAE rose 9 percent in the first half of 2026 to 46 billion dollars, officials said at a business forum in Dubai, and it will continue next week.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 2 of 15 content words absent (13%, tolerance 30%)"
+   },
+   {
+    "type": "citation dropped",
+    "n": 3,
+    "text": "Trade between India and the UAE rose 9 percent in the first half of 2026 to 46 billion dollars, officials said at a business forum in Dubai.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong number",
+    "n": 4,
+    "text": "India's Directorate General of Shipping said Indian-flagged vessels transiting the Strait of Hormuz must now report their position every 11 hours, tightening an advisory issued three days earlier.",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['11']"
+   },
+   {
+    "type": "wrong speaker",
+    "n": 4,
+    "text": "Iran's foreign ministry said Indian-flagged vessels transiting the Strait of Hormuz must now report their position every 4 hours, tightening an advisory issued three days earlier.",
+    "caught": true,
+    "by": "rules: speaker_mismatch"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 4,
+    "text": "India's Directorate General of Shipping said Indian-flagged vessels transiting the Strait of Hormuz must now report their position every 4 hours, tightening an advisory issued three days earlier, after a drone attack on two tankers near Khasab.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 5 of 26 content words absent (19%, tolerance 30%)"
+   },
+   {
+    "type": "forecast wording",
+    "n": 4,
+    "text": "India's Directorate General of Shipping said Indian-flagged vessels transiting the Strait of Hormuz must now report their position every 4 hours, tightening an advisory issued three days earlier, and it will continue next week.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 2 of 23 content words absent (9%, tolerance 30%)"
+   },
+   {
+    "type": "citation dropped",
+    "n": 4,
+    "text": "India's Directorate General of Shipping said Indian-flagged vessels transiting the Strait of Hormuz must now report their position every 4 hours, tightening an advisory issued three days earlier.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong number",
+    "n": 5,
+    "text": "Vessel traffic data reviewed by the ministry show that tanker transits through the Strait of Hormuz fell 25 percent over the past week.",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['25']"
+   },
+   {
+    "type": "direction flipped",
+    "n": 5,
+    "text": "Vessel traffic data reviewed by the ministry show that tanker transits through the Strait of Hormuz rose 18 percent over the past week.",
+    "caught": true,
+    "by": "support: states the opposite direction to the evidence"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 5,
+    "text": "Vessel traffic data reviewed by the ministry show that tanker transits through the Strait of Hormuz fell 18 percent over the past week, after a drone attack on two tankers near Khasab.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 5 of 18 content words absent (28%, tolerance 30%)"
+   },
+   {
+    "type": "forecast wording",
+    "n": 5,
+    "text": "Vessel traffic data reviewed by the ministry show that tanker transits through the Strait of Hormuz fell 18 percent over the past week, and it will continue next week.",
+    "caught": true,
+    "by": "rules: forecast_wording_in_findings"
+   },
+   {
+    "type": "citation dropped",
+    "n": 5,
+    "text": "Vessel traffic data reviewed by the ministry show that tanker transits through the Strait of Hormuz fell 18 percent over the past week.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong number",
+    "n": 6,
+    "text": "The Indian Navy has deployed 9 ships to the Gulf of Oman to assist Indian-flagged merchant vessels, Indian officials told Khaleej Daily.",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['9']"
+   },
+   {
+    "type": "direction flipped",
+    "n": 6,
+    "text": "The Indian Navy has withdrew 2 ships to the Gulf of Oman to assist Indian-flagged merchant vessels, Indian officials told Khaleej Daily.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 1 of 13 content words absent (8%, tolerance 30%)"
+   },
+   {
+    "type": "negation",
+    "n": 6,
+    "text": "The Indian Navy has not deployed 2 ships to the Gulf of Oman to assist Indian-flagged merchant vessels, Indian officials told Khaleej Daily.",
+    "caught": true,
+    "by": "support: negates the cited evidence"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 6,
+    "text": "The Indian Navy has deployed 2 ships to the Gulf of Oman to assist Indian-flagged merchant vessels, Indian officials told Khaleej Daily, after a drone attack on two tankers near Khasab.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 5 of 18 content words absent (28%, tolerance 30%)"
+   },
+   {
+    "type": "forecast wording",
+    "n": 6,
+    "text": "The Indian Navy has deployed 2 ships to the Gulf of Oman to assist Indian-flagged merchant vessels, Indian officials told Khaleej Daily, and it will continue next week.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 2 of 15 content words absent (13%, tolerance 30%)"
+   },
+   {
+    "type": "citation dropped",
+    "n": 6,
+    "text": "The Indian Navy has deployed 2 ships to the Gulf of Oman to assist Indian-flagged merchant vessels, Indian officials told Khaleej Daily.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong number",
+    "n": 7,
+    "text": "Trade between India and the UAE rose 16 percent in the first half of 2026, Khaleej Daily was told by officials at the Dubai forum.",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['16']"
+   },
+   {
+    "type": "direction flipped",
+    "n": 7,
+    "text": "Trade between India and the UAE fell 9 percent in the first half of 2026, Khaleej Daily was told by officials at the Dubai forum.",
+    "caught": true,
+    "by": "support: states the opposite direction to the evidence"
+   },
+   {
+    "type": "negation",
+    "n": 7,
+    "text": "Trade between India and the UAE rose 9 percent in the first half of 2026, Khaleej Daily was not told by officials at the Dubai forum.",
+    "caught": true,
+    "by": "support: negates the cited evidence"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 7,
+    "text": "Trade between India and the UAE rose 9 percent in the first half of 2026, Khaleej Daily was told by officials at the Dubai forum, after a drone attack on two tankers near Khasab.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 5 of 17 content words absent (29%, tolerance 30%)"
+   },
+   {
+    "type": "forecast wording",
+    "n": 7,
+    "text": "Trade between India and the UAE rose 9 percent in the first half of 2026, Khaleej Daily was told by officials at the Dubai forum, and it will continue next week.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 2 of 14 content words absent (14%, tolerance 30%)"
+   },
+   {
+    "type": "citation dropped",
+    "n": 7,
+    "text": "Trade between India and the UAE rose 9 percent in the first half of 2026, Khaleej Daily was told by officials at the Dubai forum.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong number",
+    "n": 8,
+    "text": "A total of 219 tankers crossed the strait during the week, down from 259 a week earlier, according to Gulf Wire Service (fixture).",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['219']"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 8,
+    "text": "A total of 212 tankers crossed the strait during the week, down from 259 a week earlier, according to Gulf Wire Service (fixture), after a drone attack on two tankers near Khasab.",
+    "caught": true,
+    "by": "support: words not in the evidence: ['attack', 'drone', 'khasab', 'near']"
+   },
+   {
+    "type": "attribution removed",
+    "n": 8,
+    "text": "A total of 212 tankers crossed the strait during the week, down from 259 a week earlier.",
+    "caught": true,
+    "by": "rules: attribution_missing"
+   },
+   {
+    "type": "forecast wording",
+    "n": 8,
+    "text": "A total of 212 tankers crossed the strait during the week, down from 259 a week earlier, according to Gulf Wire Service (fixture), and it will continue next week.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 2 of 11 content words absent (18%, tolerance 30%)"
+   },
+   {
+    "type": "citation dropped",
+    "n": 8,
+    "text": "A total of 212 tankers crossed the strait during the week, down from 259 a week earlier, according to Gulf Wire Service (fixture).",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong number",
+    "n": 9,
+    "text": "\"Omani ports remain open, safe and fully operational for all commercial shipping lines,\" the ministry said, adding that it had added 13 pilot crews at Sohar.",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['13']"
+   },
+   {
+    "type": "direction flipped",
+    "n": 9,
+    "text": "\"Omani ports remain closed, safe and fully operational for all commercial shipping lines,\" the ministry said, adding that it had added 6 pilot crews at Sohar.",
+    "caught": true,
+    "by": "support: states the opposite direction to the evidence"
+   },
+   {
+    "type": "negation",
+    "n": 9,
+    "text": "\"Omani ports remain open, safe and fully operational for all commercial shipping lines,\" the ministry said, adding that it had not added 6 pilot crews at Sohar.",
+    "caught": true,
+    "by": "support: negates the cited evidence"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 9,
+    "text": "\"Omani ports remain open, safe and fully operational for all commercial shipping lines,\" the ministry said, adding that it had added 6 pilot crews at Sohar, after a drone attack on two tankers near Khasab.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 5 of 21 content words absent (24%, tolerance 30%)"
+   },
+   {
+    "type": "forecast wording",
+    "n": 9,
+    "text": "\"Omani ports remain open, safe and fully operational for all commercial shipping lines,\" the ministry said, adding that it had added 6 pilot crews at Sohar, and it will continue next week.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 2 of 18 content words absent (11%, tolerance 30%)"
+   },
+   {
+    "type": "citation dropped",
+    "n": 9,
+    "text": "\"Omani ports remain open, safe and fully operational for all commercial shipping lines,\" the ministry said, adding that it had added 6 pilot crews at Sohar.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong number",
+    "n": 10,
+    "text": "Qatar loaded 21 LNG cargoes at Ras Laffan in the week to 14 October, in line with its normal schedule, according to shipping data compiled by Gulf Wire Service.",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['21']"
+   },
+   {
+    "type": "wrong date",
+    "n": 10,
+    "text": "Qatar loaded 14 LNG cargoes at Ras Laffan in the week to 14 December, in line with its normal schedule, according to shipping data compiled by Gulf Wire Service.",
+    "caught": true,
+    "by": "rules: date_not_in_evidence:['December']"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 10,
+    "text": "Qatar loaded 14 LNG cargoes at Ras Laffan in the week to 14 October, in line with its normal schedule, according to shipping data compiled by Gulf Wire Service, after a drone attack on two tankers near Khasab.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 5 of 21 content words absent (24%, tolerance 30%)"
+   },
+   {
+    "type": "attribution removed",
+    "n": 10,
+    "text": "Qatar loaded 14 LNG cargoes at Ras Laffan in the week to 14 October, in line with its normal schedule.",
+    "caught": true,
+    "by": "rules: attribution_missing"
+   },
+   {
+    "type": "forecast wording",
+    "n": 10,
+    "text": "Qatar loaded 14 LNG cargoes at Ras Laffan in the week to 14 October, in line with its normal schedule, according to shipping data compiled by Gulf Wire Service, and it will continue next week.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 2 of 18 content words absent (11%, tolerance 30%)"
+   },
+   {
+    "type": "citation dropped",
+    "n": 10,
+    "text": "Qatar loaded 14 LNG cargoes at Ras Laffan in the week to 14 October, in line with its normal schedule, according to shipping data compiled by Gulf Wire Service.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong number",
+    "n": 11,
+    "text": "Brokers said war-risk insurance premiums for voyages through the Strait of Hormuz rose to 3.8 percent of hull value this week; another source gives a different account: Underwriters said war-risk insurance premiums for voyages through the Strait of Hormuz rose to 0.7 percent of hull value this week.",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['3.8']"
+   },
+   {
+    "type": "wrong speaker",
+    "n": 11,
+    "text": "Iran's foreign ministry said war-risk insurance premiums for voyages through the Strait of Hormuz rose to 0.5 percent of hull value this week; another source gives a different account: Underwriters said war-risk insurance premiums for voyages through the Strait of Hormuz rose to 0.7 percent of hull value this week.",
+    "caught": true,
+    "by": "rules: speaker_mismatch"
+   },
+   {
+    "type": "direction flipped",
+    "n": 11,
+    "text": "Brokers said war-risk insurance premiums for voyages through the Strait of Hormuz fell to 0.5 percent of hull value this week; another source gives a different account: Underwriters said war-risk insurance premiums for voyages through the Strait of Hormuz rose to 0.7 percent of hull value this week.",
+    "caught": true,
+    "by": "support: states the opposite direction to the evidence"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 11,
+    "text": "Brokers said war-risk insurance premiums for voyages through the Strait of Hormuz rose to 0.5 percent of hull value this week; another source gives a different account: Underwriters said war-risk insurance premiums for voyages through the Strait of Hormuz rose to 0.7 percent of hull value this week, after a drone attack on two tankers near Khasab.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 5 of 18 content words absent (28%, tolerance 30%)"
+   },
+   {
+    "type": "citation dropped",
+    "n": 11,
+    "text": "Brokers said war-risk insurance premiums for voyages through the Strait of Hormuz rose to 0.5 percent of hull value this week; another source gives a different account: Underwriters said war-risk insurance premiums for voyages through the Strait of Hormuz rose to 0.7 percent of hull value this week.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong speaker",
+    "n": 12,
+    "text": "Iran's foreign ministry said the change would add some work for crews but was manageable.",
+    "caught": true,
+    "by": "rules: speaker_mismatch"
+   },
+   {
+    "type": "negation",
+    "n": 12,
+    "text": "Shipping lines said the change would add some work for crews but was not manageable.",
+    "caught": true,
+    "by": "support: negates the cited evidence"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 12,
+    "text": "Shipping lines said the change would add some work for crews but was manageable, after a drone attack on two tankers near Khasab.",
+    "caught": true,
+    "by": "support: words not in the evidence: ['attack', 'drone', 'khasab', 'near', 'tankers']"
+   },
+   {
+    "type": "citation dropped",
+    "n": 12,
+    "text": "Shipping lines said the change would add some work for crews but was manageable.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong speaker",
+    "n": 13,
+    "text": "Iran's foreign ministry said several owners had delayed sailings while they reviewed security arrangements.",
+    "caught": true,
+    "by": "rules: speaker_mismatch"
+   },
+   {
+    "type": "negation",
+    "n": 13,
+    "text": "Shipping agents in Fujairah said several owners had not delayed sailings while they reviewed security arrangements.",
+    "caught": true,
+    "by": "support: negates the cited evidence"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 13,
+    "text": "Shipping agents in Fujairah said several owners had delayed sailings while they reviewed security arrangements, after a drone attack on two tankers near Khasab.",
+    "caught": true,
+    "by": "support: words not in the evidence: ['attack', 'drone', 'khasab', 'near', 'tankers']"
+   },
+   {
+    "type": "citation dropped",
+    "n": 13,
+    "text": "Shipping agents in Fujairah said several owners had delayed sailings while they reviewed security arrangements.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong speaker",
+    "n": 14,
+    "text": "Iran's foreign ministry said the deployment was precautionary.",
+    "caught": true,
+    "by": "rules: speaker_mismatch"
+   },
+   {
+    "type": "negation",
+    "n": 14,
+    "text": "The officials said the deployment was not precautionary.",
+    "caught": true,
+    "by": "support: negates the cited evidence"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 14,
+    "text": "The officials said the deployment was precautionary, after a drone attack on two tankers near Khasab.",
+    "caught": true,
+    "by": "support: words not in the evidence: ['attack', 'drone', 'khasab', 'near', 'tankers']"
+   },
+   {
+    "type": "citation dropped",
+    "n": 14,
+    "text": "The officials said the deployment was precautionary.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong speaker",
+    "n": 15,
+    "text": "Iran's foreign ministry said it would reroute two of its Asia-Gulf services through Salalah from next week.",
+    "caught": true,
+    "by": "rules: speaker_mismatch"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 15,
+    "text": "A major container line said it would reroute two of its Asia-Gulf services through Salalah from next week, after a drone attack on two tankers near Khasab.",
+    "caught": true,
+    "by": "support: words not in the evidence: ['attack', 'drone', 'khasab', 'near', 'tankers']"
+   },
+   {
+    "type": "citation dropped",
+    "n": 15,
+    "text": "A major container line said it would reroute two of its Asia-Gulf services through Salalah from next week.",
+    "caught": true,
+    "by": "rules: no_citation"
+   },
+   {
+    "type": "wrong number",
+    "n": 16,
+    "text": "Read together, two checked findings bear on the request: Revising its advisory of 21 October, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours, and tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service.",
+    "caught": true,
+    "by": "rules: number_not_in_evidence:['21']"
+   },
+   {
+    "type": "wrong date",
+    "n": 16,
+    "text": "Read together, two checked findings bear on the request: Revising its advisory of 14 December, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours, and tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service.",
+    "caught": true,
+    "by": "rules: date_not_in_evidence:['December']"
+   },
+   {
+    "type": "direction flipped",
+    "n": 16,
+    "text": "Read together, two checked findings bear on the request: Revising its advisory of 14 October, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours, and tanker transits through the Strait of Hormuz rose 18 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service.",
+    "caught": true,
+    "by": "support: states the opposite direction to the evidence"
+   },
+   {
+    "type": "unsupported clause",
+    "n": 16,
+    "text": "Read together, two checked findings bear on the request: Revising its advisory of 14 October, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours, and tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service, after a drone attack on two tankers near Khasab.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 5 of 39 content words absent (13%, tolerance 30%)"
+   },
+   {
+    "type": "attribution removed",
+    "n": 16,
+    "text": "Read together, two checked findings bear on the request: Revising its advisory of 14 October, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours, and tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 October compared with the previous week.",
+    "caught": false,
+    "by": "support: all figures in the evidence; 0 of 27 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "type": "citation dropped",
+    "n": 16,
+    "text": "Read together, two checked findings bear on the request: Revising its advisory of 14 October, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours, and tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service.",
+    "caught": true,
+    "by": "rules: no_citation"
+   }
+  ],
+  "good": [
+   {
+    "n": 1,
+    "text": "Revising its advisory of 14 October, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 21 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 2,
+    "text": "Tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 16 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 3,
+    "text": "Trade between India and the UAE rose 9 percent in the first half of 2026 to 46 billion dollars, officials said at a business forum in Dubai.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 13 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 4,
+    "text": "India's Directorate General of Shipping said Indian-flagged vessels transiting the Strait of Hormuz must now report their position every 4 hours, tightening an advisory issued three days earlier.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 21 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 5,
+    "text": "Vessel traffic data reviewed by the ministry show that tanker transits through the Strait of Hormuz fell 18 percent over the past week.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 13 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 6,
+    "text": "The Indian Navy has deployed 2 ships to the Gulf of Oman to assist Indian-flagged merchant vessels, Indian officials told Khaleej Daily.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 13 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 7,
+    "text": "Trade between India and the UAE rose 9 percent in the first half of 2026, Khaleej Daily was told by officials at the Dubai forum.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 12 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 8,
+    "text": "A total of 212 tankers crossed the strait during the week, down from 259 a week earlier, according to Gulf Wire Service (fixture).",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 9 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 9,
+    "text": "\"Omani ports remain open, safe and fully operational for all commercial shipping lines,\" the ministry said, adding that it had added 6 pilot crews at Sohar.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 16 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 10,
+    "text": "Qatar loaded 14 LNG cargoes at Ras Laffan in the week to 14 October, in line with its normal schedule, according to shipping data compiled by Gulf Wire Service.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 16 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 11,
+    "text": "Brokers said war-risk insurance premiums for voyages through the Strait of Hormuz rose to 0.5 percent of hull value this week; another source gives a different account: Underwriters said war-risk insurance premiums for voyages through the Strait of Hormuz rose to 0.7 percent of hull value this week.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 13 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 12,
+    "text": "Shipping lines said the change would add some work for crews but was manageable.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 8 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 13,
+    "text": "Shipping agents in Fujairah said several owners had delayed sailings while they reviewed security arrangements.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 10 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 14,
+    "text": "The officials said the deployment was precautionary.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 3 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 15,
+    "text": "A major container line said it would reroute two of its Asia-Gulf services through Salalah from next week.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 10 content words absent (0%, tolerance 30%)"
+   },
+   {
+    "n": 16,
+    "text": "Read together, two checked findings bear on the request: Revising its advisory of 14 October, the Directorate General of Shipping now advises all Indian-flagged vessels transiting the Strait of Hormuz to report their position to the Information Fusion Centre every 4 hours, and tanker transits through the Strait of Hormuz fell 18 percent in the week to 15 October compared with the previous week, according to vessel-tracking data compiled by Gulf Wire Service.",
+    "blocked": false,
+    "by": "support: all figures in the evidence; 0 of 34 content words absent (0%, tolerance 30%)"
+   }
+  ],
+  "detection_rate": 0.732,
+  "detection_ci95_wilson": [
+   0.627,
+   0.816
+  ],
+  "false_block_rate": 0.0
+ },
+ "investigation": [
+  "Fixed before the reported run (bugs, not tuning): set-B mutations kept the original speaker field while the text named a new speaker; the pipeline derives the speaker from the text, so the eval now does too.",
+  "Fixed: the support check's pass reason claimed every word was present even when up to 30% was absent.",
+  "Known limitation, not fixed: an added unsupported clause of about 6 content words in a 20+ word sentence stays under the 30% absent-word tolerance of the lexical check.",
+  "Known limitation, not fixed: the forecast-wording rule exempts sentences with attribution ('said', 'according to'), so an unattributed forecast appended to an attributed sentence passes.",
+  "Known limitation, not fixed: the direction check has no deployed/withdrew pair."
+ ]
+}

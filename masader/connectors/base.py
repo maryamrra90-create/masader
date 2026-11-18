@@ -31,6 +31,8 @@ def get_with_retry(client: httpx.Client, url: str, *, params: dict | None = None
     for attempt in range(retries + 1):
         try:
             r = client.get(url, params=params, headers={"User-Agent": USER_AGENT, **(headers or {})}, timeout=20.0)
+            if r.status_code == 304:                     # not modified (conditional GET)
+                return r
             if r.status_code == 429 or r.status_code >= 500:
                 last = SourceFailed(f"HTTP {r.status_code}")
             else:
