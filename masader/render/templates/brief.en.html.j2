@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ r.title }} · Masader brief</title>
+<style>
+  :root { --ink:#1d2433; --muted:#5b6475; --line:#d9dde5; --bg:#fbfbfd; --warn:#8a4b00; --warnbg:#fff4e0;
+          --ok:#1f6f43; --single:#5a4a00; --disp:#8f1d1d; --insuf:#555; }
+  body { font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg);
+         max-width: 860px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; } h2 { font-size: 1.15rem; margin: 28px 0 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+  .meta { color: var(--muted); font-size: .9rem; }
+  .banner { border: 1px solid #e3b25c; background: var(--warnbg); color: var(--warn); padding: 10px 12px; border-radius: 6px; margin: 14px 0; font-size: .92rem; }
+  ul { padding-left: 20px; } li { margin: 6px 0; }
+  .cite { font-size: .8rem; color: var(--muted); white-space: nowrap; }
+  .cite a { color: inherit; }
+  .label { display: inline-block; font-size: .75rem; font-weight: 600; padding: 1px 7px; border-radius: 10px; border: 1px solid currentColor; }
+  .corroborated { color: var(--ok); } .single_source { color: var(--single); } .disputed { color: var(--disp); } .insufficient { color: var(--insuf); }
+  .finding { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 10px 0; background: #fff; }
+  .finding p { margin: 4px 0; } .why { color: var(--muted); font-size: .9rem; }
+  .src { font-size: .88rem; margin: 6px 0 0 0; } .src blockquote { margin: 2px 0 6px 12px; color: var(--muted); font-style: italic; }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; } td, th { border-bottom: 1px solid var(--line); padding: 4px 6px; text-align: left; }
+  .lowrel { color: var(--warn); font-weight: 600; }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{ r.title }}</h1>
+  <div class="meta">Report {{ r.report_id }} · version {{ r.version }} · {{ r.window.from }} to {{ r.window.to }} · generated {{ r.generated_at | day }}</div>
+  <div class="banner">
+    AI-generated brief. Every finding below was extracted and checked by AI models and labelled by fixed evidence rules ({{ r.method.rule_version }});
+    {% if r.review_status == "reviewed" %}a reviewer approved it for publication.{% else %}no person has reviewed it yet.{% endif %}
+    {% if r.method.simulated %}<br><strong>Simulated model output:</strong> this report was produced with the heuristic simulator (MODEL_MODE=simulated), not by Claude, from a synthetic test corpus. Its wording and labels show how the system works, not the quality of a real model.{% endif %}
+  </div>
+  {% if r.publication == "withdrawn" %}<div class="banner"><strong>Withdrawn.</strong> {{ r.change_note }}</div>{% endif %}
+  {% if r.publication == "superseded" %}<div class="banner"><strong>Superseded</strong> by a corrected version.</div>{% endif %}
+</header>
+
+<p><strong>Question{{ "s" if r.questions|length > 1 }}:</strong> {{ r.questions | join(" · ") }}</p>
+
+{% for key in ["key_findings", "by_the_numbers", "disputed", "actors", "analysis", "what_to_watch"] %}
+  {% set items = r.sections.get(key, []) %}
+  {% if items or key == "key_findings" %}
+  <h2>{{ titles[key] }}</h2>
+  {% if not items %}<p class="meta">No checked finding.</p>{% endif %}
+  <ul>
+  {% for s in items %}
+    <li>{{ s.text }} <span class="cite">[{% for f in s.findings %}<a href="#{{ f }}">{{ f }}</a>{{ ", " if not loop.last }}{% endfor %}]</span></li>
+  {% endfor %}
+  </ul>
+  {% if key == "by_the_numbers" and r.statistics %}
+  <table><tr><th>Indicator</th><th>Country</th><th>Year</th><th>Value</th><th>Source (as of)</th></tr>
+  {% for s in r.statistics %}<tr><td>{{ s.indicator }}</td><td>{{ s.country }}</td><td>{{ s.year }}</td><td>{{ "{:,.2f}".format(s.value) }}</td><td>{{ s.outlet_name }} ({{ s.last_updated or "date not given" }})</td></tr>{% endfor %}
+  </table>
+  {% endif %}
+  {% endif %}
+{% endfor %}
+
+<h2>{{ titles["evidence_gaps"] }}</h2>
+<ul>{% for g in r.sections.evidence_gaps %}<li>{{ g }}</li>{% else %}<li class="meta">None recorded.</li>{% endfor %}</ul>
+
+<h2>Findings and their evidence</h2>
+{% for f in r.findings %}
+<div class="finding" id="{{ f.id }}">
+  <p><strong>{{ f.id }}</strong> <span class="label {{ f.label }}">{{ label_text[f.label] }}</span>
+     {% if f.reliability.low_reliability %}<span class="lowrel">low reliability</span>{% endif %}</p>
+  <p>{{ f.text }}</p>
+  <p class="why">Why: {{ f.reliability.reason }}</p>
+  {% for s in f.sources %}
+  <div class="src">{{ s.outlet }} (tier {{ s.tier }}{{ ", publisher of the statement" if s.first_hand }}), {{ s.published | day }} ·
+    <a href="{{ s.url }}" rel="noopener noreferrer nofollow">source</a> · {{ s.verdict.replace("_", " ") }}
+    <blockquote>{{ s.passage }}</blockquote></div>
+  {% endfor %}
+</div>
+{% endfor %}
+
+<h2>Sources and method</h2>
+<p class="meta">{{ r.method.items_in_window }} items in the date window, {{ r.method.candidates }} matched the request, {{ r.method.items_kept }} were read after grouping
+  {{ r.method.duplicates_grouped }} copies into {{ r.method.origin_groups }} origin groups. {{ r.method.claims }} claims were checked
+  ({{ r.method.invented_passages_dropped }} dropped for a passage not found in the source, {{ r.method.claims_merged }} merged as duplicates);
+  {{ r.method.assertions }} assertions were validated, {{ r.method.assertions_rewritten }} rewritten and {{ r.method.assertions_removed }} removed.
+  Labels follow the published evidence rules {{ r.method.rule_version }}; configuration {{ r.method.config_hash }}.</p>
+<table><tr><th>Role</th><th>Model / prompt</th></tr>
+{% for role, v in r.versions.items() %}<tr><td>{{ role }}</td><td>{{ v }}</td></tr>{% endfor %}</table>
+{% if r.notes %}<p class="meta">Notes: {{ r.notes | join("; ") }}</p>{% endif %}
+</body>
+</html>

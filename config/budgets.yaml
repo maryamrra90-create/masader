@@ -1,0 +1,5 @@
+# Per-purpose AI budgets for the semester (proposal Section 13, US$, total 200). Seeded into the budgets
+# table by `masader seed`; the CHECK constraint reserved + spent <= cap enforces them.
+version: budgets-1.0
+period_start: "2026-09-01"
+caps_usd: {dev: 30, eval: 70, live: 30, stage2: 60, other: 10}

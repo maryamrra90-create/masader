@@ -1,0 +1,18 @@
+# Model routing per role (architecture ADR-07, D.1). Model IDs are pinned; a change is an AI change that
+# passes the release gate. The support check ("support") never runs on the writer's model.
+version: routing-1.0
+variant: B0
+prices_usd_per_mtok:          # input, output (Anthropic list prices used in the architecture, Oct 2026)
+  claude-sonnet-5-5: [2.00, 10.00]
+  claude-haiku-5-5: [0.10, 0.50]
+  claude-haiku-4-5: [1.00, 5.00]
+  simulated-heuristic-v1: [0.0, 0.0]
+cache_write_factor: 1.25      # reservations price input at the cache-write rate (worst case)
+input_margin: 1.10
+roles:
+  planner:   {primary: claude-haiku-5-5,  fallback: null,             max_tokens: 1024, effort: low,    prompt: planner.en.v1.0}
+  extractor: {primary: claude-sonnet-5-5, fallback: claude-haiku-4-5, max_tokens: 4096, effort: medium, prompt: extractor.en.v1.0}
+  verifier:  {primary: claude-sonnet-5-5, fallback: claude-haiku-4-5, max_tokens: 2048, effort: medium, prompt: verifier.en.v1.0}
+  writer:    {primary: claude-sonnet-5-5, fallback: claude-haiku-4-5, max_tokens: 8192, effort: medium, prompt: writer.en.v1.0}
+  splitter:  {primary: claude-haiku-5-5,  fallback: claude-haiku-4-5, max_tokens: 4096, effort: low,    prompt: splitter.en.v1.0}
+  support:   {primary: claude-haiku-5-5,  fallback: claude-haiku-4-5, max_tokens: 4096, effort: low,    prompt: support.en.v1.0}

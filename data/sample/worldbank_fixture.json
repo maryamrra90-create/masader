@@ -1,0 +1,89 @@
+{
+ "_note": "FIXTURE VALUES: invented numbers of a realistic size for testing; NOT real World Bank data.",
+ "rows": [
+  {
+   "indicator": "NE.TRD.GNFS.ZS",
+   "country": "OMN",
+   "year": 2023,
+   "value": 98.4,
+   "last_updated": "2026-07-01"
+  },
+  {
+   "indicator": "NE.TRD.GNFS.ZS",
+   "country": "OMN",
+   "year": 2024,
+   "value": 96.1,
+   "last_updated": "2026-07-01"
+  },
+  {
+   "indicator": "NE.TRD.GNFS.ZS",
+   "country": "OMN",
+   "year": 2025,
+   "value": 94.7,
+   "last_updated": "2026-07-01"
+  },
+  {
+   "indicator": "NE.TRD.GNFS.ZS",
+   "country": "ARE",
+   "year": 2023,
+   "value": 171.2,
+   "last_updated": "2026-07-01"
+  },
+  {
+   "indicator": "NE.TRD.GNFS.ZS",
+   "country": "ARE",
+   "year": 2024,
+   "value": 175.8,
+   "last_updated": "2026-07-01"
+  },
+  {
+   "indicator": "NE.TRD.GNFS.ZS",
+   "country": "ARE",
+   "year": 2025,
+   "value": 178.3,
+   "last_updated": "2026-07-01"
+  },
+  {
+   "indicator": "NE.TRD.GNFS.ZS",
+   "country": "IND",
+   "year": 2023,
+   "value": 46.3,
+   "last_updated": "2026-07-01"
+  },
+  {
+   "indicator": "NE.TRD.GNFS.ZS",
+   "country": "IND",
+   "year": 2024,
+   "value": 45.1,
+   "last_updated": "2026-07-01"
+  },
+  {
+   "indicator": "NE.TRD.GNFS.ZS",
+   "country": "IND",
+   "year": 2025,
+   "value": 44.6,
+   "last_updated": "2026-07-01"
+  },
+  {
+   "indicator": "NE.EXP.GNFS.CD",
+   "country": "OMN",
+   "year": 2025,
+   "value": 68100000000.0,
+   "last_updated": "2026-07-01"
+  },
+  {
+   "indicator": "NE.EXP.GNFS.CD",
+   "country": "ARE",
+   "year": 2025,
+   "value": 512000000000.0,
+   "last_updated": "2026-07-01"
+  },
+  {
+   "indicator": "NE.EXP.GNFS.CD",
+   "country": "IND",
+   "year": 2025,
+   "value": 820000000000.0,
+   "last_updated": "2026-07-01"
+  }
+ ]
+}

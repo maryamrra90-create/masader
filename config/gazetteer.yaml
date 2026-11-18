@@ -1,0 +1,7 @@
+# Small ambiguity gazetteer for the planner rule "ambiguous entity" (proposal A1). Each name maps to the
+# entities it can mean; a request naming one of these without a disambiguating entity gets a question.
+Apple: [Apple Inc. (company), apple (fruit)]
+Jordan: [Jordan (country), Jordan River, Michael Jordan (person)]
+Georgia: [Georgia (country), Georgia (US state)]
+Mercury: [Mercury (planet), Mercury (element), Mercury Marine (company)]
+Amazon: [Amazon.com (company), Amazon rainforest, Amazon River]

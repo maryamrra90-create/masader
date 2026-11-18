@@ -1,0 +1,74 @@
+# Source register (proposal A4/A17, architecture E.2). A source is collected only when it has an entry
+# here with active: true and its access terms recorded. Tiers follow the published criteria
+# (A: official publisher of a statement or statistic, or a wire service; B: established outlet meeting
+# all criteria; C: aggregator, no corrections policy or named editors). Changing a tier is a reviewed
+# change to this file; the AI never sets a tier.
+#
+# Two groups of entries:
+#   * live sources: the real APIs and feeds the connectors call when LIVE_SOURCES=1. They are not
+#     reachable from the environment this build was tested in (proxy 403), so the feed URLs and terms
+#     must be verified (test C2) before `active` is set to true.
+#   * fixture sources: fictional outlets used by the SYNTHETIC sample corpus in data/sample/. Their
+#     names end in "(fixture)" and their domains are under .example, so they are never mistaken for
+#     real outlets.
+version: sources-1.0
+sources:
+  # ---------------- live sources (core slice) ----------------
+  - code: gdelt.doc
+    kind: gdelt
+    outlet_name: GDELT DOC 2.0 (discovery only)
+    outlet_domain: api.gdeltproject.org
+    language: en
+    tier: C
+    tier_reason: Machine-coded discovery index; findings cite the linked articles, each tiered by its outlet
+    terms: Open data, free use with attribution
+    allow_fulltext: false
+    active: false
+    endpoint: https://api.gdeltproject.org/api/v2/doc/doc
+  - code: worldbank.api
+    kind: worldbank
+    outlet_name: World Bank Open Data
+    outlet_domain: api.worldbank.org
+    language: en
+    tier: A
+    tier_reason: Official statistic from its publisher
+    terms: CC BY 4.0
+    allow_fulltext: true
+    active: false
+    endpoint: https://api.worldbank.org/v2
+    indicators: [NY.GDP.MKTP.CD, NE.TRD.GNFS.ZS, NE.EXP.GNFS.CD]
+  - code: rss.bbc.middleeast.en
+    kind: rss
+    outlet_name: BBC News - Middle East
+    outlet_domain: bbc.co.uk
+    language: en
+    tier: B
+    tier_reason: Named editors, public corrections policy, original reporting
+    terms: To verify in the register review before enabling (headline, summary and link only)
+    allow_fulltext: false
+    active: false
+    endpoint: https://feeds.bbci.co.uk/news/world/middle_east/rss.xml
+  - code: rss.aljazeera.all.en
+    kind: rss
+    outlet_name: Al Jazeera English
+    outlet_domain: aljazeera.com
+    language: en
+    tier: B
+    tier_reason: Named editors, public corrections policy, original reporting
+    terms: To verify in the register review before enabling (headline, summary and link only)
+    allow_fulltext: false
+    active: false
+    endpoint: https://www.aljazeera.com/xml/rss/all.xml
+
+  # ---------------- fixture sources (synthetic sample corpus) ----------------
+  - {code: fx.gulfwire.en, kind: rss, outlet_name: Gulf Wire Service (fixture), aliases: [Gulf Wire], outlet_domain: gulfwire.example, language: en, tier: A, tier_reason: Wire service (fixture), terms: synthetic test data, allow_fulltext: true, active: true}
+  - {code: fx.gulfwire.ar, kind: rss, outlet_name: Gulf Wire Service Arabic (fixture), aliases: [وكالة أنباء الخليج], outlet_domain: ar.gulfwire.example, language: ar, tier: A, tier_reason: Wire service (fixture), terms: synthetic test data, allow_fulltext: true, active: true}
+  - {code: fx.oman.mtcit.en, kind: rss, outlet_name: Oman Ministry of Transport press office (fixture), aliases: [Ministry of Transport, وزارة النقل], outlet_domain: mtcit-om.example, language: en, tier: A, tier_reason: Official publisher of its own statements (fixture), terms: synthetic test data, allow_fulltext: true, active: true, official: true}
+  - {code: fx.india.dgs.en, kind: rss, outlet_name: India Directorate General of Shipping press office (fixture), aliases: [Directorate General of Shipping], outlet_domain: dgs-in.example, language: en, tier: A, tier_reason: Official publisher of its own statements (fixture), terms: synthetic test data, allow_fulltext: true, active: true, official: true}
+  - {code: fx.harbourtimes.en, kind: rss, outlet_name: Harbour Times (fixture), outlet_domain: harbourtimes.example, language: en, tier: B, tier_reason: Established outlet with corrections policy (fixture), terms: synthetic test data, allow_fulltext: true, active: true}
+  - {code: fx.khaleejdaily.en, kind: rss, outlet_name: Khaleej Daily (fixture), outlet_domain: khaleejdaily.example, language: en, tier: B, tier_reason: Established outlet with corrections policy (fixture), terms: synthetic test data, allow_fulltext: true, active: true}
+  - {code: fx.alkhaleejnews.ar, kind: rss, outlet_name: Al Khaleej News (fixture), outlet_domain: alkhaleejnews.example, language: ar, tier: B, tier_reason: Established outlet with corrections policy (fixture), terms: synthetic test data, allow_fulltext: true, active: true}
+  - {code: fx.maritimeinsight.en, kind: rss, outlet_name: Maritime Insight (fixture), outlet_domain: maritimeinsight.example, language: en, tier: B, tier_reason: Specialist trade outlet with named editors (fixture), terms: synthetic test data, allow_fulltext: true, active: true}
+  - {code: fx.newsroundup.en, kind: rss, outlet_name: Daily News Roundup (fixture), outlet_domain: newsroundup.example, language: en, tier: C, tier_reason: Aggregator without named editors (fixture), terms: synthetic test data, allow_fulltext: true, active: true}
+  - {code: fx.sportsdesk.en, kind: rss, outlet_name: Regional Sports Desk (fixture), outlet_domain: sportsdesk.example, language: en, tier: B, tier_reason: Established outlet (fixture), terms: synthetic test data, allow_fulltext: true, active: true}
+  - {code: fx.worldbank.stats, kind: worldbank, outlet_name: World Bank Open Data (fixture values), outlet_domain: worldbank.example, language: en, tier: A, tier_reason: Official statistic from its publisher (fixture values, not real World Bank data), terms: synthetic test data, allow_fulltext: true, active: true, official: true}

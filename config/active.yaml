@@ -1,0 +1,10 @@
+# The active AI configuration: a pointer to versioned prompts, routing, rules and template. Rolling back
+# an AI change means pointing this file at the previous versions (architecture G.3). Its hash, together
+# with the files it names, is stored with every report as versions.config.
+release: ai-1.0
+routing: routing.yaml
+rules_version: rules-1.1.1
+thresholds: rules.yaml
+sources: sources.yaml
+template: brief.en.html.j2@1.0
+sensitive_topics: [assassination, terror attack, hostage, sexual violence, child abuse]

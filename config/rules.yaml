@@ -1,0 +1,28 @@
+# Thresholds used by processing and the validator (architecture D.2). Evidence-label logic itself is
+# code (masader/rules, rules-1.1.1); these are its tunable inputs.
+version: thresholds-1.0
+dedup:
+  cosine_near_duplicate: 0.85     # embedding similarity within the day window
+  day_window: 3
+  jaccard_shingles: 0.6           # 5-word shingles (exact Jaccard; MinHash not needed at this size)
+  shingle_words: 5
+  quote_min_words: 8
+  shared_quotes_min: 2
+retrieval:
+  top_items: 40
+  max_per_origin_group: 3
+  passages_per_item: 3
+  paragraph_chars: 1200
+  semantic_weight: 0.5            # 50/50 with full-text rank
+extraction:
+  items_per_call: 5
+  claims_per_call_max: 8
+  merge_cosine: 0.9
+verification:
+  candidates_per_claim: 4
+  claims_per_call: 5
+validation:
+  review_if_removed_share_over: 0.20
+planner:
+  too_broad_hits: 2000
+  too_little_evidence_hits: 5

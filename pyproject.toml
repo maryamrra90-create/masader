@@ -1,0 +1,48 @@
+[project]
+name = "masader"
+version = "1.0.0"
+description = "Evidence-labelled research briefs: FastAPI + Celery + PostgreSQL/pgvector + an LLM gateway (course implementation)"
+requires-python = ">=3.12"
+readme = "README.md"
+license = { text = "MIT" }
+
+[project.scripts]
+masader = "masader.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["masader*"]
+
+[tool.setuptools.package-data]
+masader = ["api/ui.html", "render/templates/*.j2", "store/migrations/*.sql"]
+
+[tool.ruff]
+line-length = 130
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S"]
+ignore = ["S101", "S311", "S608", "B008", "E731"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "B"]
+"eval/**" = ["S"]
+"perf/**" = ["S"]
+"data/**" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "db: needs PostgreSQL with pgvector and Redis (see tests/conftest.py)",
+    "worker: starts real Celery worker processes",
+    "slow: takes more than a few seconds",
+]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.coverage.run]
+source = ["masader"]
+omit = ["masader/connectors/fixture.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+exclude_lines = ["pragma: no cover", "if __name__ == .__main__.:"]
