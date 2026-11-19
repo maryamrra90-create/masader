@@ -125,6 +125,7 @@ make test-fast     # unit + AI regression tests, no services needed
 make test          # everything: unit, integration (PostgreSQL + Redis) and end-to-end
 make cov           # with coverage
 make lint
+make security      # bandit (static analysis) and pip-audit (known-vulnerable dependencies)
 ```
 
 Tests create and drop their own database `masader_test` and use Redis database 15, so they do not touch
