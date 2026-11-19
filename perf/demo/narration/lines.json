@@ -1,0 +1,17 @@
+{
+"s1": "Masader turns a question about recent events into a one-page brief, in which every finding says how well it is supported, and links to its sources. In this demo, the AI model calls are simulated, because no API key was used, and the sources are a synthetic set of thirty-seven news items. Everything else runs for real.",
+"s2": "The system is a Fast A.P.I. service, eight Celery pipeline stages, PostgreSQL with p.g. vector, and Redis. Every model call goes through a gateway that reserves its cost first. Dashed boxes in the diagram are simulated or substituted.",
+"s3": "This is the minimal web form. Every A.P.I. route needs a key, and the request is pre-filled with the Strait of Hormuz example.",
+"s4": "The planner checks the request first: ambiguous names, too broad, too little evidence, or a request for predictions. It asks at most three questions, each with a default, so the requester can simply send it.",
+"s5": "The report now runs through eight stages. Each stage takes a lease on its database row, and commits its results fenced on that lease, so work is never lost, and never done twice.",
+"s6": "The brief is delivered, and shown in a sandboxed frame, with the simulated banner at the top.",
+"s7a": "Each finding carries an evidence label and a one-line reason, and links to the exact passages it rests on.",
+"s7b": "Corroborated means at least two independent origins. Where sources disagree, the finding is labelled disputed, and both versions are given.",
+"s7c": "A figure that was later superseded is labelled insufficient, and kept out of the key findings.",
+"s7d": "Sources are listed with their reliability tier. One item in the corpus contains a prompt injection. It is never cited.",
+"s8": "The JSON record names every model and prompt version. In simulated mode, the model names start with sim.",
+"s9": "Reports stay private until a reviewer publishes them. A correction later creates a new version, instead of editing the old one.",
+"s10": "The published brief is now available on its public page.",
+"s11": "Here are the measured results. All one hundred and thirty-nine tests pass, with ninety-four percent coverage. The evidence rules pass twenty of twenty cases, and the security scans are clean after one fix. Read latency is eleven milliseconds with fifty users, and all twelve failure drills recovered. One target is missed. The validator caught seventy-three percent of seeded errors, against a target of ninety-five percent, because the support check here is a simple simulator. It must be measured again with the real model.",
+"s12": "Next come real model calls, the multilingual embedder, continuous integration on GitHub, and a cloud deployment. Every deviation, and every requirement, is documented in the repository. Thank you."
+}

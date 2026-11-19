@@ -25,6 +25,9 @@ people who will use the system are users, not contributors.
 * No measurement in the report was invented or estimated without saying so. Cost figures are estimates at
   list prices on estimated token counts and are labelled as estimates.
 * No credentials are included in the repository.
+* The demo videos were recorded automatically from the running system with a script
+  (`perf/demo/record_demo.js`, `perf/demo/record_narrated.js`). The narration in `masader_demo_narrated.mp4` is a
+  **synthetic text-to-speech voice** (Pico TTS) reading a script written with Claude; it is not MRA's voice.
 
 Name: Mariam Alshamsi (student ID 26021253)        Date: 19 November 2026
 
