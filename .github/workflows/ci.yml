@@ -1,5 +1,5 @@
-# Continuous integration. Written for GitHub Actions; NOT yet run (the project had no GitHub repository
-# while it was built). The same commands were run locally; see eval/results and the report.
+# Continuous integration for GitHub Actions: lint, security scan, tests with a coverage floor, OpenAPI diff,
+# image build and smoke test. The same commands are run locally with make lint / security / cov.
 name: ci
 on: [push, pull_request]
 jobs:
@@ -25,6 +25,8 @@ jobs:
         with: { python-version: "3.12", cache: pip }
       - run: pip install -r requirements.txt -r requirements-dev.txt
       - run: ruff check masader tests eval perf
+      - name: security scan (fails on any bandit finding or known-vulnerable dependency)
+        run: bandit -q -r masader && pip-audit -r requirements.txt
       - run: pytest -q --cov=masader --cov-report=term --cov-fail-under=80
       - run: python -m masader.cli openapi | diff - docs/openapi.v1.json
   image:

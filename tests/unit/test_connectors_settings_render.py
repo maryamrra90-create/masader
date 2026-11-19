@@ -27,6 +27,17 @@ def test_rss_and_atom_parsing():
         rss.parse_feed("src", b"not xml")
 
 
+def test_rss_refuses_entity_expansion_and_external_entities():
+    """Feeds are untrusted: a 'billion laughs' bomb or an XXE reference is refused, never expanded."""
+    bomb = (b'<?xml version="1.0"?><!DOCTYPE r [<!ENTITY a "aaaaaaaaaa"><!ENTITY b "&a;&a;&a;&a;&a;&a;&a;&a;&a;&a;">]>'
+            b"<rss><channel><item><title>&b;</title></item></channel></rss>")
+    xxe = (b'<?xml version="1.0"?><!DOCTYPE r [<!ENTITY x SYSTEM "file:///etc/passwd">]>'
+           b"<rss><channel><item><title>&x;</title></item></channel></rss>")
+    for body in (bomb, xxe):
+        with pytest.raises(base.SourceFailed, match="unsafe XML"):
+            rss.parse_feed("src", body)
+
+
 def _client(responses):
     seq = iter(responses)
 

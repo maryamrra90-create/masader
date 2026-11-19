@@ -196,7 +196,8 @@ class SimulatedProvider:
             raise CallFailed("error", "injected provider error")
         if fault == "refusal":
             raise Refused(f"{role}: injected refusal")
-        latency = SIM_MINUTES.get(role, 0.5) * settings.sim_latency_scale * random.uniform(0.8, 1.2)
+        # Simulated latency jitter only; nothing security-relevant uses this random number.
+        latency = SIM_MINUTES.get(role, 0.5) * settings.sim_latency_scale * random.uniform(0.8, 1.2)  # nosec B311
         wait = timeout_s if fault == "timeout" else latency
         if wait > 0 and cancel.wait(min(wait, timeout_s)):
             raise CallCancelled()

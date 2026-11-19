@@ -3,7 +3,7 @@
 PY ?= python
 export PYTHONPATH := $(CURDIR)
 
-.PHONY: help install services migrate seed run worker beat test test-fast e2e cov lint eval openapi docker up down
+.PHONY: help install services migrate seed run worker beat test test-fast e2e cov lint security eval openapi docker up down
 help:            ## list targets
 	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | sed 's/:.*##/\t/'
 install:         ## install pinned runtime and dev dependencies
@@ -31,6 +31,9 @@ cov:             ## coverage report (target >= 80%)
 	$(PY) -m pytest -q --cov=masader --cov-report=term-missing --cov-report=xml
 lint:            ## ruff
 	$(PY) -m ruff check masader tests eval perf
+security:        ## static analysis (bandit) and dependency audit (pip-audit); results in eval/results/
+	$(PY) -m bandit -q -r masader -f json -o eval/results/security_bandit.json; $(PY) -m bandit -q -r masader
+	$(PY) -m pip_audit -r requirements.txt -f json -o eval/results/security_pip_audit.json; $(PY) -m pip_audit -r requirements.txt
 eval:            ## evaluation scripts; results in eval/results/
 	cd eval && $(PY) quality.py && $(PY) seeded_errors.py && $(PY) drills.py && $(PY) report_time.py
 openapi:         ## regenerate docs/openapi.v1.json

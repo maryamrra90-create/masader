@@ -5,10 +5,11 @@ from __future__ import annotations
 import datetime as dt
 import html
 import re
-import xml.etree.ElementTree as ET  # noqa: S405 - expat does not resolve external entities; feeds are size-capped
 from email.utils import parsedate_to_datetime
 
 import httpx
+from defusedxml import DefusedXmlException
+from defusedxml import ElementTree as SafeET
 
 from ..processing.ingest import RawItem
 from .base import SourceFailed, get_with_retry
@@ -40,9 +41,12 @@ def parse_feed(code: str, body: bytes) -> tuple[list[RawItem], int]:
     if len(body) > MAX_BYTES:
         raise SourceFailed("feed larger than 5 MB")
     try:
-        root = ET.fromstring(body)  # noqa: S314
-    except ET.ParseError as e:
+        # defusedxml refuses DTD entity declarations and external references (billion laughs, XXE).
+        root = SafeET.fromstring(body)
+    except SafeET.ParseError as e:
         raise SourceFailed(f"feed is not XML: {e}") from e
+    except DefusedXmlException as e:
+        raise SourceFailed(f"feed refused: unsafe XML ({type(e).__name__})") from e
     out, skipped = [], 0
     entries = root.findall("./channel/item") or root.findall(f"{ATOM}entry")
     for e in entries:
