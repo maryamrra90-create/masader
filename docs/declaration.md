@@ -26,4 +26,6 @@ people who will use the system are users, not contributors.
   list prices on estimated token counts and are labelled as estimates.
 * No credentials are included in the repository.
 
-Signed: ____________________  (Mariam Alshamsi)        Date: ____________
+Name: Mariam Alshamsi (student ID 26021253)        Date: 19 November 2026
+
+Signed: ____________________
