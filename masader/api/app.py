@@ -189,7 +189,7 @@ def _start(report_id: str) -> None:
 
 # ------------------------------------------------------------------------------------------------ requests
 @app.post("/v1/requests", status_code=202, response_model=Accepted | NeedsClarification,
-          responses={200: {"model": NeedsClarification}, 409: {}, 422: {}, 429: {}, 503: {}})
+          responses={200: {"model": NeedsClarification}, 409: {}, 422: {"description": "Unprocessable Content"}, 429: {}, 503: {}})
 def create_request(body: RequestIn, key=Depends(caller), idempotency_key: str | None = Header(default=None)):
     if not idempotency_key or not (8 <= len(idempotency_key) <= 100):
         raise ApiError(400, "invalid_request", "Idempotency-Key header (8-100 characters) is required")
