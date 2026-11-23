@@ -1,6 +1,6 @@
 # Engineering toolchain and AI use
 
-**Project:** Masader, implementation deliverable · **Repository:** https://github.com/maryamrra90-create/masader (commit `9c83868`)
+**Project:** Masader, implementation deliverable · **Repository:** https://github.com/maryamrra90-create/masader (commit `a1ae607`, release `v1.0.0`)
 
 This section lists every tool that the repository, its CI configuration, its pinned requirements, the
 Compose file and the recorded evaluation outputs show was **actually used**. Each entry says what the tool
@@ -81,21 +81,26 @@ These are engineering controls Masader puts around every model call (all in `mas
 
 | Tool | What it does in Masader | Why | Evidence |
 |---|---|---|---|
-| **Git** | Version history: 12 commits, each with a descriptive message. | Every result file records the commit it was measured on, so numbers trace to code. | `git log`; `git_commit` key in `eval/results/*.json`; `masader.bundle` |
+| **Git** | Version history with descriptive messages; feature work on branches merged through pull requests (#1, #6, #7, #10). | Every result file records the commit it was measured on, so numbers trace to code. | `git log`; `git_commit` key in `eval/results/*.json`; `masader.bundle` |
 | **GitHub** (public repository) | Hosts the code and runs CI. | Course requires source code on GitHub with run instructions. | https://github.com/maryamrra90-create/masader |
 | **GitHub Actions** | Workflow `ci` on every push and pull request. Job `test`: secret scan → ruff → bandit + pip-audit → pytest with an 80% coverage floor → OpenAPI contract diff. Job `image`: Docker build and smoke test. Uses **service containers** (pgvector Postgres 16, Redis 7.4) with health checks, and `actions/setup-python` pip caching. | One reproducible gate for quality, security and packaging; the same commands run locally with `make`. | `.github/workflows/ci.yml`; green on every commit since `48fb392` (https://github.com/maryamrra90-create/masader/actions/runs/45208172116), including `9c83868` |
 | **CodeQL** (GitHub code scanning) | Semantic static analysis with the `security-extended` query suite for **Python**, the **JavaScript** demo recorders and the **GitHub Actions** workflow files. Runs on every push and pull request to `main` and weekly; results go to the repository's Security tab. Added in PR #1; all three analyses passed on the PR and on `main` at `9c83868`. | Finds data-flow bugs (injection, unsafe deserialisation, workflow script injection) that pattern linters such as Bandit miss. | `.github/workflows/codeql.yml`; https://github.com/maryamrra90-create/masader/pull/1 |
 | **Dependabot** | Weekly update pull requests for **pip** (requirements files), **GitHub Actions** and the **Docker** base image, with minor and patch bumps grouped. Each update PR runs the full CI and CodeQL before it can be merged. On its first run (23 Nov 2026) it opened four PRs: Python packages (13 grouped updates), Actions (2), Redis client 6.4 → 8.1, and base image python 3.12-slim → 3.15-slim. These are reviewed, not merged automatically. | Pinned dependencies stay reproducible but do not go stale; vulnerable versions are flagged early. | `.github/dependabot.yml`; PRs #2–#5 |
+| **pre-commit** 4.3 | The same fast checks before every local commit and as a CI job: ruff, gitleaks, YAML/JSON/TOML validity, whitespace and end-of-file, merge-conflict markers, private keys, files over 1 MB. | Problems are caught on the developer's machine, not only in CI. | `.pre-commit-config.yaml`; `make precommit`; job `pre-commit` in `ci.yml` (PR #6) |
+| **GitHub Pages + MkDocs Material** | Documentation site built from the README and `docs/`: architecture with the diagram rendered live from its Mermaid source, an interactive **Redoc** API reference generated from `docs/openapi.v1.json`, this toolchain page, traceability and deviations. Pull requests build it with `--strict` (a broken link fails); `main` publishes it to the `gh-pages` branch. | One link for markers to browse the project. | `mkdocs.yml`; `.github/workflows/docs.yml`; `ops/docs/prepare.py`; `gh-pages` branch |
+| **Release workflow (GitHub Container Registry)** | Builds the image and publishes it as `ghcr.io/maryamrra90-create/masader:<version>`, with a signed **build-provenance attestation** and an **SBOM attestation** (Sigstore, keyless), and a GitHub release with the SBOM attached. Third-party actions are pinned to commit SHAs (a CodeQL finding on PR #6). | Versioned, verifiable artefact anyone can `docker pull`. | `.github/workflows/release.yml`; **v1.0.0 released 23 Nov 2026**: https://github.com/maryamrra90-create/masader/releases/tag/v1.0.0 (SBOM attached; run https://github.com/maryamrra90-create/masader/actions/runs/45249666575) |
 | **gitleaks** 8.24.3 (CLI) | Scans the **whole Git history** for secrets, with `--redact`; the build fails on any finding. | The action version only scans the pushed range and fails on a first push, so the CLI is used instead (commit `3d3d899`). | `.github/workflows/ci.yml` |
 
 ### C.2 Code quality, testing and security
 
 | Tool | What it does | Evidence |
 |---|---|---|
-| **pytest** 9.1.1 + **pytest-cov** / **coverage** | 139 tests in four suites: unit 78, integration 54, AI-regression 3, end-to-end 4 (real Uvicorn + Celery worker processes). 93.7% line coverage; CI fails under 80%. Markers `db`, `worker`, `slow`. | `tests/`; `pyproject.toml`; `eval/results/tests_coverage.json` |
+| **pytest** 9.1.1 + **pytest-cov** / **coverage** | 144 tests in four suites: unit 78, integration 59 (5 of them for tracing), AI-regression 3, end-to-end 4 (real Uvicorn + Celery worker processes). 93.7% line coverage at the last recorded run (139 tests); CI fails under 80%. Markers `db`, `worker`, `slow`. | `tests/`; `pyproject.toml`; `eval/results/tests_coverage.json` |
 | **Ruff** 0.17.5 | Linter and import sorter with the `S` (security, flake8-bandit) and `B` (bugbear) rule sets enabled. | `pyproject.toml` `[tool.ruff]`; CI step |
 | **Bandit** 1.8.6 | Static security analysis of `masader/`. It flagged unsafe XML parsing of RSS feeds, which led to the `defusedxml` fix. Now 0 findings. | `eval/results/security_bandit.json`; commit `b13255f` |
 | **pip-audit** 2.9.0 | Checks pinned dependencies against known-vulnerability databases. Found 6 advisories in Starlette 0.48 (one high, CVE-2025-62727); fixed by upgrading to FastAPI 0.162 / Starlette 1.10. Now clean. | `eval/results/security_pip_audit.json`; `requirements.txt` comment |
+| **Trivy** 0.76.1 | In the CI `image` job: scans the built image for vulnerabilities and secrets and the Dockerfile and Compose file for misconfigurations; the build fails on any **fixable HIGH or CRITICAL** finding. The binary is checksum-verified rather than run through a third-party action. **On its first run it found a real HIGH vulnerability (CVE-2026-85091, zlib1g) in the `python:3.12-slim` base image**; the Dockerfile now applies Debian security updates and the scan is clean. | `.github/workflows/ci.yml`; `Dockerfile`; PR #6 |
+| **CycloneDX SBOM** (generated by Trivy) | A software bill of materials of the image (every OS and Python package with its version), kept as a CI artefact on every build and attached to releases. | `ci.yml` artefact `sbom-cyclonedx`; `release.yml` |
 | **OpenAPI contract test** | `masader openapi` output is diffed against the committed `docs/openapi.v1.json` in CI, so an accidental API change fails the build. | `docs/openapi.v1.json`; `tests/unit/test_openapi_contract.py`; CI step |
 | **Locust** 2.47.0 | Load test for NFR1: 50 users for 3 minutes, 0 failures, p95 of 11 ms on report reads (target under 2,000 ms). Also used in the architecture experiment E2. | `perf/locustfile.py`; `perf/run_load.py`; `eval/results/load_nfr1.json`; `architecture/validation/E2_async_pipeline/loadtest/` |
 | **Failure drills** (written for this project) | Scripted chaos tests: worker crash, provider timeout, hangs, invalid JSON, budget at the cap, Redis down, Postgres down. | `eval/drills.py`; `eval/results/drills.json`; `architecture/validation/E2_async_pipeline/drills.py` |
@@ -134,6 +139,8 @@ tests, evaluations and demo use the **synthetic corpus** and a World Bank fixtur
 | **Prometheus** v3.5 | Scrapes the API's `/metrics` (`prometheus-client`: request latency histogram, queue length, reports by status, budget left). Five alert rules: API down, API slow, LLM queue backlog, reports stuck in review, live budget low. Target was `up` in the Compose run. | `ops/prometheus/`; `masader/api/app.py` lines 33–38 |
 | **Grafana** 12.1 | Provisioned dashboard and Prometheus data source. Answered HTTP 200 in the Compose run. | `ops/grafana/` |
 | **Caddy** 2.10 | TLS reverse proxy with HSTS and security headers; hides `/metrics` from the public. *Configured, not run* in the recorded Compose test (the `edge` profile was not started). | `ops/caddy/Caddyfile`; `compose.yaml` |
+| **OpenTelemetry** (SDK 1.45, instrumentation 0.66) | Distributed tracing, one trace per report: the FastAPI request, the Celery publish and run spans of all eight stages (context carried in the task headers), every psycopg query, and `llm.complete` / `llm.call` spans in the model gateway with **GenAI semantic-convention attributes** (model, input and output tokens) plus outcome, fallback and estimated cost. Prompts and source text are never put on spans. Off unless `OTEL_EXPORTER_OTLP_ENDPOINT` is set; `X-Trace-Id` and error bodies return the trace id. Running it against Jaeger found that model calls made in the stage's thread pool lost the trace; they now run in a copy of the stage's context. | `masader/telemetry.py`; `masader/gateway/client.py`; `masader/pipeline/kit.py`; `tests/integration/test_tracing.py` (5 tests); PR #7 |
+| **Jaeger** 2.22 | Trace collector and UI (OTLP/HTTP), in the Compose `monitoring` profile. Recorded run: one report traced through the API and a Celery worker, **442 spans across 2 services in 761 ms** (simulated models). | `compose.yaml`; `eval/results/tracing.json`; `docs/tracing-jaeger.png` |
 | **pg_dump / pg_restore + sha256sum** | Daily backup and a restore drill (NFR12, RPO 24 h). | `ops/backup.sh`; `ops/restore.sh`; `eval/results/restore_drill.json` |
 
 ### C.5 Documentation, diagrams and demo
@@ -159,14 +166,14 @@ with checksums in `SHA256SUMS`.
 ## Engineering practices these tools support
 
 * **Reproducibility**: every dependency pinned; result files record commit, Python version and platform; the architecture package has a step-by-step `REPRODUCE.md` and SHA-256 checksums.
-* **Shift-left security**: secret scan of full history, SAST (Bandit, Ruff `S`, CodeQL), dependency audit (pip-audit), all blocking in CI; automated dependency updates (Dependabot); non-root container; secrets only from `.env` (`.env.example` committed, `.env` git-ignored).
+* **Shift-left security**: secret scan of full history, SAST (Bandit, Ruff `S`, CodeQL), dependency audit (pip-audit), container and IaC scan (Trivy), all blocking in CI; pre-commit hooks locally; an SBOM per build and signed provenance per release; automated dependency updates (Dependabot); non-root container; secrets only from `.env` (`.env.example` committed, `.env` git-ignored).
 * **Contract-first API**: OpenAPI document committed and diffed in CI.
 * **Reliability by design, tested**: idempotency keys, late acknowledgement, time limits, circuit breakers, budget reservation, each with a drill that proves it.
-* **Observability**: metrics, alerts and a dashboard shipped with the stack.
+* **Observability**: the three pillars in one stack: metrics (Prometheus), alerts and dashboards (Grafana), and distributed traces (OpenTelemetry + Jaeger).
 * **Honest AI evaluation**: the simulator is labelled everywhere; live-model quality (M5) is reported as not measured.
 
 ## Not used (listed so nobody assumes otherwise)
 
-RabbitMQ (the broker is Redis), OpenTelemetry (an `opentelemetry_api` wheel sits in the E2 offline wheel
-folder, but no Masader or experiment code imports it), any cloud deployment, and any AI coding tool other than
+RabbitMQ (the broker is Redis), any cloud deployment, LLM evaluation frameworks such as promptfoo or ragas
+(with no API key they would only grade the simulator), and any AI coding tool other than
 Claude unless MRA adds one to the declaration.
