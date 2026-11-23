@@ -1,5 +1,5 @@
 # Masader on one host (architecture B.4, deployment view). `docker compose up -d` starts the core;
-# `--profile monitoring` adds Prometheus and Grafana; `--profile edge` adds Caddy (TLS reverse proxy).
+# `--profile monitoring` adds Prometheus, Grafana and Jaeger (traces: set OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318 in .env); `--profile edge` adds Caddy (TLS reverse proxy).
 # Secrets come from .env (copy .env.example); nothing secret is written in this file.
 x-app: &app
   image: masader:1.0.0
@@ -8,6 +8,7 @@ x-app: &app
   environment:
     DATABASE_URL: postgresql://masader:${POSTGRES_PASSWORD}@postgres:5432/masader
     REDIS_URL: redis://redis:6379/0
+    OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}   # empty = tracing off
   volumes:
     - objects:/data/objects
   depends_on:
@@ -75,6 +76,12 @@ services:
     environment: { GF_SECURITY_ADMIN_PASSWORD: "${GRAFANA_ADMIN_PASSWORD:?set GRAFANA_ADMIN_PASSWORD in .env}" }
     volumes: ["./ops/grafana/provisioning:/etc/grafana/provisioning:ro", "./ops/grafana/dashboards:/var/lib/grafana/dashboards:ro"]
     ports: ["127.0.0.1:3000:3000"]
+    restart: unless-stopped
+
+  jaeger:           # trace collector and UI (OTLP/HTTP on 4318, UI on 16686); spans are kept in memory
+    image: jaegertracing/jaeger:2.22.0
+    profiles: [monitoring]
+    ports: ["127.0.0.1:16686:16686"]
     restart: unless-stopped
 
   caddy:

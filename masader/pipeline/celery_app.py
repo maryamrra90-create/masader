@@ -3,7 +3,7 @@ B.3.4, H.2, IF-14). Both worker types use the prefork pool, where soft and hard 
 from __future__ import annotations
 
 from celery import Celery
-from celery.signals import worker_process_init
+from celery.signals import worker_process_init, worker_process_shutdown
 
 from ..settings import settings
 
@@ -39,7 +39,17 @@ if settings.live_sources:                 # live connectors only when outbound a
 
 @worker_process_init.connect
 def _fresh_pool(**_):
-    """A forked child must not reuse the parent's database connections."""
+    """A forked child must not reuse the parent's database connections. Tracing is set up here, in each
+    child, because span-export threads do not survive a fork."""
+    from .. import telemetry
     from ..store.db import reset_pool
 
+    telemetry.setup("masader-worker")
     reset_pool()
+
+
+@worker_process_shutdown.connect
+def _flush_spans(**_):
+    from .. import telemetry
+
+    telemetry.shutdown()

@@ -22,10 +22,12 @@ import time
 from dataclasses import dataclass, field
 
 import jsonschema
+from opentelemetry.trace import SpanKind, Status, StatusCode
 from psycopg import errors as pg_errors
 
 from .. import config
 from ..settings import settings
+from ..telemetry import tracer
 from . import budget, circuit, prompts
 from .errors import CallCancelled, CallFailed, InvalidOutput, NoIndependentModel, ProviderUnavailable, Refused, StageDeadline
 from .providers import Provider, get_provider, provider_schema, render_user
@@ -101,27 +103,47 @@ def _attempt(calls: StageCalls, report_id, purpose, role, model, prompt, user, p
         calls.inflight[call_id] = reserved
     t0 = time.perf_counter()
     timeout = min(timeout_cap, remaining)
-    try:
-        res = provider().call(model=model, role=role, system=prompt.text, user=user, payload=payload,
-                              schema=SCHEMAS[role], max_tokens=max_tokens, effort=effort, timeout_s=timeout,
-                              cancel=calls.cancel, report_id=report_id)
-    except CallFailed as e:
-        budget.settle(call_id, 0, 0, 0, int((time.perf_counter() - t0) * 1000), e.kind)
-        if e.kind == "timeout" and timeout < timeout_cap:
-            raise StageDeadline(f"{role}: {model} call reached the stage deadline") from e
-        raise
-    except Refused:
-        budget.settle(call_id, 0, 0, 0, int((time.perf_counter() - t0) * 1000), "refusal")
-        raise
-    except CallCancelled:
-        budget.settle(call_id, 0, 0, 0, int((time.perf_counter() - t0) * 1000), "cancelled")
-        raise
-    finally:
-        with calls.lock:
-            calls.inflight.pop(call_id, None)
-    ms = int((time.perf_counter() - t0) * 1000)
-    cost = min(budget.call_cost(model, res.input_tokens, res.output_tokens), reserved)
+    with tracer.start_as_current_span(f"llm.call {role}", kind=SpanKind.CLIENT, record_exception=False,
+                                      set_status_on_exception=False) as span:
+        span.set_attributes({
+            "gen_ai.operation.name": "chat", "gen_ai.provider.name": "simulated" if name.startswith("sim:") else "anthropic",
+            "gen_ai.request.model": model, "gen_ai.request.max_tokens": max_tokens, "masader.role": role,
+            "masader.report_id": report_id or "", "masader.purpose": purpose, "masader.prompt_version": prompt.version,
+            "masader.ai_call_id": call_id, "masader.reserved_usd": float(reserved), "masader.timeout_s": float(timeout),
+        })
+        try:
+            res = provider().call(model=model, role=role, system=prompt.text, user=user, payload=payload,
+                                  schema=SCHEMAS[role], max_tokens=max_tokens, effort=effort, timeout_s=timeout,
+                                  cancel=calls.cancel, report_id=report_id)
+        except CallFailed as e:
+            _span_outcome(span, e.kind)
+            budget.settle(call_id, 0, 0, 0, int((time.perf_counter() - t0) * 1000), e.kind)
+            if e.kind == "timeout" and timeout < timeout_cap:
+                raise StageDeadline(f"{role}: {model} call reached the stage deadline") from e
+            raise
+        except Refused:
+            _span_outcome(span, "refusal")
+            budget.settle(call_id, 0, 0, 0, int((time.perf_counter() - t0) * 1000), "refusal")
+            raise
+        except CallCancelled:
+            _span_outcome(span, "cancelled")
+            budget.settle(call_id, 0, 0, 0, int((time.perf_counter() - t0) * 1000), "cancelled")
+            raise
+        finally:
+            with calls.lock:
+                calls.inflight.pop(call_id, None)
+        ms = int((time.perf_counter() - t0) * 1000)
+        cost = min(budget.call_cost(model, res.input_tokens, res.output_tokens), reserved)
+        span.set_attributes({"gen_ai.response.model": model, "gen_ai.usage.input_tokens": res.input_tokens,
+                             "gen_ai.usage.output_tokens": res.output_tokens, "masader.cost_usd": float(cost)})
+        _span_outcome(span, "returned")
     return call_id, res, cost, ms
+
+
+def _span_outcome(span, outcome: str) -> None:
+    span.set_attribute("masader.outcome", outcome)
+    if outcome not in ("returned", "ok", "fallback"):
+        span.set_status(Status(StatusCode.ERROR, outcome))
 
 
 def complete(role: str, payload: dict, *, calls: StageCalls, report_id: str | None = None, purpose: str = "live",
@@ -129,6 +151,23 @@ def complete(role: str, payload: dict, *, calls: StageCalls, report_id: str | No
     """Run one role call. `exclude` holds base model names that must not be used (validator independence).
     Raises ProviderUnavailable, InvalidOutput, NoIndependentModel, BudgetExhausted, StageDeadline or
     CallCancelled; the stage maps each to an outcome (retry later, review, ...)."""
+    with tracer.start_as_current_span(f"llm.complete {role}") as span:
+        span.set_attributes({"masader.role": role, "masader.report_id": report_id or "", "masader.purpose": purpose,
+                             "masader.excluded_models": ",".join(exclude)})
+        try:
+            done = _complete(role, payload, calls=calls, report_id=report_id, purpose=purpose, exclude=exclude,
+                             timeout_s=timeout_s)
+        except Exception as e:
+            _span_outcome(span, type(e).__name__)
+            raise
+        span.set_attributes({"masader.model": done.model, "masader.fallback": done.fallback,
+                             "masader.cost_usd": float(done.cost_usd)})
+        _span_outcome(span, "fallback" if done.fallback else "ok")
+        return done
+
+
+def _complete(role: str, payload: dict, *, calls: StageCalls, report_id: str | None, purpose: str,
+              exclude: tuple[str, ...], timeout_s: float | None) -> Completion:
     r = route(role)
     prompt = prompts.load(role, r["prompt"])
     user = render_user(role, payload)

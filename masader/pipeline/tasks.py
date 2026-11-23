@@ -6,6 +6,7 @@ import logging
 
 from celery import chain
 from celery.exceptions import Ignore
+from opentelemetry import trace
 
 from ..settings import settings
 from .celery_app import app
@@ -20,7 +21,10 @@ FUNCS = {"collect": collect.run, "dedup": dedup.run, "extract": extract.run, "ve
 def make_stage(stage: str):
     @app.task(name=f"masader.stage.{stage}", bind=True, max_retries=20)
     def run(self, report_id: str):
+        span = trace.get_current_span()                    # the Celery "run" span when tracing is on
+        span.set_attributes({"masader.report_id": report_id, "masader.stage": stage})
         outcome = execute_stage(stage, report_id, FUNCS[stage])
+        span.set_attribute("masader.stage_outcome", outcome)
         if outcome == "done":
             return report_id
         if outcome == "retry":

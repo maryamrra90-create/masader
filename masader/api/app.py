@@ -17,7 +17,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, Gauge, Histogram, generate_latest
 from psycopg_pool import PoolTimeout
 
-from .. import config
+from .. import config, telemetry
 from ..ids import canonical_hash, key_hash, new_api_key, new_id
 from ..pipeline.kit import STAGES
 from ..processing.redact import check_policy, redact
@@ -37,6 +37,8 @@ QUEUE_LEN = Gauge("masader_queue_length", "Celery queue length", ["queue"])
 REPORTS = Gauge("masader_reports", "Reports by status", ["status"])
 BUDGET_LEFT = Gauge("masader_budget_remaining_usd", "AI budget left in the period", ["purpose"])
 UI = Path(__file__).parent / "ui.html"
+if telemetry.setup("masader-api"):        # only when OTEL_EXPORTER_OTLP_ENDPOINT is set
+    telemetry.instrument_fastapi(app)
 
 
 class ApiError(Exception):
@@ -52,7 +54,7 @@ def _err(status, code, message, trace_id, headers=None):
 
 @app.middleware("http")
 async def timing(request: Request, call_next):
-    request.state.trace_id = request.headers.get("X-Trace-Id") or uuid.uuid4().hex[:16]
+    request.state.trace_id = request.headers.get("X-Trace-Id") or telemetry.current_trace_id() or uuid.uuid4().hex[:16]
     t0 = time.perf_counter()
     response = await call_next(request)
     route = request.scope.get("route")
