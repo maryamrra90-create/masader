@@ -1,0 +1,26 @@
+# Dependabot: weekly pull requests for out-of-date or vulnerable dependencies. Every update PR runs the
+# full CI (tests, bandit, pip-audit, image build) before it can be merged. Minor and patch bumps are
+# grouped into one PR per ecosystem so the pinned versions stay easy to review.
+version: 2
+updates:
+  - package-ecosystem: pip            # requirements.txt and requirements-dev.txt
+    directory: /
+    schedule: { interval: weekly, day: monday }
+    open-pull-requests-limit: 5
+    groups:
+      python-minor-and-patch:
+        update-types: [minor, patch]
+    labels: [dependencies]
+
+  - package-ecosystem: github-actions # actions used in .github/workflows
+    directory: /
+    schedule: { interval: weekly, day: monday }
+    groups:
+      actions:
+        patterns: ["*"]
+    labels: [dependencies]
+
+  - package-ecosystem: docker         # base image in the Dockerfile
+    directory: /
+    schedule: { interval: weekly, day: monday }
+    labels: [dependencies]
