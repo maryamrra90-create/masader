@@ -1,7 +1,7 @@
 {
  "environment": {
-  "at": "2026-11-19T14:20:00+00:00",
-  "git_commit": "b13255f",
+  "at": "2026-11-23T19:40:51+00:00",
+  "git_commit": "957852b",
   "python": "3.13.18",
   "platform": "Linux-6.18.44-fc-v653-x86_64-with-glibc2.39",
   "cpus": 4,
@@ -9,11 +9,11 @@
   "embedder": "hashing"
  },
  "command": "pytest -q --cov=masader",
- "tests": 139,
+ "tests": 144,
  "failures": 0,
  "errors": 0,
  "skipped": 0,
- "duration_s": 107.8,
+ "duration_s": 104.5,
  "by_suite": {
   "ai": {
    "tests": 3,
@@ -24,16 +24,16 @@
    "passed": 4
   },
   "integration": {
-   "tests": 54,
-   "passed": 54
+   "tests": 59,
+   "passed": 59
   },
   "unit": {
    "tests": 78,
    "passed": 78
   }
  },
- "line_coverage_percent": 93.7,
- "statements": 2953,
- "missed": 185,
- "note": "coverage counts code run in the pytest process; code that runs only inside the worker subprocesses of the e2e tests is not counted; re-run after the FastAPI/Starlette upgrade and the defusedxml change (139 = 138 earlier tests + the XML-safety test)"
+ "line_coverage_percent": 93.4,
+ "statements": 3036,
+ "missed": 199,
+ "note": "re-run after OpenTelemetry tracing was added (5 new integration tests in tests/integration/test_tracing.py); coverage counts code run in the pytest process; code that runs only inside the worker subprocesses of the e2e tests is not counted"
 }

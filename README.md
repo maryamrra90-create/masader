@@ -5,6 +5,13 @@ carries an evidence label** (corroborated, single-source, disputed, insufficient
 passages it rests on. A rules layer and an output validator check every sentence against the cited evidence
 before the brief is delivered. Reviewers approve publication; corrections create new versions.
 
+**Links:** [GitHub repository](https://github.com/maryamrra90-create/masader) ·
+[release v1.0.0](https://github.com/maryamrra90-create/masader/releases/tag/v1.0.0)
+(`docker pull ghcr.io/maryamrra90-create/masader:1.0.0`) ·
+[documentation site](https://maryamrra90-create.github.io/masader/) ·
+[CI runs](https://github.com/maryamrra90-create/masader/actions) ·
+[engineering toolchain](docs/toolchain.md)
+
 This repository is the course implementation of the Masader Proposal (19 Oct 2026) and Technical
 Architecture v1.2 (28 Oct 2026). Differences from the architecture are listed with reasons in
 [docs/deviations.md](docs/deviations.md).
@@ -143,7 +150,8 @@ CRITICAL findings), and a CycloneDX **SBOM** of the image (kept as a build artif
 scanning runs on push, pull request and weekly; **Dependabot** opens weekly update pull requests for pip,
 GitHub Actions and the Docker base image.
 
-* **Releases:** pushing a tag `v*` publishes the image to GitHub Container Registry
+* **Releases:** pushing a tag `v*`, publishing a GitHub release, or running the `release` workflow by hand
+  publishes the image to GitHub Container Registry
   (`ghcr.io/maryamrra90-create/masader`) with a signed build-provenance attestation, an SBOM attestation
   and a GitHub release (`.github/workflows/release.yml`).
 * **Documentation site:** https://maryamrra90-create.github.io/masader/ (MkDocs, built from this README and

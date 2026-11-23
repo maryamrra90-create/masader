@@ -12,3 +12,4 @@ eval/results/tmp/
 *.egg-info/
 site/
 docs/index.md
+dump.rdb
