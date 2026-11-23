@@ -6,11 +6,11 @@ jobs:
   pre-commit:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with: { python-version: "3.12" }
       - run: pip install pre-commit==4.3.0
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -32,14 +32,14 @@ jobs:
       REDIS_URL: redis://localhost:6379/0
       MODEL_MODE: simulated
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { fetch-depth: 0 }            # full history, so the secret scan covers every commit
       - name: secret scan of the whole Git history (gitleaks)
         # The CLI scans every commit; gitleaks-action only scans the pushed range and fails on a first push.
         run: |
           curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz | tar xz -C /tmp gitleaks
           /tmp/gitleaks git --redact -v --exit-code 1 .
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with: { python-version: "3.12", cache: pip }
       - run: pip install -r requirements.txt -r requirements-dev.txt
       - run: ruff check masader tests eval perf
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-24.04
     needs: test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: docker build -t masader:ci .
       - name: smoke-test the image (imports every worker dependency, runs the CLI)
         run: docker run --rm masader:ci sh -c "python -c 'import kombu.transport.redis, masader.pipeline.tasks' && masader --help"
@@ -66,5 +66,5 @@ jobs:
         run: /tmp/trivy config --severity HIGH,CRITICAL --exit-code 1 .
       - name: SBOM of the image (CycloneDX JSON)
         run: /tmp/trivy image --format cyclonedx --output sbom.cdx.json masader:ci
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with: { name: sbom-cyclonedx, path: sbom.cdx.json }
