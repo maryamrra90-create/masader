@@ -133,6 +133,22 @@ development data. The end-to-end tests (`tests/e2e`) start real Uvicorn, Celery 
 kill a worker with SIGKILL mid-stage, hang a call thread that ignores cancellation, and hang a stage past its
 soft limit, and check that the report is still delivered exactly once.
 
+### Quality gates in CI and on GitHub
+
+Every push and pull request runs, in GitHub Actions: **pre-commit** hooks (`make precommit`: ruff,
+gitleaks, YAML/JSON/whitespace checks), a **gitleaks** scan of the whole history, ruff, **bandit**,
+**pip-audit**, the test suite with an 80% coverage floor, the OpenAPI contract diff, the Docker image build
+and smoke test, a **Trivy** scan of the image and of the Dockerfile/Compose file (fails on fixable HIGH or
+CRITICAL findings), and a CycloneDX **SBOM** of the image (kept as a build artifact). **CodeQL** code
+scanning runs on push, pull request and weekly; **Dependabot** opens weekly update pull requests for pip,
+GitHub Actions and the Docker base image.
+
+* **Releases:** pushing a tag `v*` publishes the image to GitHub Container Registry
+  (`ghcr.io/maryamrra90-create/masader`) with a signed build-provenance attestation, an SBOM attestation
+  and a GitHub release (`.github/workflows/release.yml`).
+* **Documentation site:** https://maryamrra90-create.github.io/masader/ (MkDocs, built from this README and
+  `docs/`, with an interactive API reference; `make docs-serve` to preview).
+
 ## Evaluation
 
 Scripts in [eval/](eval/) write raw results with the environment and commit id to `eval/results/`.

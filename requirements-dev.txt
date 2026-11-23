@@ -6,3 +6,5 @@ ruff==0.17.5
 locust==2.47.0
 bandit==1.8.6
 pip-audit==2.9.0
+pre-commit==4.3.0
+mkdocs-material==9.6.20

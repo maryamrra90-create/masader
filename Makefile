@@ -3,7 +3,7 @@
 PY ?= python
 export PYTHONPATH := $(CURDIR)
 
-.PHONY: help install services migrate seed run worker beat test test-fast e2e cov lint security eval openapi docker up down
+.PHONY: help install services migrate seed run worker beat test test-fast e2e cov lint security eval openapi docker up down precommit docs docs-serve
 help:            ## list targets
 	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | sed 's/:.*##/\t/'
 install:         ## install pinned runtime and dev dependencies
@@ -44,3 +44,9 @@ up:              ## start the compose stack (needs .env)
 	docker compose up -d --build
 down:            ## stop the compose stack
 	docker compose down
+precommit:       ## pre-commit hooks on every file (ruff, gitleaks, YAML/JSON/whitespace checks)
+	$(PY) -m pre_commit run --all-files
+docs:            ## build the documentation site into site/ (as GitHub Pages does)
+	$(PY) ops/docs/prepare.py && $(PY) -m mkdocs build --strict
+docs-serve:      ## preview the documentation site on http://127.0.0.1:8001
+	$(PY) ops/docs/prepare.py && $(PY) -m mkdocs serve -a 127.0.0.1:8001

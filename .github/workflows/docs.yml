@@ -1,0 +1,29 @@
+# Documentation site: builds the MkDocs site (README, architecture with live Mermaid, interactive API
+# reference from docs/openapi.v1.json, toolchain, traceability) and publishes it to the gh-pages branch,
+# which GitHub Pages serves at https://maryamrra90-create.github.io/masader/. Pull requests build only.
+name: docs
+on:
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write                 # push to gh-pages (main only)
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install mkdocs-material==9.6.20
+      - run: python ops/docs/prepare.py
+      - run: mkdocs build --strict
+      - name: publish to gh-pages
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdocs gh-deploy --force --no-history
