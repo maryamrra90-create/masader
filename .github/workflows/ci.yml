@@ -23,8 +23,10 @@ jobs:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }            # full history, so the secret scan covers every commit
       - name: secret scan of the whole Git history (gitleaks)
-        uses: gitleaks/gitleaks-action@v2
-        env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+        # The CLI scans every commit; gitleaks-action only scans the pushed range and fails on a first push.
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz | tar xz -C /tmp gitleaks
+          /tmp/gitleaks git --redact -v --exit-code 1 .
       - uses: actions/setup-python@v5
         with: { python-version: "3.12", cache: pip }
       - run: pip install -r requirements.txt -r requirements-dev.txt
