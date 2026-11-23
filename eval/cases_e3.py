@@ -134,5 +134,3 @@ SEEDED = [  # (type, assertion): every one contains an unsupported assertion
 # 20 sentences typed as opinion or forecast that are factual: half wrong, half right; all must be checked
 MISTYPED = [(Assertion(200 + i, K, a.text, a.cited, a.speaker, typed_as="opinion"), True) for i, (_, a) in enumerate(SEEDED[:10])] + \
            [(Assertion(220 + i, K if g.section != A_ else A_, g.text, g.cited, g.speaker, typed_as="forecast"), False) for i, g in enumerate(GOOD)]
-
-
