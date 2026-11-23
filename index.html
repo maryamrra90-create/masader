@@ -1,0 +1,1159 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Evidence-labelled research briefs (course implementation)">
+      
+      
+      
+        <link rel="canonical" href="https://maryamrra90-create.github.io/masader/">
+      
+      
+      
+        <link rel="next" href="architecture/">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Masader</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#masader" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Masader" class="md-header__button md-logo" aria-label="Masader" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Masader
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/maryamrra90-create/masader" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    maryamrra90-create/masader
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Masader" class="md-nav__button md-logo" aria-label="Masader" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Masader
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/maryamrra90-create/masader" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    maryamrra90-create/masader
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use the API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quality-gates-in-ci-and-on-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality gates in CI and on GitHub
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Evaluation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-with-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy with Docker Compose
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy with Docker Compose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#distributed-tracing-opentelemetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Distributed tracing (OpenTelemetry)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repository-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repository layout
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#licence-and-responsible-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      Licence and responsible use
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="toolchain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Engineering toolchain
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="deviations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deviations from the architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="traceability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Requirements traceability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="demo_script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Demo script
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="declaration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI-use declaration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use the API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quality-gates-in-ci-and-on-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality gates in CI and on GitHub
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Evaluation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-with-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy with Docker Compose
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy with Docker Compose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#distributed-tracing-opentelemetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Distributed tracing (OpenTelemetry)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repository-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repository layout
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#licence-and-responsible-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      Licence and responsible use
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- generated from README.md by ops/docs/prepare.py; do not edit -->
+<h1 id="masader">Masader<a class="headerlink" href="#masader" title="Permanent link">&para;</a></h1>
+<p>Masader turns a research question about recent events into a short English brief in which <strong>every finding
+carries an evidence label</strong> (corroborated, single-source, disputed, insufficient) and links to the source
+passages it rests on. A rules layer and an output validator check every sentence against the cited evidence
+before the brief is delivered. Reviewers approve publication; corrections create new versions.</p>
+<p><strong>Links:</strong> <a href="https://github.com/maryamrra90-create/masader">GitHub repository</a> ·
+<a href="https://github.com/maryamrra90-create/masader/releases/tag/v1.0.0">release v1.0.0</a>
+(<code>docker pull ghcr.io/maryamrra90-create/masader:1.0.0</code>) ·
+<a href="https://maryamrra90-create.github.io/masader/">documentation site</a> ·
+<a href="https://github.com/maryamrra90-create/masader/actions">CI runs</a> ·
+<a href="toolchain/">engineering toolchain</a></p>
+<p>This repository is the course implementation of the Masader Proposal (19 Oct 2026) and Technical
+Architecture v1.2 (28 Oct 2026). Differences from the architecture are listed with reasons in
+<a href="deviations/">docs/deviations.md</a>.</p>
+<blockquote>
+<p><strong>Important: what is real and what is simulated.</strong>
+By default (<code>MODEL_MODE=simulated</code>) every model call is answered by a deterministic <strong>heuristic
+simulator</strong>, not by Claude. The simulator reads the real stage inputs and returns schema-valid output, so
+the whole system (queues, leases, budgets, rules, validator, rendering, recovery) runs for real, but the
+wording and judgement in simulated briefs are <strong>not model outputs</strong>. Simulated runs record model names as
+<code>sim:&lt;model&gt;</code> and every simulated brief shows a banner. The evaluation corpus is <strong>synthetic</strong>: 37 items
+from fictional outlets marked "(fixture)". <code>MODEL_MODE=live</code> uses the Anthropic API through the same
+gateway; it is implemented but has not been run against the real API in this build.</p>
+</blockquote>
+<h2 id="contents">Contents<a class="headerlink" href="#contents" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#architecture">Architecture</a> · <a href="#install">Install</a> · <a href="#configure">Configure</a> · <a href="#run">Run</a></li>
+<li><a href="#use-the-api">Use the API</a> · <a href="#tests">Tests</a> · <a href="#evaluation">Evaluation</a> · <a href="#deploy-with-docker-compose">Deploy with Docker Compose</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a> · <a href="#repository-layout">Repository layout</a></li>
+</ul>
+<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
+<p><img alt="Masader architecture as implemented" src="architecture.png" /></p>
+<p>Source: <a href="architecture.mmd">docs/architecture.mmd</a>. A request goes through eight stages, each a Celery
+task that takes an atomic claim on its <code>report_stages</code> row, does its work, and commits its rows in the same
+transaction, fenced on its lease:</p>
+<p><code>collect → dedup → extract → verify → label → write → validate → render</code></p>
+<ul>
+<li><strong>cpu stages</strong> (worker-cpu): collect (hybrid keyword + vector retrieval), dedup (exact, near-duplicate and
+  origin grouping), label (evidence rules <code>rules-1.1.1</code>), render (JSON + HTML).</li>
+<li><strong>llm stages</strong> (worker-llm): extract claims, verify them against other sources, write the brief, validate
+  every sentence (rule checks + an independent support check by a different model than the writer).</li>
+<li><strong>gateway</strong>: every call reserves its worst-case cost first (a database CHECK makes overspending
+  impossible), retries once on fast errors, repairs invalid JSON once, falls back to a second model, opens
+  a circuit breaker after 5 failures, and can cancel or abandon stuck calls.</li>
+<li><strong>reaper</strong> (beat, every 60 s): recovers expired leases, lost calls and stuck reports.</li>
+</ul>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
+<p>Requirements: Python 3.12 or 3.13, PostgreSQL 16 with the pgvector extension, Redis 7. Docker is the easiest
+way to get the two services.</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>&lt;this<span class="w"> </span>repository&gt;<span class="w"> </span>masader<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>masader
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>.<span class="w"> </span>.venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt<span class="w"> </span>-r<span class="w"> </span>requirements-dev.txt<span class="w">     </span><span class="c1"># all versions are pinned</span>
+make<span class="w"> </span>services<span class="w">        </span><span class="c1"># starts pgvector/pgvector:pg16 on :5432 and redis:7.4-alpine on :6379</span>
+</code></pre></div>
+<h2 id="configure">Configure<a class="headerlink" href="#configure" title="Permanent link">&para;</a></h2>
+<p>Settings come from environment variables (see <a href="https://github.com/maryamrra90-create/masader/blob/main/.env.example">.env.example</a>); the defaults suit local
+development with <code>make services</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DATABASE_URL</code></td>
+<td><code>postgresql://masader:masader@localhost:5432/masader</code></td>
+<td>PostgreSQL with pgvector</td>
+</tr>
+<tr>
+<td><code>REDIS_URL</code></td>
+<td><code>redis://localhost:6379/0</code></td>
+<td>broker and rate limits</td>
+</tr>
+<tr>
+<td><code>MODEL_MODE</code></td>
+<td><code>simulated</code></td>
+<td><code>simulated</code> (no key, heuristic outputs) or <code>live</code> (Anthropic API)</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_API_KEY</code></td>
+<td>empty</td>
+<td>only for <code>live</code>; keep it in <code>.env</code> or a secret manager, never in Git</td>
+</tr>
+<tr>
+<td><code>KEY_PEPPER</code></td>
+<td>dev value</td>
+<td>HMAC pepper for stored API keys; <strong>must</strong> be set when <code>ENV=prod</code></td>
+</tr>
+<tr>
+<td><code>EMBEDDER</code></td>
+<td><code>hashing</code></td>
+<td><code>hashing</code> (offline substitute) or <code>fastembed</code> (multilingual MiniLM, downloads a model)</td>
+</tr>
+<tr>
+<td><code>LIVE_SOURCES</code></td>
+<td><code>0</code></td>
+<td><code>1</code> schedules the real GDELT, RSS and World Bank connectors</td>
+</tr>
+<tr>
+<td><code>SIM_LATENCY_SCALE</code></td>
+<td><code>0</code></td>
+<td>simulated call latency = the role's time budget in minutes × this many seconds</td>
+</tr>
+<tr>
+<td><code>ADMISSION_MAX_ACTIVE</code></td>
+<td><code>6</code></td>
+<td>reports in progress before new requests get <code>429 busy</code></td>
+</tr>
+</tbody>
+</table>
+<p>Model routing, budgets, evidence-rule thresholds and the source register are in <a href="https://github.com/maryamrra90-create/masader/blob/main/config/">config/</a>. The
+timers must keep the order call timeout &lt; stage deadline &lt; soft limit &lt; hard limit &lt; lease &lt; visibility
+timeout (110 &lt; 234 &lt; 240 &lt; 270 &lt; 300 &lt; 360 s); the app refuses to start otherwise.</p>
+<h2 id="run">Run<a class="headerlink" href="#run" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>migrate<span class="w"> </span>seed<span class="w">                       </span><span class="c1"># schema, sources, budgets, synthetic corpus</span>
+python<span class="w"> </span>-m<span class="w"> </span>masader.cli<span class="w"> </span>key<span class="w"> </span>create<span class="w"> </span><span class="s2">"Me"</span><span class="w"> </span>me@example.org<span class="w"> </span>admin<span class="w"> </span>--rate<span class="w"> </span><span class="m">100</span><span class="w">    </span><span class="c1"># prints an API key once</span>
+make<span class="w"> </span>run<span class="w">                                </span><span class="c1"># API + UI on http://127.0.0.1:8000</span>
+make<span class="w"> </span>worker<span class="w">                             </span><span class="c1"># in a second terminal</span>
+make<span class="w"> </span>beat<span class="w">                               </span><span class="c1"># in a third terminal (reaper, retention)</span>
+</code></pre></div>
+<p>Open http://127.0.0.1:8000, paste the key, and press <strong>Request brief</strong>. The form is pre-filled with the
+corpus example (shipping through the Strait of Hormuz, 12–19 Oct 2026).</p>
+<h2 id="use-the-api">Use the API<a class="headerlink" href="#use-the-api" title="Permanent link">&para;</a></h2>
+<p>The contract is <a href="openapi.v1.json">docs/openapi.v1.json</a> (also live at <code>/docs</code>). Every <code>/v1</code> route needs
+<code>X-API-Key</code>. Keys have one of three roles: requester, reviewer, admin.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">KEY</span><span class="o">=</span>rq_...<span class="w">   </span><span class="c1"># your key</span>
+curl<span class="w"> </span>-s<span class="w"> </span>localhost:8000/v1/requests<span class="w"> </span>-H<span class="w"> </span><span class="s2">"X-API-Key: </span><span class="nv">$KEY</span><span class="s2">"</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">"Idempotency-Key: </span><span class="k">$(</span>uuidgen<span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "topic": "Commercial shipping through the Strait of Hormuz",</span>
+<span class="s1">    "questions": ["What has happened to commercial shipping in the last 7 days, and how have Gulf and Indian officials responded?"],</span>
+<span class="s1">    "from": "2026-10-12", "to": "2026-10-19", "geography": ["OMN","ARE","IND"]}'</span>
+<span class="c1"># -&gt; {"status":"needs_clarification","questions":[...],"answers_url":"/v1/requests/req_.../answers"}</span>
+
+curl<span class="w"> </span>-s<span class="w"> </span>localhost:8000/v1/requests/req_.../answers<span class="w"> </span>-H<span class="w"> </span><span class="s2">"X-API-Key: </span><span class="nv">$KEY</span><span class="s2">"</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">'{}'</span>
+<span class="c1"># -&gt; 202 {"report_id":"rep_...","status":"queued","status_url":"/v1/reports/rep_..."}   ({} accepts the defaults)</span>
+
+curl<span class="w"> </span>-s<span class="w"> </span>localhost:8000/v1/reports/rep_...<span class="w"> </span>-H<span class="w"> </span><span class="s2">"X-API-Key: </span><span class="nv">$KEY</span><span class="s2">"</span><span class="w">        </span><span class="c1"># status, stages, then the brief</span>
+curl<span class="w"> </span>-s<span class="w"> </span>localhost:8000/v1/reports/rep_....html<span class="w"> </span>-H<span class="w"> </span><span class="s2">"X-API-Key: </span><span class="nv">$KEY</span><span class="s2">"</span><span class="w"> </span>&gt;<span class="w"> </span>brief.html
+curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>localhost:8000/v1/reports/rep_.../publish<span class="w"> </span>-H<span class="w"> </span><span class="s2">"X-API-Key: </span><span class="nv">$REVIEWER_KEY</span><span class="s2">"</span><span class="w">   </span><span class="c1"># public at /r/rep_...</span>
+</code></pre></div>
+<p>Other routes: <code>GET /v1/review/queue</code> and <code>POST /v1/review/{id}</code> (reviewers), <code>POST /v1/reports/{id}/corrections</code>
+and <code>POST /v1/corrections/{id}/resolve</code> (a correction creates version n+1), <code>POST /v1/reports/{id}/withdraw</code>,
+<code>GET /v1/me</code>, <code>POST|DELETE /v1/keys</code>, <code>/healthz</code>, <code>/readyz</code>, <code>/metrics</code>.</p>
+<p>Command line (<code>python -m masader.cli ...</code>): <code>migrate</code>, <code>seed [--fixtures]</code>, <code>key create|revoke</code>,
+<code>delete-user EMAIL</code>, <code>reap</code>, <code>retention</code>, <code>openapi</code>.</p>
+<h2 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>test-fast<span class="w">     </span><span class="c1"># unit + AI regression tests, no services needed</span>
+make<span class="w"> </span><span class="nb">test</span><span class="w">          </span><span class="c1"># everything: unit, integration (PostgreSQL + Redis) and end-to-end</span>
+make<span class="w"> </span>cov<span class="w">           </span><span class="c1"># with coverage</span>
+make<span class="w"> </span>lint
+make<span class="w"> </span>security<span class="w">      </span><span class="c1"># bandit (static analysis) and pip-audit (known-vulnerable dependencies)</span>
+</code></pre></div>
+<p>Tests create and drop their own database <code>masader_test</code> and use Redis database 15, so they do not touch
+development data. The end-to-end tests (<code>tests/e2e</code>) start real Uvicorn, Celery worker and beat processes,
+kill a worker with SIGKILL mid-stage, hang a call thread that ignores cancellation, and hang a stage past its
+soft limit, and check that the report is still delivered exactly once.</p>
+<h3 id="quality-gates-in-ci-and-on-github">Quality gates in CI and on GitHub<a class="headerlink" href="#quality-gates-in-ci-and-on-github" title="Permanent link">&para;</a></h3>
+<p>Every push and pull request runs, in GitHub Actions: <strong>pre-commit</strong> hooks (<code>make precommit</code>: ruff,
+gitleaks, YAML/JSON/whitespace checks), a <strong>gitleaks</strong> scan of the whole history, ruff, <strong>bandit</strong>,
+<strong>pip-audit</strong>, the test suite with an 80% coverage floor, the OpenAPI contract diff, the Docker image build
+and smoke test, a <strong>Trivy</strong> scan of the image and of the Dockerfile/Compose file (fails on fixable HIGH or
+CRITICAL findings), and a CycloneDX <strong>SBOM</strong> of the image (kept as a build artifact). <strong>CodeQL</strong> code
+scanning runs on push, pull request and weekly; <strong>Dependabot</strong> opens weekly update pull requests for pip,
+GitHub Actions and the Docker base image.</p>
+<ul>
+<li><strong>Releases:</strong> pushing a tag <code>v*</code>, publishing a GitHub release, or running the <code>release</code> workflow by hand
+  publishes the image to GitHub Container Registry
+  (<code>ghcr.io/maryamrra90-create/masader</code>) with a signed build-provenance attestation, an SBOM attestation
+  and a GitHub release (<code>.github/workflows/release.yml</code>).</li>
+<li><strong>Documentation site:</strong> https://maryamrra90-create.github.io/masader/ (MkDocs, built from this README and
+  <code>docs/</code>, with an interactive API reference; <code>make docs-serve</code> to preview).</li>
+</ul>
+<h2 id="evaluation">Evaluation<a class="headerlink" href="#evaluation" title="Permanent link">&para;</a></h2>
+<p>Scripts in <a href="https://github.com/maryamrra90-create/masader/blob/main/eval/">eval/</a> write raw results with the environment and commit id to <code>eval/results/</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Measures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>eval/quality.py</code></td>
+<td>origin-grouping precision/recall vs ground truth, evidence rules (A15), clarification questions, prompt injection</td>
+</tr>
+<tr>
+<td><code>eval/seeded_errors.py</code></td>
+<td>validator detection of seeded errors (hand-written E3 set and errors generated from a pipeline report)</td>
+</tr>
+<tr>
+<td><code>eval/drills.py</code></td>
+<td>failure drills: provider down, invalid JSON, validator independence, budget cap, Redis down, PostgreSQL down, worker kill, stuck threads</td>
+</tr>
+<tr>
+<td><code>eval/report_time.py</code></td>
+<td>report time and admission for a burst of 10 requests on real workers</td>
+</tr>
+<tr>
+<td><code>perf/run_load.py</code></td>
+<td>NFR1 read load: 50 Locust users for 3 minutes</td>
+</tr>
+</tbody>
+</table>
+<p>Results and their limits are summarised in the implementation report. All quality figures describe the
+simulator and the synthetic corpus, not Claude on live news.</p>
+<h2 id="deploy-with-docker-compose">Deploy with Docker Compose<a class="headerlink" href="#deploy-with-docker-compose" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>.env.example<span class="w"> </span>.env<span class="w">        </span><span class="c1"># set POSTGRES_PASSWORD, KEY_PEPPER (and GRAFANA_ADMIN_PASSWORD for monitoring)</span>
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w">                         </span><span class="c1"># postgres, redis, migrate, api, worker-llm, worker-cpu, scheduler</span>
+docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>api<span class="w"> </span>masader<span class="w"> </span>key<span class="w"> </span>create<span class="w"> </span><span class="s2">"Admin"</span><span class="w"> </span>admin@example.org<span class="w"> </span>admin
+docker<span class="w"> </span>compose<span class="w"> </span>--profile<span class="w"> </span>monitoring<span class="w"> </span>up<span class="w"> </span>-d<span class="w">            </span><span class="c1"># Prometheus :9090, Grafana :3000, Jaeger :16686</span>
+<span class="nv">MASADER_DOMAIN</span><span class="o">=</span>example.org<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>--profile<span class="w"> </span>edge<span class="w"> </span>up<span class="w"> </span>-d<span class="w">    </span><span class="c1"># Caddy with automatic TLS</span>
+</code></pre></div>
+<p>The API listens on 127.0.0.1:8000 only; publish it through the <code>edge</code> profile. Behind a TLS-intercepting
+proxy, build with <code>docker build --secret id=ca,src=/path/to/ca.crt --network host .</code>.</p>
+<h3 id="distributed-tracing-opentelemetry">Distributed tracing (OpenTelemetry)<a class="headerlink" href="#distributed-tracing-opentelemetry" title="Permanent link">&para;</a></h3>
+<p>Set <code>OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318</code> in <code>.env</code> and start the <code>monitoring</code> profile. Each report
+then has one trace in Jaeger (http://127.0.0.1:16686): the HTTP request, the Celery publish and run span
+of each of the eight stages, every database query, and an <code>llm.complete</code> / <code>llm.call</code> span per model call
+with GenAI attributes (model, input and output tokens, outcome, fallback, estimated cost; never prompt or
+source text). The <code>X-Trace-Id</code> response header and the <code>trace_id</code> in error bodies are the trace id to
+search for. Tracing is off when the variable is empty. Code: <code>masader/telemetry.py</code>; recorded run:
+<code>eval/results/tracing.json</code> and <code>docs/tracing-jaeger.png</code>.</p>
+<p><img alt="One report traced across the API and the Celery worker in Jaeger" src="tracing-jaeger.png" /></p>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause and fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValueError: timer order violated</code> at start</td>
+<td>A timer env variable breaks the required order; restore the defaults or keep the order above.</td>
+</tr>
+<tr>
+<td><code>MODEL_MODE=live needs ANTHROPIC_API_KEY</code></td>
+<td>Set the key in <code>.env</code>, or use <code>MODEL_MODE=simulated</code>.</td>
+</tr>
+<tr>
+<td><code>/readyz</code> returns 503</td>
+<td>PostgreSQL or Redis is not reachable; the JSON says which. <code>make services</code>, check <code>DATABASE_URL</code> / <code>REDIS_URL</code>.</td>
+</tr>
+<tr>
+<td><code>POST /v1/requests</code> returns 503 <code>queue_unavailable</code></td>
+<td>Redis is down; nothing was stored, resend later with the same Idempotency-Key.</td>
+</tr>
+<tr>
+<td><code>429 busy</code> with <code>Retry-After: 60</code></td>
+<td>Six reports are already in progress (admission limit); retry after the given seconds.</td>
+</tr>
+<tr>
+<td><code>429 rate_limited</code></td>
+<td>The key's hourly request limit is used up.</td>
+</tr>
+<tr>
+<td><code>429 budget_exhausted</code></td>
+<td>The purpose's AI budget for the period is spent (<code>budgets</code> table).</td>
+</tr>
+<tr>
+<td>Report stays <code>waiting_provider</code></td>
+<td>Both models failed; the stage retries every 60 s and the circuit breaker re-tests after 60 s.</td>
+</tr>
+<tr>
+<td>Report goes to <code>in_review</code></td>
+<td>The validator removed too much, a stage failed twice, no independent validator model was available, or the topic is sensitive; a reviewer decides at <code>/v1/review/{id}</code>.</td>
+</tr>
+<tr>
+<td><code>could not open extension control file ... vector</code></td>
+<td>The database lacks pgvector; use the <code>pgvector/pgvector:pg16</code> image.</td>
+</tr>
+<tr>
+<td>Arabic and English copies are not grouped</td>
+<td>Expected with <code>EMBEDDER=hashing</code>; use <code>fastembed</code> where the model can be downloaded.</td>
+</tr>
+<tr>
+<td><code>pip install</code> fails TLS behind a proxy</td>
+<td>Set <code>PIP_CERT</code> to your proxy CA, or use the Docker build secret above.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="repository-layout">Repository layout<a class="headerlink" href="#repository-layout" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>masader/            application package
+  api/              FastAPI app, models, planner, minimal UI
+  pipeline/         Celery app, stage protocol (kit.py), stages/, retention
+  gateway/          model client, budget reservation, providers (live + simulated)
+  rules/            evidence rules and assertion checks (rules-1.1.1)
+  processing/       ingest, retrieval, embeddings, origin groups, text, redaction
+  connectors/       GDELT, RSS, World Bank, synthetic fixture
+  render/           Jinja2 brief template
+  simulated/        heuristic stand-in for the model roles (labelled)
+  store/            database pool, SQL migrations, object store
+config/             routing, budgets, rules, sources, gazetteer
+prompts/            versioned role prompts used in live mode
+data/sample/        synthetic corpus and its generator
+tests/              unit, integration, ai, e2e
+eval/               evaluation scripts and results/
+perf/               Locust load test
+ops/                Prometheus, Grafana, Caddy configuration
+docs/               architecture diagram, deviations, OpenAPI contract, report material
+</code></pre></div>
+<h2 id="licence-and-responsible-use">Licence and responsible use<a class="headerlink" href="#licence-and-responsible-use" title="Permanent link">&para;</a></h2>
+<p>MIT. Briefs are AI-generated summaries of what sources report; read the cited evidence before relying on a
+finding. The input policy refuses requests to profile private individuals.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": ".", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.highlight"], "search": "assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

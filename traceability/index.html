@@ -1,0 +1,934 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Evidence-labelled research briefs (course implementation)">
+      
+      
+      
+        <link rel="canonical" href="https://maryamrra90-create.github.io/masader/traceability/">
+      
+      
+        <link rel="prev" href="../deviations/">
+      
+      
+        <link rel="next" href="../demo_script/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Requirements traceability - Masader</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#traceability-matrix" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Masader" class="md-header__button md-logo" aria-label="Masader" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Masader
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Requirements traceability
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/maryamrra90-create/masader" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    maryamrra90-create/masader
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Masader" class="md-nav__button md-logo" aria-label="Masader" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Masader
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/maryamrra90-create/masader" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    maryamrra90-create/masader
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../toolchain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Engineering toolchain
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deviations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deviations from the architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Requirements traceability
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Requirements traceability
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-functional requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture components
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../demo_script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Demo script
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../declaration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI-use declaration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-functional requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture components
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="traceability-matrix">Traceability matrix<a class="headerlink" href="#traceability-matrix" title="Permanent link">&para;</a></h1>
+<p>Status values: <strong>Completed</strong> (built as designed and tested), <strong>Modified</strong> (built differently from v1.2; the
+deviation id says why), <strong>Partial</strong> (built, but part of it is missing or not exercised), <strong>Simulated</strong> (the
+code path exists; the evidence comes from a stand-in, not the real service), <strong>Not built</strong> (stage 2 or out
+of scope). Evidence points to code, tests (<code>tests/...::name</code>) and measured results (<code>eval/results/*.json</code>).
+Scoring against the proposal's success criteria M1–M10 is in the implementation report, Section 2.1.</p>
+<h2 id="functional-requirements">Functional requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Component</th>
+<th>Status</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR1</td>
+<td>Submit a one-off request with an API key</td>
+<td><code>masader/api/app.py</code> POST /v1/requests</td>
+<td>Completed</td>
+<td><code>test_api.py::test_auth</code>, <code>::test_validation_errors</code>, <code>::test_idempotency</code>; e2e <code>test_request_to_published_report_over_http</code></td>
+</tr>
+<tr>
+<td>FR2</td>
+<td>Detect broad, ambiguous, unsupported or low-evidence requests; up to 3 questions</td>
+<td><code>masader/api/planner.py</code> (rules + planner role)</td>
+<td>Partial</td>
+<td><code>test_api.py::test_planner_rules</code>, <code>::test_clarification_flow_and_answer_validation</code>, <code>::test_too_little_evidence_offers_to_widen</code>, <code>::test_planner_model_failure_falls_back_to_rules</code>; <code>eval/results/quality.json</code> clarification 5/8 (the "widen" rule counts keyword hits, so generic words hide low evidence)</td>
+</tr>
+<tr>
+<td>FR3</td>
+<td>Collect from GDELT, RSS, World Bank under the source register</td>
+<td><code>masader/connectors/*</code>, <code>processing/ingest.py</code>, <code>config/sources.yaml</code></td>
+<td>Partial / Simulated</td>
+<td>Connectors unit-tested on recorded responses (<code>test_connectors_settings_render.py</code>); live endpoints not reached (D-03); evaluation uses the synthetic corpus</td>
+</tr>
+<tr>
+<td>FR4</td>
+<td>Four data tiers with provenance</td>
+<td><code>store/migrations/0001_*.sql</code>, <code>0002_*.sql</code></td>
+<td>Completed (Modified: D-10)</td>
+<td><code>test_ingest_cli.py::test_seeded_corpus_is_grouped</code>; claim → passage → item → source joins used by every brief</td>
+</tr>
+<tr>
+<td>FR5</td>
+<td>Exact and near duplicates, origin groups</td>
+<td><code>processing/origin_groups.py</code>, stage dedup</td>
+<td>Completed (Modified: D-02, D-11, D-20)</td>
+<td><code>test_dedup_corpus.py</code>; <code>quality.json</code>: pairwise precision 1.00, recall 1.00 same-language, 0.20 cross-language</td>
+</tr>
+<tr>
+<td>FR6</td>
+<td>Extract claims with type, passage, source</td>
+<td>stage extract, extractor prompt</td>
+<td>Simulated</td>
+<td><code>test_pipeline.py::test_full_pipeline_delivers_a_labelled_brief</code>; passages are checked to be verbatim (<code>test_simulator_and_schemas.py</code>)</td>
+</tr>
+<tr>
+<td>FR7</td>
+<td>Evidence labels with reliability</td>
+<td><code>rules/evidence_rules.py</code> rules-1.1.1, stage label</td>
+<td>Completed (Modified: D-08)</td>
+<td><code>test_rules_a15.py</code> (20/20 A15 cases); <code>quality.json</code> a15 20/20</td>
+</tr>
+<tr>
+<td>FR8</td>
+<td>One-page English brief, facts apart from analysis</td>
+<td>stage write, <code>render/templates/brief.en.html.j2</code></td>
+<td>Simulated (Modified: D-07, D-23)</td>
+<td><code>test_simulator_and_schemas.py::test_writer_follows_the_label_rules</code>; rendered HTML escapes source text (<code>test_html_render_escapes_source_text</code>)</td>
+</tr>
+<tr>
+<td>FR9</td>
+<td>Validate every checkable assertion</td>
+<td>stage validate: <code>rules.check_assertion</code> + support check (independent model)</td>
+<td>Partial / Simulated</td>
+<td><code>test_rules_a15.py</code>, <code>test_pipeline.py::test_validator_independence_sends_report_to_review</code>; <code>seeded_errors.json</code>: 60/82 (73%) caught, target 95% <strong>not met</strong> with the simulated support check</td>
+</tr>
+<tr>
+<td>FR10</td>
+<td>Private delivery, reviewer publication, corrections as versions</td>
+<td>publish / withdraw / corrections / review routes</td>
+<td>Completed</td>
+<td><code>test_api.py::test_publish_withdraw_and_public_page</code>, <code>::test_published_report_is_immutable</code>, <code>::test_correction_creates_a_new_version</code>, <code>::test_review_decision_for_in_review_report</code></td>
+</tr>
+<tr>
+<td>FR11</td>
+<td>JSON and HTML</td>
+<td>stage render, <code>.json</code> / <code>.html</code> routes</td>
+<td>Completed (Modified: D-13)</td>
+<td><code>test_api.py::test_report_access_etag_exports_and_cache</code></td>
+</tr>
+<tr>
+<td>FR12</td>
+<td>Watched topics: refresh on schedule (Should)</td>
+<td>—</td>
+<td>Not built (stage 2)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>FR13</td>
+<td>AI label and versions with each output</td>
+<td><code>reports.versions</code>, ReportOut.versions, HTML footer and simulated banner</td>
+<td>Completed</td>
+<td><code>test_pipeline.py::test_full_pipeline_delivers_a_labelled_brief</code> (versions, <code>sim:</code> names)</td>
+</tr>
+<tr>
+<td>FR14</td>
+<td>Statement-type classifier</td>
+<td>—</td>
+<td>Not built (stage 2)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="non-functional-requirements">Non-functional requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Target</th>
+<th>Status</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR1</td>
+<td>GET report/status p95 &lt; 2 s with 50 users</td>
+<td>Met (local)</td>
+<td><code>eval/results/load_nfr1.json</code>: p95 11 ms, p99 24 ms, 4,438 requests, 0 failures (re-run 19 Nov after the FastAPI upgrade); <code>perf/locustfile.py</code>, <code>perf/run_load.py</code>; Locust on the same machine as the API</td>
+</tr>
+<tr>
+<td>NFR2</td>
+<td>Report p95 &lt; 10 min (≤ 6 in progress)</td>
+<td>Simulated</td>
+<td><code>eval/results/report_time.json</code>: burst of 10 on real workers; model latency simulated (D-01)</td>
+</tr>
+<tr>
+<td>NFR3</td>
+<td>Availability ≥ 99%</td>
+<td>Not measured</td>
+<td>Not deployed to a host (D-15); health checks in <code>compose.yaml</code>, alert rules in <code>ops/prometheus/alerts.yml</code></td>
+</tr>
+<tr>
+<td>NFR4</td>
+<td>Every /v1 route needs a key; roles checked</td>
+<td>Completed</td>
+<td><code>test_api.py::test_auth</code>, <code>::test_eval_purpose_needs_admin</code>; <code>test_openapi_contract.py::test_every_v1_route_needs_an_api_key_except_public_pages</code></td>
+</tr>
+<tr>
+<td>NFR5</td>
+<td>Redaction before any external AI call; no secrets in Git</td>
+<td>Completed (Modified: D-05)</td>
+<td><code>test_text_and_redact.py::test_redaction_of_personal_data</code>, <code>::test_input_policy</code>; <code>test_api.py::test_input_policy_and_redaction</code>; <code>.env</code> ignored, <code>.env.example</code> has no values; <code>make security</code>: bandit 0 findings, pip-audit 0 known vulnerabilities (<code>eval/results/security_*.json</code>, after upgrading Starlette and switching feeds to defusedxml); gitleaks scans the whole history in CI and passes; CodeQL and Trivy also run in CI (D-16, resolved)</td>
+</tr>
+<tr>
+<td>NFR6</td>
+<td>AI ≤ US$200/semester; caps never exceeded</td>
+<td>Completed (spend estimated)</td>
+<td><code>test_gateway.py::test_budget_cap_refuses_the_call_before_it_is_made</code>, <code>::test_concurrent_reservations_never_overspend</code>; drill D3; cost per report is an estimate (D-12)</td>
+</tr>
+<tr>
+<td>NFR7</td>
+<td>Arabic right-to-left layout once the web app exists</td>
+<td>Not built (stage 2)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>NFR8</td>
+<td>Clean checkout to running stack &lt; 30 min</td>
+<td>Partial</td>
+<td><code>README.md</code>, <code>Makefile</code>, <code>compose.yaml</code>; image build 38 s and stack ready 11 s after <code>up</code> (<code>eval/results/compose_stack.json</code>); not timed with a classmate</td>
+</tr>
+<tr>
+<td>NFR9</td>
+<td>Raw text ≤ 30 days, traces 90 days, deletion within 24 h</td>
+<td>Completed</td>
+<td><code>pipeline/retention.py</code>, <code>test_ingest_cli.py::test_retention_purges_old_full_text_and_traces_but_keeps_excerpts</code>; <code>masader delete-user</code> and <code>test_api.py::test_delete_user_data</code></td>
+</tr>
+<tr>
+<td>NFR10</td>
+<td>Container memory ≤ 6.2 GiB</td>
+<td>Partial</td>
+<td>Idle total ≈ 770 MiB measured on the Compose stack (<code>eval/results/compose_stack.json</code>); not measured under load; Compose limits not set</td>
+</tr>
+<tr>
+<td>NFR11</td>
+<td>255,500 items, search p95 &lt; 500 ms without ANN</td>
+<td>Not re-measured</td>
+<td>Exact pgvector scan as designed; measured in the architecture's E1, not repeated here</td>
+</tr>
+<tr>
+<td>NFR12</td>
+<td>RPO 24 h, RTO 4 h</td>
+<td>Partial</td>
+<td><code>ops/backup.sh</code>, <code>ops/restore.sh</code>; restore drill result in <code>eval/results/drills.json</code> (local)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="architecture-components">Architecture components<a class="headerlink" href="#architecture-components" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Component (v1.2)</th>
+<th>Status</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api (FastAPI, IF-01..IF-08)</td>
+<td>Completed</td>
+<td><code>masader/api/</code>, <code>docs/openapi.v1.json</code>, 22 API integration tests</td>
+</tr>
+<tr>
+<td>worker-cpu / worker-llm (Celery prefork, queues cpu / llm / ingest)</td>
+<td>Completed</td>
+<td><code>pipeline/celery_app.py</code>; e2e tests and <code>report_time.py</code> run them as separate processes</td>
+</tr>
+<tr>
+<td>Stage protocol: atomic claim, fenced commit, outcomes</td>
+<td>Completed</td>
+<td><code>test_pipeline.py::test_stage_claim_is_exclusive_and_ordered</code>, <code>::test_fenced_commit_refuses_a_lost_lease</code>, <code>::test_redelivered_stage_is_not_run_twice</code></td>
+</tr>
+<tr>
+<td>Reaper (expired leases, lost calls, stuck reports)</td>
+<td>Completed</td>
+<td><code>test_pipeline.py::test_reaper_recovers_expired_leases_and_lost_calls</code>, <code>::test_reaper_restarts_a_report_whose_message_was_lost</code>; e2e worker kill</td>
+</tr>
+<tr>
+<td>Gateway: reservation, retry, repair, fallback, breaker, cancel, independence</td>
+<td>Completed (provider simulated)</td>
+<td>12 tests in <code>test_gateway.py</code></td>
+</tr>
+<tr>
+<td>Child recycling for stuck call threads</td>
+<td>Completed</td>
+<td>e2e <code>test_uncancellable_call_thread_recycles_the_child</code>, <code>test_stage_that_swallows_the_soft_limit_is_killed_and_reaped</code></td>
+</tr>
+<tr>
+<td>Anthropic provider (live)</td>
+<td>Partial</td>
+<td><code>gateway/providers.py::AnthropicProvider</code>; request shape, error mapping, cancel tested with a fake client (<code>test_providers.py</code>); never called live</td>
+</tr>
+<tr>
+<td>Embeddings (MiniLM)</td>
+<td>Modified (D-02)</td>
+<td><code>processing/embed.py</code></td>
+</tr>
+<tr>
+<td>Retrieval (hybrid FTS + vector)</td>
+<td>Modified (D-21)</td>
+<td><code>test_ingest_cli.py::test_retrieval_is_windowed_and_capped</code></td>
+</tr>
+<tr>
+<td>Object store</td>
+<td>Modified (D-14)</td>
+<td><code>store/objectstore.py</code></td>
+</tr>
+<tr>
+<td>Migrations</td>
+<td>Modified (D-09)</td>
+<td><code>store/db.py::migrate</code></td>
+</tr>
+<tr>
+<td>Scheduler (beat): reaper, retention, live ingestion</td>
+<td>Completed (live ingestion off by default)</td>
+<td><code>pipeline/celery_app.py</code></td>
+</tr>
+<tr>
+<td>Monitoring: Prometheus, Grafana, alerts</td>
+<td>Partial (D-17)</td>
+<td><code>ops/prometheus/</code>, <code>ops/grafana/</code>; API metrics tested in <code>test_api.py::test_ops_endpoints</code></td>
+</tr>
+<tr>
+<td>Edge: Caddy TLS</td>
+<td>Partial</td>
+<td><code>ops/caddy/Caddyfile</code>, compose <code>edge</code> profile; not run with a public domain</td>
+</tr>
+<tr>
+<td>Docker image and Compose</td>
+<td>Completed (local)</td>
+<td><code>Dockerfile</code>, <code>compose.yaml</code>; stack run with one delivered and published report in <code>eval/results/compose_stack.json</code></td>
+</tr>
+<tr>
+<td>CI/CD</td>
+<td>Completed (D-16, resolved)</td>
+<td><code>.github/workflows/ci.yml</code> (pre-commit, gitleaks, ruff, bandit, pip-audit, tests with 80% floor, OpenAPI diff, image build and smoke test, Trivy, SBOM), <code>codeql.yml</code>, <code>dependabot.yml</code>, <code>docs.yml</code>, <code>release.yml</code>; all green on <code>main</code>; release v1.0.0 on ghcr.io</td>
+</tr>
+<tr>
+<td>Experiment tracking (MLflow, DVC)</td>
+<td>Modified (D-18)</td>
+<td><code>eval/</code>, <code>eval/results/</code></td>
+</tr>
+<tr>
+<td>React app, Arabic output, topic area B, watched topics</td>
+<td>Not built (stage 2, D-19)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
