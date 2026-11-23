@@ -1,0 +1,29 @@
+# pre-commit: the same fast checks before every local commit and in CI (job "pre-commit" in ci.yml).
+# Install once with `pip install pre-commit && pre-commit install`; run on everything with
+# `pre-commit run --all-files` (or `make precommit`).
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.(svg|json|jsonl)$
+      - id: end-of-file-fixer
+        exclude: \.(svg|json|jsonl)$
+      - id: check-yaml
+        args: [--unsafe]               # mkdocs.yml uses a !!python/name tag
+      - id: check-json
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: detect-private-key
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.5                      # same version as requirements-dev.txt
+    hooks:
+      - id: ruff-check
+        args: [--no-fix]
+        files: ^(masader|tests|eval|perf)/
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.3                      # same version as the CI history scan
+    hooks:
+      - id: gitleaks
