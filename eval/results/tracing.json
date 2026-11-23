@@ -1,0 +1,112 @@
+{
+ "environment": {
+  "at": "2026-11-23T19:06:26+00:00",
+  "base_commit": "9c83868",
+  "branch": "otel-tracing",
+  "python": "3.13.18",
+  "model_mode": "simulated",
+  "sim_latency_scale": 0.05,
+  "collector": "Jaeger 2.22.0 (all-in-one, in-memory), OTLP/HTTP :4318",
+  "processes": "uvicorn (1 worker) + one Celery prefork worker (-c 4, queues llm,cpu,ingest), local PostgreSQL 16 + pgvector, Redis"
+ },
+ "what": "one report requested over HTTP with OTEL_EXPORTER_OTLP_ENDPOINT set; the trace id returned in X-Trace-Id was fetched from the Jaeger query API",
+ "trace_id": "d21fecd7a56351abac4e82e23d375b07",
+ "services": [
+  "masader-api",
+  "masader-worker"
+ ],
+ "spans_total": 442,
+ "trace_duration_ms": 760.9,
+ "stages_in_order_ms": [
+  [
+   "collect",
+   51.2
+  ],
+  [
+   "dedup",
+   11.2
+  ],
+  [
+   "extract",
+   156.9
+  ],
+  [
+   "verify",
+   192.9
+  ],
+  [
+   "label",
+   31.2
+  ],
+  [
+   "write",
+   118.1
+  ],
+  [
+   "validate",
+   95.3
+  ],
+  [
+   "render",
+   49.0
+  ]
+ ],
+ "span_counts": {
+  "masader-api | POST /v1/requests/{request_id}/answers": 1,
+  "masader-api | POST /v1/requests/{request_id}/answers http receive": 1,
+  "masader-api | POST /v1/requests/{request_id}/answers http send": 3,
+  "masader-api | apply_async/masader.stage.collect": 1,
+  "masader-api | db: INSERT": 3,
+  "masader-api | db: SELECT": 5,
+  "masader-api | db: UPDATE": 2,
+  "masader-worker | apply_async/masader.stage.dedup": 1,
+  "masader-worker | apply_async/masader.stage.extract": 1,
+  "masader-worker | apply_async/masader.stage.label": 1,
+  "masader-worker | apply_async/masader.stage.render": 1,
+  "masader-worker | apply_async/masader.stage.validate": 1,
+  "masader-worker | apply_async/masader.stage.verify": 1,
+  "masader-worker | apply_async/masader.stage.write": 1,
+  "masader-worker | db: DELETE": 4,
+  "masader-worker | db: INSERT": 253,
+  "masader-worker | db: SELECT": 43,
+  "masader-worker | db: UPDATE": 82,
+  "masader-worker | db: WITH": 1,
+  "masader-worker | llm.call extractor": 5,
+  "masader-worker | llm.call splitter": 1,
+  "masader-worker | llm.call support": 1,
+  "masader-worker | llm.call verifier": 6,
+  "masader-worker | llm.call writer": 1,
+  "masader-worker | llm.complete extractor": 5,
+  "masader-worker | llm.complete splitter": 1,
+  "masader-worker | llm.complete support": 1,
+  "masader-worker | llm.complete verifier": 6,
+  "masader-worker | llm.complete writer": 1,
+  "masader-worker | run/masader.stage.collect": 1,
+  "masader-worker | run/masader.stage.dedup": 1,
+  "masader-worker | run/masader.stage.extract": 1,
+  "masader-worker | run/masader.stage.label": 1,
+  "masader-worker | run/masader.stage.render": 1,
+  "masader-worker | run/masader.stage.validate": 1,
+  "masader-worker | run/masader.stage.verify": 1,
+  "masader-worker | run/masader.stage.write": 1
+ },
+ "example_llm_call_attributes": {
+  "gen_ai.operation.name": "chat",
+  "gen_ai.provider.name": "simulated",
+  "gen_ai.request.max_tokens": 8192,
+  "gen_ai.request.model": "claude-sonnet-5-5",
+  "gen_ai.response.model": "claude-sonnet-5-5",
+  "gen_ai.usage.input_tokens": 7064,
+  "gen_ai.usage.output_tokens": 1627,
+  "masader.ai_call_id": 28,
+  "masader.cost_usd": 0.0304,
+  "masader.outcome": "returned",
+  "masader.prompt_version": "writer.en.v1.0",
+  "masader.purpose": "live",
+  "masader.report_id": "rep_5xunnuizhn2q",
+  "masader.reserved_usd": 0.10135,
+  "masader.role": "writer",
+  "masader.timeout_s": 110
+ },
+ "note": "All model calls are answered by the labelled simulator (gen_ai.provider.name = simulated); span timings describe the simulator, not Claude."
+}

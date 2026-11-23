@@ -170,12 +170,24 @@ simulator and the synthetic corpus, not Claude on live news.
 cp .env.example .env        # set POSTGRES_PASSWORD, KEY_PEPPER (and GRAFANA_ADMIN_PASSWORD for monitoring)
 docker compose up -d --build                         # postgres, redis, migrate, api, worker-llm, worker-cpu, scheduler
 docker compose run --rm api masader key create "Admin" admin@example.org admin
-docker compose --profile monitoring up -d            # Prometheus :9090, Grafana :3000
+docker compose --profile monitoring up -d            # Prometheus :9090, Grafana :3000, Jaeger :16686
 MASADER_DOMAIN=example.org docker compose --profile edge up -d    # Caddy with automatic TLS
 ```
 
 The API listens on 127.0.0.1:8000 only; publish it through the `edge` profile. Behind a TLS-intercepting
 proxy, build with `docker build --secret id=ca,src=/path/to/ca.crt --network host .`.
+
+### Distributed tracing (OpenTelemetry)
+
+Set `OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318` in `.env` and start the `monitoring` profile. Each report
+then has one trace in Jaeger (http://127.0.0.1:16686): the HTTP request, the Celery publish and run span
+of each of the eight stages, every database query, and an `llm.complete` / `llm.call` span per model call
+with GenAI attributes (model, input and output tokens, outcome, fallback, estimated cost; never prompt or
+source text). The `X-Trace-Id` response header and the `trace_id` in error bodies are the trace id to
+search for. Tracing is off when the variable is empty. Code: `masader/telemetry.py`; recorded run:
+`eval/results/tracing.json` and `docs/tracing-jaeger.png`.
+
+![One report traced across the API and the Celery worker in Jaeger](docs/tracing-jaeger.png)
 
 ## Troubleshooting
 

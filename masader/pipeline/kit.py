@@ -8,6 +8,7 @@ twice. `execute_stage` returns an Outcome; the Celery task in tasks.py maps it t
 from __future__ import annotations
 
 import concurrent.futures as cf
+import contextvars
 import datetime as dt
 import json
 import logging
@@ -144,7 +145,9 @@ def run_calls(ctx: Ctx, role: str, payloads: list[dict], exclude: tuple[str, ...
         return []
     calls = ctx.calls()
     ex = cf.ThreadPoolExecutor(min(8, len(payloads)), thread_name_prefix=f"call-{role}")
-    futs = [ex.submit(gw.complete, role, p, calls=calls, report_id=ctx.report_id, purpose=ctx.purpose, exclude=exclude)
+    # each call runs in a copy of this thread's context, so its gateway spans join the stage's trace
+    futs = [ex.submit(contextvars.copy_context().run, gw.complete, role, p, calls=calls, report_id=ctx.report_id,
+                      purpose=ctx.purpose, exclude=exclude)
             for p in payloads]
     try:
         for f in cf.as_completed(futs):
